@@ -12,16 +12,16 @@ class BeritaSeeder extends Seeder
         $now = now();
 
         $userId = DB::table('users')
-            ->where('email', 'admin@sukamaju.desa.id')
+            ->where('email', 'admin@umbumamijuk.desa.id')
             ->value('id');
 
         $items = [
             [
                 'kategori' => 'pemerintahan',
-                'judul' => 'Pemerintah Desa Sukamaju Tingkatkan Pelayanan Publik',
-                'slug' => 'pemerintah-desa-sukamaju-tingkatkan-pelayanan-publik',
+                'judul' => 'Pemerintah Desa Mamijuk Tingkatkan Pelayanan Publik',
+                'slug' => 'pemerintah-desa-Kami-tingkatkan-pelayanan-publik',
                 'excerpt' => 'Pemerintah desa meningkatkan kualitas pelayanan administrasi bagi masyarakat.',
-                'konten' => '<p>Pemerintah Desa Sukamaju terus meningkatkan kualitas pelayanan administrasi bagi masyarakat melalui pembenahan alur pelayanan dan penyampaian informasi secara digital.</p>',
+                'konten' => '<p>Pemerintah Desa Mamijuk terus meningkatkan kualitas pelayanan administrasi bagi masyarakat melalui pembenahan alur pelayanan dan penyampaian informasi secara digital.</p>',
                 'gambar' => 'images/berita/pelayanan-publik.jpg',
                 'views' => 125,
             ],
@@ -38,8 +38,8 @@ class BeritaSeeder extends Seeder
                 'kategori' => 'kegiatan-masyarakat',
                 'judul' => 'Kerja Bakti Bersama Menjaga Kebersihan Lingkungan Desa',
                 'slug' => 'kerja-bakti-bersama-menjaga-kebersihan-lingkungan-desa',
-                'excerpt' => 'Warga Desa Sukamaju melaksanakan kegiatan kerja bakti bersama.',
-                'konten' => '<p>Masyarakat Desa Sukamaju melaksanakan kerja bakti membersihkan lingkungan dan fasilitas umum sebagai wujud gotong royong.</p>',
+                'excerpt' => 'Warga Desa Mamijuk melaksanakan kegiatan kerja bakti bersama.',
+                'konten' => '<p>Masyarakat Desa Mamijuk melaksanakan kerja bakti membersihkan lingkungan dan fasilitas umum sebagai wujud gotong royong.</p>',
                 'gambar' => 'images/berita/kerja-bakti.jpg',
                 'views' => 76,
             ],

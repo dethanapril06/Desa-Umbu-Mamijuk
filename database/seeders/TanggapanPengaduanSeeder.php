@@ -16,7 +16,7 @@ class TanggapanPengaduanSeeder extends Seeder
             ->value('id');
 
         $userId = DB::table('users')
-            ->where('email', 'admin@sukamaju.desa.id')
+            ->where('email', 'admin@umbumamijuk.desa.id')
             ->value('id');
 
         DB::table('tanggapan_pengaduan')->updateOrInsert(

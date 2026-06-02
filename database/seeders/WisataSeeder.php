@@ -12,34 +12,39 @@ class WisataSeeder extends Seeder
         $now = now();
 
         $userId = DB::table('users')
-            ->where('email', 'admin@sukamaju.desa.id')
+            ->where('email', 'admin@umbumamijuk.desa.id')
             ->value('id');
 
         $kategoriId = DB::table('kategori_wisata')
-            ->where('slug', 'wisata-alam')
+            ->where('slug', 'wisata-budaya')
             ->value('id');
 
+
+        $googleMapsEmbedUrl = 'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d23980.88770818352!2d119.58972801485689!3d-9.603195188105502!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x2c4b17c75c18f31b%3A0x3c824e79ef520f96!2sKantor%20Balai%20Desa%20Umbu%20Mamijuk%2C%209JVF%2B5PQ%2C%20Umbu%20Mamijuk%2C%20Kec.%20Umbu%20Ratu%20Nggay%20Bar.%2C%20Kabupaten%20Sumba%20Tengah%2C%20Nusa%20Tenggara%20Tim.!3m2!1d-9.6068622!2d119.62363599999999!4m5!1s0x2c4b1871ffd9bb3f%3A0x8a90635ecdf0bb11!2sKampung%20Adat%20Pasunga%2C%20CH6F%2BCR3%2C%20Anakalang%2C%20Katikutana%2C%20Central%20Sumba%20Regency%2C%20East%20Nusa%20Tenggara!3m2!1d-9.588985!2d119.5745508!5e1!3m2!1sid!2sid!4v1780400652696!5m2!1sid!2sid';
+
+
         DB::table('wisata')->updateOrInsert(
-            ['slug' => 'bukit-sukamaju'],
+            ['slug' => 'kampung-adat-pasunga'],
             [
                 'user_id' => $userId,
                 'kategori_wisata_id' => $kategoriId,
-                'nama' => 'Bukit Sukamaju',
-                'deskripsi_singkat' => 'Destinasi alam dengan panorama perbukitan dan pemandangan matahari terbenam.',
-                'deskripsi' => '<p>Bukit Sukamaju menawarkan panorama alam yang indah dan suasana yang tenang. Destinasi ini cocok untuk wisata keluarga, fotografi, dan menikmati matahari terbenam.</p>',
-                'highlight_quote' => 'Menikmati panorama desa dari ketinggian dalam suasana yang tenang dan alami.',
-                'gambar_utama' => 'images/wisata/bukit-sukamaju.jpg',
-                'harga_tiket' => 10000,
-                'harga_parkir_motor' => 'Rp2.000',
-                'harga_parkir_mobil' => 'Rp5.000',
-                'jam_operasional' => '06.00–18.00 WITA',
+                'nama' => 'Kampung Adat Pasunga',
+                'deskripsi_singkat' => 'Kampung adat di Sumba Tengah dengan rumah tradisional, megalit, dan warisan budaya yang masih terjaga.',
+                'deskripsi' => '<p>Kampung Adat Pasunga merupakan salah satu destinasi budaya di Sumba Tengah yang memperlihatkan kekayaan arsitektur rumah adat, batu megalit, dan kehidupan masyarakat adat yang masih lestari.</p><p>Pengunjung dapat melihat langsung suasana kampung tradisional, mengenal cerita budaya setempat, serta menikmati lanskap khas Sumba yang terbuka dan memikat.</p>',
+                'highlight_quote' => 'Jejak tradisi Sumba yang hidup dalam rumah adat, batu megalit, dan keramahan masyarakatnya.',
+                'gambar_utama' => 'images/wisata/bukit-kami.jpg',
+                'harga_tiket' => 0,
+                'harga_parkir_motor' => null,
+                'harga_parkir_mobil' => null,
+                'jam_operasional' => '08.00-17.00 WITA',
                 'hari_buka' => 'Setiap hari',
-                'jarak_dari_desa' => '3 km',
-                'durasi_trek' => '20 menit',
-                'cocok_untuk' => 'Keluarga, fotografi, pendaki pemula',
+                'jarak_dari_desa' => 'sekitar 8 km',
+                'durasi_trek' => null,
+                'cocok_untuk' => 'Wisata budaya, keluarga, fotografi, edukasi adat',
                 'telepon' => '081234567890',
-                'koordinat_lat' => '-10.181000',
-                'koordinat_lng' => '123.612000',
+                'koordinat_lat' => '-9.588985',
+                'koordinat_lng' => '119.5745508',
+                'google_maps_embed_url' => $googleMapsEmbedUrl,
                 'is_unggulan' => true,
                 'is_published' => true,
                 'deleted_at' => null,

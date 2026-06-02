@@ -12,22 +12,22 @@ class RuteWisataSeeder extends Seeder
         $now = now();
 
         $wisataId = DB::table('wisata')
-            ->where('slug', 'bukit-sukamaju')
+            ->where('slug', 'kampung-adat-pasunga')
             ->value('id');
 
         $items = [
             [
                 'jenis_transportasi' => 'Sepeda Motor',
                 'icon' => 'bi bi-bicycle',
-                'deskripsi' => 'Dari kantor desa, ikuti jalan utama ke arah utara sekitar 3 km hingga area parkir.',
-                'warna_badge' => 'primary',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'warna_badge' => '#2d5a3d',
                 'urutan' => 1,
             ],
             [
                 'jenis_transportasi' => 'Mobil',
                 'icon' => 'bi bi-car-front',
-                'deskripsi' => 'Mobil dapat mencapai area parkir utama. Perjalanan dilanjutkan dengan berjalan kaki menuju puncak.',
-                'warna_badge' => 'success',
+                'deskripsi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'warna_badge' => '#52a96e',
                 'urutan' => 2,
             ],
         ];

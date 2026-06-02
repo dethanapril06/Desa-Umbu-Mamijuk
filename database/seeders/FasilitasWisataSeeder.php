@@ -12,7 +12,7 @@ class FasilitasWisataSeeder extends Seeder
         $now = now();
 
         $wisataId = DB::table('wisata')
-            ->where('slug', 'bukit-sukamaju')
+            ->where('slug', 'kampung-adat-pasunga')
             ->value('id');
 
         $items = [

@@ -56,15 +56,31 @@
   function initLightbox() {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxCategory = document.getElementById('lightboxCategory');
     if (!lightbox || !lightboxImg) return;
 
-    window.openLightbox = function (src) {
+    window.openLightbox = function (src, title = '', category = '') {
       lightboxImg.src = src;
+      lightboxImg.alt = title || 'Tampilan gambar galeri';
+
+      if (lightboxCaption && lightboxTitle) {
+        lightboxTitle.textContent = title;
+        lightboxCaption.hidden = !title && !category;
+      }
+
+      if (lightboxCategory) {
+        lightboxCategory.textContent = category;
+        lightboxCategory.hidden = !category;
+      }
+
       lightbox.style.display = 'flex';
     };
 
     window.closeLightbox = function () {
       lightbox.style.display = 'none';
+      lightboxImg.src = '';
     };
 
     lightbox.addEventListener('click', event => {

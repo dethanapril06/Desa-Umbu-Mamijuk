@@ -12,7 +12,7 @@ class KomentarBeritaSeeder extends Seeder
         $now = now();
 
         $beritaId = DB::table('berita')
-            ->where('slug', 'pemerintah-desa-sukamaju-tingkatkan-pelayanan-publik')
+            ->where('slug', 'pemerintah-desa-kami-tingkatkan-pelayanan-publik')
             ->value('id');
 
         DB::table('komentar_berita')->updateOrInsert(

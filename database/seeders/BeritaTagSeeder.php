@@ -11,11 +11,11 @@ class BeritaTagSeeder extends Seeder
     {
         $items = [
             [
-                'berita' => 'pemerintah-desa-sukamaju-tingkatkan-pelayanan-publik',
+                'berita' => 'pemerintah-desa-kami-tingkatkan-pelayanan-publik',
                 'tag' => 'pelayanan-publik',
             ],
             [
-                'berita' => 'pemerintah-desa-sukamaju-tingkatkan-pelayanan-publik',
+                'berita' => 'pemerintah-desa-kami-tingkatkan-pelayanan-publik',
                 'tag' => 'informasi-desa',
             ],
             [

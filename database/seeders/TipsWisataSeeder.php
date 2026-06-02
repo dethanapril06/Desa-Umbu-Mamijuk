@@ -12,18 +12,18 @@ class TipsWisataSeeder extends Seeder
         $now = now();
 
         $wisataId = DB::table('wisata')
-            ->where('slug', 'bukit-sukamaju')
+            ->where('slug', 'kampung-adat-pasunga')
             ->value('id');
 
         $items = [
             [
-                'judul' => 'Datang pada sore hari',
-                'deskripsi' => 'Waktu terbaik untuk menikmati panorama dan matahari terbenam adalah sekitar pukul 16.00 WITA.',
+                'judul' => 'Lorem ipsum dolor',
+                'deskripsi' => 'Lorem inpsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'urutan' => 1,
             ],
             [
-                'judul' => 'Gunakan alas kaki yang nyaman',
-                'deskripsi' => 'Gunakan alas kaki yang sesuai karena pengunjung perlu berjalan menuju area puncak bukit.',
+                'judul' => 'Dolor sit amet',
+                'deskripsi' => 'Lorem inpsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'urutan' => 2,
             ],
         ];

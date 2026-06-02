@@ -12,32 +12,32 @@ class ProfilDesaSeeder extends Seeder
         $now = now();
 
         DB::table('profil_desa')->updateOrInsert(
-            ['nama_desa' => 'Desa Sukamaju'],
+            ['nama_desa' => 'Umbu Mamijuk'],
             [
-                'kecamatan' => 'Kecamatan Harapan',
-                'kabupaten' => 'Kabupaten Sejahtera',
+                'kecamatan' => 'Umbu Ratu Nggay Barat',
+                'kabupaten' => 'Sumba Tengah',
                 'provinsi' => 'Nusa Tenggara Timur',
                 'kode_pos' => '85111',
-                'telepon' => '081234567890',
-                'email' => 'pemdes@sukamaju.desa.id',
-                'alamat_lengkap' => 'Jalan Utama Desa Sukamaju, Kecamatan Harapan, Kabupaten Sejahtera',
-                'luas_wilayah' => '12,50 km²',
-                'ketinggian' => '250 mdpl',
+                'telepon' => '08xxxxxxxxxx',
+                'email' => 'pemdes@umbumamijuk.desa.id',
+                'alamat_lengkap' => 'Jalan Utama Desa Umbu Mamijuk, Kecamatan Umbu Ratu Nggay Barat, Kabupaten Sumba Tengah, Nusa Tenggara Timur 85111',
+                'luas_wilayah' => 'xxxx km²',
+                'ketinggian' => 'xxxx mdpl',
                 'jam_pelayanan' => 'Senin–Jumat, 08.00–15.00 WITA',
-                'visi' => 'Terwujudnya Desa Sukamaju yang mandiri, transparan, sejahtera, dan berdaya saing.',
-                'misi' => "1. Meningkatkan kualitas pelayanan publik.\n"
-                    . "2. Mengembangkan potensi ekonomi dan wisata desa.\n"
-                    . "3. Mendorong partisipasi masyarakat dalam pembangunan.\n"
-                    . "4. Mewujudkan tata kelola pemerintahan desa yang transparan.",
-                'sejarah_desa' => 'Desa Sukamaju merupakan desa yang tumbuh dari semangat gotong royong masyarakat. Seiring perkembangan wilayah, pemerintah desa terus meningkatkan pelayanan publik dan mengembangkan potensi lokal secara berkelanjutan.',
+                'visi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'misi' => "1. lorem ipsum dolor sit amet, consectetur adipiscing elit.\n"
+                    . "2. lorem ipsum dolor sit amet, consectetur adipiscing elit.\n"
+                    . "3. lorem ipsum dolor sit amet, consectetur adipiscing elit.\n"
+                    . "4. lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                'sejarah_desa' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'logo' => 'images/profil/logo-desa.png',
-                'batas_utara' => 'Desa Mekarjaya',
-                'batas_timur' => 'Desa Harapan Baru',
-                'batas_selatan' => 'Desa Sumber Makmur',
-                'batas_barat' => 'Desa Karya Indah',
-                'koordinat_lat' => '-10.177200',
-                'koordinat_lng' => '123.607000',
-                'gambar_struktur_organisasi' => 'images/profil/struktur-organisasi.png',
+                'batas_utara' => 'Desa XXXX',
+                'batas_timur' => 'Desa XXXX',
+                'batas_selatan' => 'Desa XXXX',
+                'batas_barat' => 'Desa XXXX',
+                'koordinat_lat' => '-9.570188',
+                'koordinat_lng' => '119.629533',
+                'gambar_struktur_organisasi' => 'images/profil/struktur-organisasi.svg',
                 'created_at' => $now,
                 'updated_at' => $now,
             ]

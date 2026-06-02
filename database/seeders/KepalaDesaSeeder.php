@@ -19,7 +19,7 @@ class KepalaDesaSeeder extends Seeder
             [
                 'foto' => 'images/kepala-desa/budi-santoso.jpg',
                 'gelar' => 'S.Sos.',
-                'sambutan' => 'Selamat datang di website resmi Desa Sukamaju. Website ini menjadi sarana penyampaian informasi dan pelayanan publik yang terbuka bagi seluruh masyarakat.',
+                'sambutan' => 'Selamat datang di website resmi Desa Mamijuk. Website ini menjadi sarana penyampaian informasi dan pelayanan publik yang terbuka bagi seluruh masyarakat.',
                 'periode_selesai' => '2029',
                 'is_active' => true,
                 'created_at' => $now,

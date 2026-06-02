@@ -12,23 +12,23 @@ class GaleriWisataSeeder extends Seeder
         $now = now();
 
         $wisataId = DB::table('wisata')
-            ->where('slug', 'bukit-sukamaju')
+            ->where('slug', 'kampung-adat-pasunga')
             ->value('id');
 
         $items = [
             [
-                'gambar' => 'images/wisata/galeri/bukit-sukamaju-1.jpg',
-                'caption' => 'Panorama Bukit Sukamaju',
+                'gambar' => 'images/wisata/galeri/bukit-kami-1.jpg',
+                'caption' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                 'urutan' => 1,
             ],
             [
-                'gambar' => 'images/wisata/galeri/bukit-sukamaju-2.jpg',
-                'caption' => 'Pemandangan matahari terbenam',
+                'gambar' => 'images/wisata/galeri/bukit-kami-2.jpg',
+                'caption' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                 'urutan' => 2,
             ],
             [
-                'gambar' => 'images/wisata/galeri/bukit-sukamaju-3.jpg',
-                'caption' => 'Area bersantai pengunjung',
+                'gambar' => 'images/wisata/galeri/bukit-kami-3.jpg',
+                'caption' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                 'urutan' => 3,
             ],
         ];

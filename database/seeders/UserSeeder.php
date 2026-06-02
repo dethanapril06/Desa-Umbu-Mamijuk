@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
         $now = now();
 
         DB::table('users')->updateOrInsert(
-            ['email' => 'admin@sukamaju.desa.id'],
+            ['email' => 'admin@umbumamijuk.desa.id'],
             [
                 'name' => 'Administrator Desa',
                 'email_verified_at' => $now,

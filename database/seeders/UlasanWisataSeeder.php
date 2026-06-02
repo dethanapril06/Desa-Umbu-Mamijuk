@@ -12,7 +12,7 @@ class UlasanWisataSeeder extends Seeder
         $now = now();
 
         $wisataId = DB::table('wisata')
-            ->where('slug', 'bukit-sukamaju')
+            ->where('slug', 'kampung-adat-pasunga')
             ->value('id');
 
         DB::table('ulasan_wisata')->updateOrInsert(
@@ -23,7 +23,7 @@ class UlasanWisataSeeder extends Seeder
             [
                 'avatar' => null,
                 'rating' => 5,
-                'ulasan' => 'Pemandangannya indah dan cocok untuk bersantai bersama keluarga.',
+                'ulasan' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'is_approved' => true,
                 'created_at' => $now,
                 'updated_at' => $now,

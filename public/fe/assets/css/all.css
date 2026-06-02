@@ -1336,14 +1336,41 @@ body {
 .galeri-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(26, 58, 42, 0.6);
+  background: linear-gradient(180deg, rgba(26, 58, 42, 0.18) 0%, rgba(15, 30, 22, 0.88) 100%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   opacity: 0;
   transition: opacity 0.3s;
   color: white;
   font-size: 1.5rem;
+  padding: 18px;
+  text-align: center;
+}
+
+.galeri-overlay-text {
+  max-width: min(100%, 320px);
+}
+
+.galeri-overlay-text span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.galeri-overlay-text strong {
+  display: block;
+  color: white;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 /* ─── FOOTER ──────────────────────────────────── */
@@ -1557,6 +1584,46 @@ footer {
   display: none;
   align-items: center;
   justify-content: center;
+}
+
+.lightbox-content {
+  width: min(92vw, 1100px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+#lightboxImg {
+  max-width: 100%;
+  max-height: 78vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}
+
+.lightbox-caption {
+  width: min(100%, 760px);
+  color: white;
+  text-align: center;
+}
+
+.lightbox-category {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lightbox-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.25;
 }
 
 .lightbox-close {
@@ -2662,6 +2729,117 @@ footer {
       height: 100%;
       border-radius: 50px;
       background: var(--gold);
+    }
+
+    .review-alert {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 14px;
+      padding: 0.95rem 1.1rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .review-alert.success {
+      background: rgba(46, 117, 81, 0.12);
+      border: 1px solid rgba(46, 117, 81, 0.24);
+      color: var(--green-mid);
+    }
+
+    .review-form-card {
+      background: white;
+      border: 1px solid var(--green-pale);
+      border-radius: 20px;
+      padding: 1.6rem;
+      box-shadow: 0 8px 24px rgba(26, 58, 42, 0.06);
+    }
+
+    .review-form-kicker {
+      color: var(--green-mid);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .review-form-title {
+      margin: 0;
+      color: var(--green-deep);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 900;
+    }
+
+    .review-form-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--green-mist);
+      color: var(--green-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .review-form-label {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--green-deep);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .review-form-control {
+      width: 100%;
+      border: 1px solid var(--green-pale);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+      color: var(--text-dark);
+      background: rgba(245, 250, 246, 0.55);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .review-form-control:focus {
+      background: white;
+      border-color: var(--green-fresh);
+      box-shadow: 0 0 0 4px rgba(46, 117, 81, 0.12);
+    }
+
+    textarea.review-form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .review-form-control.is-invalid {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.08);
+    }
+
+    .review-form-error {
+      margin-top: 0.4rem;
+      color: #b02a37;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .review-form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .review-form-footer p {
+      margin: 0;
+      color: var(--text-light);
+      font-size: 0.82rem;
+      line-height: 1.5;
     }
 
     /* WISATA LAINNYA */
@@ -4300,3 +4478,99 @@ footer {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+/* --- PAGE HEADER (Detail Pages) ----------------------- */
+.page-header {
+  position: relative;
+  padding: 140px 0 70px;
+  background: linear-gradient(135deg, var(--green-deep), var(--green-dark));
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, var(--cream), transparent);
+  pointer-events: none;
+}
+
+.breadcrumb-wisata {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50px;
+  margin-bottom: 1.5rem;
+  font-size: 0.82rem;
+  backdrop-filter: blur(6px);
+}
+
+.breadcrumb-wisata a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+.breadcrumb-wisata a:hover {
+  color: var(--gold-light);
+}
+
+.breadcrumb-wisata i {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.65rem;
+}
+
+.page-title {
+  color: white;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.page-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.page-desc {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+@media (max-width: 767.98px) {
+  .page-header {
+    padding: 120px 0 50px;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .page-desc {
+    font-size: 0.9rem;
+  }
+
+  .profil-info-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -15,7 +15,7 @@ class AlbumGaleriSeeder extends Seeder
             [
                 'nama' => 'Kegiatan Masyarakat',
                 'slug' => 'kegiatan-masyarakat',
-                'deskripsi' => 'Dokumentasi kegiatan masyarakat Desa Sukamaju.',
+                'deskripsi' => 'Dokumentasi kegiatan masyarakat Desa Umbu Mamijuk.',
                 'cover' => 'images/galeri/kegiatan-masyarakat-cover.jpg',
             ],
             [

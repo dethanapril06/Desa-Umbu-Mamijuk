@@ -34,6 +34,7 @@ class Wisata extends Model
         'telepon',
         'koordinat_lat',
         'koordinat_lng',
+        'google_maps_embed_url',
         'is_unggulan',
         'is_published',
     ];
