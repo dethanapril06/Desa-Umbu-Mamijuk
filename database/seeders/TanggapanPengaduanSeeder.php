@@ -25,7 +25,7 @@ class TanggapanPengaduanSeeder extends Seeder
                 'user_id' => $userId,
             ],
             [
-                'isi_tanggapan' => 'Pengaduan telah diterima. Pemerintah desa akan melakukan pemeriksaan lapangan dan koordinasi untuk proses perbaikan.',
+                'isi_tanggapan' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'lampiran' => null,
                 'created_at' => $now,
                 'updated_at' => $now,

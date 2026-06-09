@@ -13,17 +13,17 @@ class KategoriWisataSeeder extends Seeder
 
         $items = [
             [
-                'nama' => 'Wisata Alam',
+                'nama' => 'Kategori XXXXX',
                 'slug' => 'wisata-alam',
                 'icon' => 'bi bi-tree',
             ],
             [
-                'nama' => 'Wisata Budaya',
+                'nama' => 'Kategori YYYYY',
                 'slug' => 'wisata-budaya',
                 'icon' => 'bi bi-bank',
             ],
             [
-                'nama' => 'Wisata Kuliner',
+                'nama' => 'Kategori ZZZZZ',
                 'slug' => 'wisata-kuliner',
                 'icon' => 'bi bi-cup-hot',
             ],

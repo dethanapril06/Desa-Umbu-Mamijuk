@@ -95,11 +95,11 @@
                                 class="app-brand-link gap-2"
                             >
                                 <span class="app-brand-logo demo">
-                                    <i class="bx bx-building-house fs-1 text-primary"></i>
+                                    <img src="{{ asset('fe/assets/img/logo-desa.png') }}" alt="Logo" width="60px" height="60px"   >
                                 </span>
 
                                 <span class="app-brand-text demo text-body fw-bolder">
-                                    Desa Sukamaju
+                                    Desa Umbu Mamijuk
                                 </span>
                             </a>
                         </div>

@@ -17,19 +17,19 @@ class FasilitasWisataSeeder extends Seeder
 
         $items = [
             [
-                'nama' => 'Area Parkir',
+                'nama' => 'Fasilitas XXXXX',
                 'icon' => 'bi bi-p-square',
             ],
             [
-                'nama' => 'Toilet',
+                'nama' => 'Fasilitas YYYYY',
                 'icon' => 'bi bi-signpost',
             ],
             [
-                'nama' => 'Gazebo',
+                'nama' => 'Fasilitas ZZZZZ',
                 'icon' => 'bi bi-house',
             ],
             [
-                'nama' => 'Spot Foto',
+                'nama' => 'Fasilitas WWWWW',
                 'icon' => 'bi bi-camera',
             ],
         ];

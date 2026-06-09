@@ -18,7 +18,7 @@ class UlasanWisataSeeder extends Seeder
         DB::table('ulasan_wisata')->updateOrInsert(
             [
                 'wisata_id' => $wisataId,
-                'nama' => 'Maria A.',
+                'nama' => 'Lorem I.',
             ],
             [
                 'avatar' => null,

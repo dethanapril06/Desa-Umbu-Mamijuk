@@ -12,17 +12,17 @@ class KomentarBeritaSeeder extends Seeder
         $now = now();
 
         $beritaId = DB::table('berita')
-            ->where('slug', 'pemerintah-desa-kami-tingkatkan-pelayanan-publik')
+            ->where('slug', 'lorem-ipsum-dolor-sit-amet-consectetur')
             ->value('id');
 
         DB::table('komentar_berita')->updateOrInsert(
             [
                 'berita_id' => $beritaId,
-                'email' => 'warga@example.com',
+                'email' => 'user@example.com',
             ],
             [
-                'nama' => 'Warga Desa',
-                'komentar' => 'Semoga pelayanan desa semakin baik dan mudah diakses masyarakat.',
+                'nama' => 'Lorem Ipsum',
+                'komentar' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.',
                 'likes' => 3,
                 'is_approved' => true,
                 'created_at' => $now,

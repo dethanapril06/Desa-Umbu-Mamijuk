@@ -14,17 +14,17 @@ class DusunSeeder extends Seeder
         $items = [
             [
                 'nama' => 'Dusun I',
-                'kepala_dusun' => 'Yohanes Kefi',
+                'kepala_dusun' => 'Lorem Ipsum',
                 'urutan' => 1,
             ],
             [
                 'nama' => 'Dusun II',
-                'kepala_dusun' => 'Samuel Benu',
+                'kepala_dusun' => 'Dolor Sit Amet',
                 'urutan' => 2,
             ],
             [
                 'nama' => 'Dusun III',
-                'kepala_dusun' => 'Martinus Nalle',
+                'kepala_dusun' => 'Consectetur Adipiscing',
                 'urutan' => 3,
             ],
         ];

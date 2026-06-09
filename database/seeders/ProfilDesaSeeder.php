@@ -21,8 +21,8 @@ class ProfilDesaSeeder extends Seeder
                 'telepon' => '08xxxxxxxxxx',
                 'email' => 'pemdes@umbumamijuk.desa.id',
                 'alamat_lengkap' => 'Jalan Utama Desa Umbu Mamijuk, Kecamatan Umbu Ratu Nggay Barat, Kabupaten Sumba Tengah, Nusa Tenggara Timur 85111',
-                'luas_wilayah' => 'xxxx km²',
-                'ketinggian' => 'xxxx mdpl',
+                'luas_wilayah' => '100 km²',
+                'ketinggian' => '1000 mdpl',
                 'jam_pelayanan' => 'Senin–Jumat, 08.00–15.00 WITA',
                 'visi' => 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'misi' => "1. lorem ipsum dolor sit amet, consectetur adipiscing elit.\n"

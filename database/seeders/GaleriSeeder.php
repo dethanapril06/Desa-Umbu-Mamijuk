@@ -13,21 +13,21 @@ class GaleriSeeder extends Seeder
 
         $items = [
             [
-                'album' => 'kegiatan-masyarakat',
+                'album' => 'album-lorem-ipsum',
                 'gambar' => 'images/galeri/kerja-bakti-1.jpg',
-                'caption' => 'Kegiatan kerja bakti masyarakat',
+                'caption' => 'Lorem ipsum dolor sit amet.',
                 'urutan' => 1,
             ],
             [
-                'album' => 'kegiatan-masyarakat',
+                'album' => 'album-lorem-ipsum',
                 'gambar' => 'images/galeri/pertemuan-warga-1.jpg',
-                'caption' => 'Pertemuan warga desa',
+                'caption' => 'Consectetur adipiscing elit sed do.',
                 'urutan' => 2,
             ],
             [
-                'album' => 'pembangunan-desa',
+                'album' => 'album-dolor-sit',
                 'gambar' => 'images/galeri/pembangunan-jalan-1.jpg',
-                'caption' => 'Pembangunan jalan lingkungan',
+                'caption' => 'Eiusmod tempor incididunt ut labore.',
                 'urutan' => 1,
             ],
         ];

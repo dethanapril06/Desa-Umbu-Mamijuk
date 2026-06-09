@@ -13,27 +13,27 @@ class KategoriPengaduanSeeder extends Seeder
 
         $items = [
             [
-                'nama' => 'Infrastruktur',
+                'nama' => 'Kategori XXXXX',
                 'slug' => 'infrastruktur',
                 'icon' => 'bi bi-tools',
             ],
             [
-                'nama' => 'Pelayanan Publik',
+                'nama' => 'Kategori YYYYY',
                 'slug' => 'pelayanan-publik',
                 'icon' => 'bi bi-person-check',
             ],
             [
-                'nama' => 'Kebersihan',
+                'nama' => 'Kategori ZZZZZ',
                 'slug' => 'kebersihan',
                 'icon' => 'bi bi-trash',
             ],
             [
-                'nama' => 'Keamanan',
+                'nama' => 'Kategori WWWWW',
                 'slug' => 'keamanan',
                 'icon' => 'bi bi-shield-check',
             ],
             [
-                'nama' => 'Lainnya',
+                'nama' => 'Kategori VVVVV',
                 'slug' => 'lainnya',
                 'icon' => 'bi bi-chat-dots',
             ],

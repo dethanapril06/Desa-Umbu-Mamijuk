@@ -23,8 +23,8 @@
                     </div>
 
                     <h1 class="hero-title">
-                        Selamat Datang di
-                        <span>{{ $profilDesa?->nama_desa ?? 'Desa Kami' }}</span>
+                        Selamat Datang di Desa
+                        <span>{{ $profilDesa?->nama_desa }}</span>
                     </h1>
 
                     <p class="hero-desc">

@@ -13,20 +13,20 @@ class TagSeeder extends Seeder
 
         $items = [
             [
-                'nama' => 'Pelayanan Publik',
-                'slug' => 'pelayanan-publik',
+                'nama' => 'Tag Lorem',
+                'slug' => 'tag-lorem',
             ],
             [
-                'nama' => 'Pembangunan Desa',
-                'slug' => 'pembangunan-desa',
+                'nama' => 'Tag Ipsum',
+                'slug' => 'tag-ipsum',
             ],
             [
-                'nama' => 'Gotong Royong',
-                'slug' => 'gotong-royong',
+                'nama' => 'Tag Dolor',
+                'slug' => 'tag-dolor',
             ],
             [
-                'nama' => 'Informasi Desa',
-                'slug' => 'informasi-desa',
+                'nama' => 'Tag Sit Amet',
+                'slug' => 'tag-sit-amet',
             ],
         ];
 

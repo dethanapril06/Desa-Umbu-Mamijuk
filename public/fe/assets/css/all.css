@@ -4574,3 +4574,106 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* Mobile overflow guard */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+iframe,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+.container,
+.container-fluid,
+main,
+section,
+header,
+footer {
+  min-width: 0;
+}
+
+@media (max-width: 767.98px) {
+  .navbar-desa,
+  .page-header,
+  .hero-section,
+  .hero-artikel,
+  .hero-wisata,
+  .data-section,
+  .galeri-section,
+  .berita-section,
+  .berita-grid-section,
+  .gallery-section,
+  .wisata-grid-section,
+  .detail-section,
+  .kependudukan-detail-section,
+  footer {
+    overflow-x: clip;
+  }
+
+  .filter-wrapper,
+  .search-box,
+  .share-bar,
+  .artikel-meta-row,
+  .hero-meta-row,
+  .hero-actions-wisata,
+  .pagination-custom {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .filter-wrapper {
+    align-items: stretch;
+  }
+
+  .filter-pills,
+  .artikel-meta-row,
+  .hero-meta-row,
+  .share-bar,
+  .pagination-custom {
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .filter-pill,
+  .page-item-custom,
+  .btn-outline-green,
+  .btn-gold,
+  .btn-share,
+  .btn-pesan {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .breadcrumb-wisata,
+  .breadcrumb-news,
+  .breadcrumb-artikel {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .pekerjaan-layout,
+  .category-card-grid,
+  .galeri-grid,
+  .fasilitas-grid,
+  .pekerjaan-card-grid {
+    max-width: 100%;
+  }
+
+  .offcanvas {
+    max-width: 100%;
+  }
+
+  .navbar-desa .brand-sub {
+    display: none;
+  }
+}

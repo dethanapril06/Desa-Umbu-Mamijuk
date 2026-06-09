@@ -13,15 +13,15 @@ class AlbumGaleriSeeder extends Seeder
 
         $items = [
             [
-                'nama' => 'Kegiatan Masyarakat',
-                'slug' => 'kegiatan-masyarakat',
-                'deskripsi' => 'Dokumentasi kegiatan masyarakat Desa Umbu Mamijuk.',
+                'nama' => 'Album Lorem Ipsum',
+                'slug' => 'album-lorem-ipsum',
+                'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                 'cover' => 'images/galeri/kegiatan-masyarakat-cover.jpg',
             ],
             [
-                'nama' => 'Pembangunan Desa',
-                'slug' => 'pembangunan-desa',
-                'deskripsi' => 'Dokumentasi pembangunan sarana dan prasarana desa.',
+                'nama' => 'Album Dolor Sit',
+                'slug' => 'album-dolor-sit',
+                'deskripsi' => 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'cover' => 'images/galeri/pembangunan-desa-cover.jpg',
             ],
         ];
