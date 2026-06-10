@@ -67,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="caption_gambar">Keterangan / Caption Gambar</label>
-                                <input type="text" class="form-control" id="caption_gambar" name="caption_gambar" value="{{ old('caption_gambar') }}" placeholder="Contoh: Dok. Pemdes Suka Maju" />
+                                <input type="text" class="form-control" id="caption_gambar" name="caption_gambar" value="{{ old('caption_gambar') }}" placeholder="Contoh: Dok. Pemdes Umbu Mamijuk" />
                             </div>
                         </div>
 

@@ -38,7 +38,7 @@
                                     @foreach($keluargaList as $kk)
                                         @php
                                             $kepala = $kk->penduduk->where('status_hubungan_keluarga', 'kepala_keluarga')->first();
-                                            $labelKepala = $kepala ? ' (Kades: ' . $kepala->nama_lengkap . ')' : ' (Belum ada Kepala)';
+                                            $labelKepala = $kepala ? ' (Kepala: ' . $kepala->nama_lengkap . ')' : ' (Belum ada Kepala)';
                                         @endphp
                                         <option value="{{ $kk->id }}" {{ (old('keluarga_id') == $kk->id || $selectedKeluargaId == $kk->id) ? 'selected' : '' }}>
                                             {{ $kk->no_kk }} - {{ Str::limit($kk->alamat, 20) }}{{ $labelKepala }}

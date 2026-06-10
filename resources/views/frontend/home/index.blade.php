@@ -681,6 +681,7 @@
                             title="Peta Wilayah {{ $profilDesa?->nama_desa ?? 'Desa' }}"
                             style="width: 100%; height: 480px; border: none; display: block; filter: grayscale(5%) contrast(105%);"
                             loading="lazy"
+                            allow="geolocation; gyroscope; accelerometer; magnetometer"
                         ></iframe>
                     </div>
                 </div>

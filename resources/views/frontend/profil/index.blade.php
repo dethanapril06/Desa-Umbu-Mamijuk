@@ -309,7 +309,8 @@
                     <div class="col-lg-7">
                         <div class="peta-desa-frame">
                             <iframe src="{!! $osmUrl !!}"
-                                title="Peta Wilayah {{ $profilDesa?->nama_desa ?? 'Desa' }}" loading="lazy"></iframe>
+                                title="Peta Wilayah {{ $profilDesa?->nama_desa ?? 'Desa' }}" loading="lazy"
+                                allow="geolocation; gyroscope; accelerometer; magnetometer"></iframe>
                         </div>
                     </div>
                     <div class="col-12">
@@ -317,7 +318,8 @@
                             <iframe
                                 src="https://www.google.com/maps/embed?pb=!4v1780390396432!6m8!1m7!1stuig2O57F0OWMl94DUwY5A!2m2!1d-9.606914633308941!2d119.6242464065055!3f3.7020901175681047!4f-7.225535778415491!5f1.1924812503605782"
                                 width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                referrerpolicy="no-referrer-when-downgrade"
+                                allow="geolocation; gyroscope; accelerometer; magnetometer"></iframe>
                         </div>
                     </div>
                 </div>

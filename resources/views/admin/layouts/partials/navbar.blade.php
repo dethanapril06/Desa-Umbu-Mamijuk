@@ -26,16 +26,18 @@
         id="navbar-collapse"
     >
         <div class="navbar-nav align-items-center">
-            <div class="nav-item d-flex align-items-center">
+            <form id="globalSearchForm" class="nav-item d-flex align-items-center" action="" method="GET" onsubmit="return handleGlobalSearch(event)">
                 <i class="bx bx-search fs-4 lh-0"></i>
-
                 <input
+                    id="globalSearchInput"
                     type="text"
+                    name="global_search"
                     class="form-control border-0 shadow-none"
                     placeholder="Cari data..."
                     aria-label="Cari data..."
+                    value="{{ request('search') }}"
                 />
-            </div>
+            </form>
         </div>
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -109,3 +111,26 @@
         </ul>
     </div>
 </nav>
+
+<script>
+function handleGlobalSearch(event) {
+    event.preventDefault();
+    const query = document.getElementById('globalSearchInput').value.trim();
+    if (!query) return false;
+
+    // Check if there is a local search input on the page
+    const localSearchInput = document.querySelector('input[name="search"]');
+    if (localSearchInput) {
+        localSearchInput.value = query;
+        const form = localSearchInput.closest('form');
+        if (form) {
+            form.submit();
+            return false;
+        }
+    }
+
+    // Fallback: search in Penduduk (Residents)
+    window.location.href = "{{ route('admin.penduduk.index') }}?search=" + encodeURIComponent(query);
+    return false;
+}
+</script>
