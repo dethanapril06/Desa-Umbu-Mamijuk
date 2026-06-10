@@ -7,87 +7,296 @@
     'Website resmi ' . ($profilDesa?->nama_desa ?? 'Desa') . '. Jelajahi profil desa, destinasi wisata, statistik kependudukan, galeri, dan berita terbaru.'
 )
 
+@push('styles')
+<style>
+.carousel-indicators [data-bs-target] {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    margin: 0 6px !important;
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+    transition: all 0.3s ease;
+}
+.carousel-indicators .active {
+    background-color: var(--gold) !important;
+    transform: scale(1.2);
+}
+.hero-carousel-control {
+    width: 6%;
+}
+.hero-scroll-hint {
+    bottom: 70px !important;
+    color: var(--green-mid) !important;
+}
+</style>
+@endpush
+
 @section('content')
     {{-- HERO --}}
-    <section
-        class="hero"
-        style="padding-top: 80px"
-    >
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="hero-badge">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Kec. {{ $profilDesa?->kecamatan ?? '–' }},
-                        Kab. {{ $profilDesa?->kabupaten ?? '–' }}
-                    </div>
+    @if ($sliders->count() > 0)
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="6000" style="background: var(--green-deep); position: relative; overflow: hidden; min-height: 100vh;">
+            {{-- Indicators --}}
+            <div class="carousel-indicators" style="z-index: 5; bottom: 40px;">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                @foreach ($sliders as $index => $slider)
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ $index + 1 }}" aria-label="Slide {{ $index + 2 }}"></button>
+                @endforeach
+            </div>
 
-                    <h1 class="hero-title">
-                        Selamat Datang di Desa
-                        <span>{{ $profilDesa?->nama_desa }}</span>
-                    </h1>
+            <div class="carousel-inner">
+                {{-- Slide 1: Welcome Slide (Default) --}}
+                <div class="carousel-item active">
+                    <section class="hero" style="padding-top: 80px;">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-7">
+                                    <div class="hero-badge">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        Kec. {{ $profilDesa?->kecamatan ?? '–' }},
+                                        Kab. {{ $profilDesa?->kabupaten ?? '–' }}
+                                    </div>
 
-                    <p class="hero-desc">
-                        @if ($profilDesa?->sejarah_desa)
-                            {{ Str::limit(strip_tags($profilDesa->sejarah_desa), 180) }}
-                        @else
-                            Desa yang kaya akan keindahan alam, budaya lokal, dan destinasi wisata memukau.
-                            Temukan pengalaman tak terlupakan di antara hijaunya alam nusantara.
-                        @endif
-                    </p>
+                                    <h1 class="hero-title">
+                                        Selamat Datang di Desa
+                                        <span>{{ $profilDesa?->nama_desa }}</span>
+                                    </h1>
 
-                    <div class="hero-actions">
-                        <a
-                            href="#wisata"
-                            class="btn-hero-primary"
-                        >
-                            <i class="fas fa-compass me-2"></i>
-                            Jelajahi Wisata
-                        </a>
+                                    <p class="hero-desc">
+                                        @if ($profilDesa?->sejarah_desa)
+                                            {{ Str::limit(strip_tags($profilDesa->sejarah_desa), 180) }}
+                                        @else
+                                            Desa yang kaya akan keindahan alam, budaya lokal, dan destinasi wisata memukau.
+                                            Temukan pengalaman tak terlupakan di antara hijaunya alam nusantara.
+                                        @endif
+                                    </p>
 
-                        <a
-                            href="#profil"
-                            class="btn-hero-outline"
-                        >
-                            <i class="fas fa-info-circle me-2"></i>
-                            Profil Desa
-                        </a>
-                    </div>
+                                    <div class="hero-actions">
+                                        <a href="#wisata" class="btn-hero-primary">
+                                            <i class="fas fa-compass me-2"></i>
+                                            Jelajahi Wisata
+                                        </a>
+
+                                        <a href="#profil" class="btn-hero-outline">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            Profil Desa
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {{-- Statistik Desktop --}}
+                                <div class="col-lg-4 offset-lg-1 d-none d-lg-block">
+                                    <div class="hero-stats-scattered">
+                                        <div class="scattered-stat s1">
+                                            <div class="hero-stat-num">
+                                                {{ $wisataLainnya->count() + ($wisataUnggulan ? 1 : 0) }}+
+                                            </div>
+                                            <div class="hero-stat-label">Destinasi Wisata</div>
+                                        </div>
+
+                                        <div class="scattered-stat s2">
+                                            <div class="hero-stat-num">
+                                                {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . 'K' : $totalPenduduk }}
+                                            </div>
+                                            <div class="hero-stat-label">Penduduk</div>
+                                        </div>
+
+                                        <div class="scattered-stat s3">
+                                            <div class="hero-stat-num">
+                                                {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '–' }}
+                                            </div>
+                                            <div class="hero-stat-label">Hektar Luas</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
 
-                {{-- Statistik Desktop --}}
-                <div class="col-lg-4 offset-lg-1 d-none d-lg-block">
-                    <div class="hero-stats-scattered">
-                        <div class="scattered-stat s1">
-                            <div class="hero-stat-num">
-                                {{ $wisataLainnya->count() + ($wisataUnggulan ? 1 : 0) }}+
+                {{-- Slide 2+: Dynamic Uploaded Sliders --}}
+                @foreach ($sliders as $index => $slider)
+                    <div class="carousel-item">
+                        <section class="hero" style="background: linear-gradient(160deg, rgba(26, 58, 42, 0.88) 0%, rgba(45, 90, 61, 0.75) 50%, rgba(26, 58, 42, 0.92) 100%), url('{{ asset('storage/' . $slider->gambar) }}') center/cover no-repeat; padding-top: 80px;">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-7">
+                                        <div class="hero-badge">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            Kec. {{ $profilDesa?->kecamatan ?? '–' }},
+                                            Kab. {{ $profilDesa?->kabupaten ?? '–' }}
+                                        </div>
+
+                                        <h1 class="hero-title">
+                                            @if ($slider->judul)
+                                                {!! $slider->judul !!}
+                                            @else
+                                                Selamat Datang di Desa
+                                                <span>{{ $profilDesa?->nama_desa }}</span>
+                                            @endif
+                                        </h1>
+
+                                        <p class="hero-desc">
+                                            @if ($slider->deskripsi)
+                                                {{ $slider->deskripsi }}
+                                            @else
+                                                @if ($profilDesa?->sejarah_desa)
+                                                    {{ Str::limit(strip_tags($profilDesa->sejarah_desa), 180) }}
+                                                @else
+                                                    Desa yang kaya akan keindahan alam, budaya lokal, dan destinasi wisata memukau.
+                                                    Temukan pengalaman tak terlupakan di antara hijaunya alam nusantara.
+                                                @endif
+                                            @endif
+                                        </p>
+
+                                        <div class="hero-actions">
+                                            @if ($slider->link)
+                                                <a href="{{ $slider->link }}" class="btn-hero-primary">
+                                                    <i class="fas fa-link me-2"></i>
+                                                    Lihat Detail
+                                                </a>
+                                            @else
+                                                <a href="#wisata" class="btn-hero-primary">
+                                                    <i class="fas fa-compass me-2"></i>
+                                                    Jelajahi Wisata
+                                                </a>
+                                            @endif
+
+                                            <a href="#profil" class="btn-hero-outline">
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                Profil Desa
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    {{-- Statistik Desktop --}}
+                                    <div class="col-lg-4 offset-lg-1 d-none d-lg-block">
+                                        <div class="hero-stats-scattered">
+                                            <div class="scattered-stat s1">
+                                                <div class="hero-stat-num">
+                                                    {{ $wisataLainnya->count() + ($wisataUnggulan ? 1 : 0) }}+
+                                                </div>
+                                                <div class="hero-stat-label">Destinasi Wisata</div>
+                                            </div>
+
+                                            <div class="scattered-stat s2">
+                                                <div class="hero-stat-num">
+                                                    {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . 'K' : $totalPenduduk }}
+                                                </div>
+                                                <div class="hero-stat-label">Penduduk</div>
+                                            </div>
+
+                                            <div class="scattered-stat s3">
+                                                <div class="hero-stat-num">
+                                                    {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '–' }}
+                                                </div>
+                                                <div class="hero-stat-label">Hektar Luas</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="hero-stat-label">Destinasi Wisata</div>
+                        </section>
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Controls --}}
+            <button class="carousel-control-prev hero-carousel-control" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 5;">
+                <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next hero-carousel-control" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 5;">
+                <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+            <div class="hero-scroll-hint" style="z-index: 5;">
+                <span>Scroll</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    @else
+        <section
+            class="hero"
+            style="padding-top: 80px"
+        >
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7">
+                        <div class="hero-badge">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Kec. {{ $profilDesa?->kecamatan ?? '–' }},
+                            Kab. {{ $profilDesa?->kabupaten ?? '–' }}
                         </div>
 
-                        <div class="scattered-stat s2">
-                            <div class="hero-stat-num">
-                                {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . 'K' : $totalPenduduk }}
-                            </div>
-                            <div class="hero-stat-label">Penduduk</div>
-                        </div>
+                        <h1 class="hero-title">
+                            Selamat Datang di Desa
+                            <span>{{ $profilDesa?->nama_desa }}</span>
+                        </h1>
 
-                        <div class="scattered-stat s3">
-                            <div class="hero-stat-num">
-                                {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '–' }}
+                        <p class="hero-desc">
+                            @if ($profilDesa?->sejarah_desa)
+                                {{ Str::limit(strip_tags($profilDesa->sejarah_desa), 180) }}
+                            @else
+                                Desa yang kaya akan keindahan alam, budaya lokal, dan destinasi wisata memukau.
+                                Temukan pengalaman tak terlupakan di antara hijaunya alam nusantara.
+                            @endif
+                        </p>
+
+                        <div class="hero-actions">
+                            <a
+                                href="#wisata"
+                                class="btn-hero-primary"
+                            >
+                                <i class="fas fa-compass me-2"></i>
+                                Jelajahi Wisata
+                            </a>
+
+                            <a
+                                href="#profil"
+                                class="btn-hero-outline"
+                            >
+                                <i class="fas fa-info-circle me-2"></i>
+                                Profil Desa
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Statistik Desktop --}}
+                    <div class="col-lg-4 offset-lg-1 d-none d-lg-block">
+                        <div class="hero-stats-scattered">
+                            <div class="scattered-stat s1">
+                                <div class="hero-stat-num">
+                                    {{ $wisataLainnya->count() + ($wisataUnggulan ? 1 : 0) }}+
+                                </div>
+                                <div class="hero-stat-label">Destinasi Wisata</div>
                             </div>
-                            <div class="hero-stat-label">Hektar Luas</div>
+
+                            <div class="scattered-stat s2">
+                                <div class="hero-stat-num">
+                                    {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . 'K' : $totalPenduduk }}
+                                </div>
+                                <div class="hero-stat-label">Penduduk</div>
+                            </div>
+
+                            <div class="scattered-stat s3">
+                                <div class="hero-stat-num">
+                                    {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '–' }}
+                                </div>
+                                <div class="hero-stat-label">Hektar Luas</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="hero-scroll-hint">
-            <span>Scroll</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-    </section>
+            <div class="hero-scroll-hint">
+                <span>Scroll</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+    @endif
 
     {{-- WISATA --}}
     <section
@@ -459,7 +668,7 @@
                 <div class="col-12">
                     <div class="section-label">Peta Wilayah</div>
                     <h2 class="section-title">
-                        Lokasi dan Wilayah <em>{{ $profilDesa?->nama_desa ?? 'Desa' }}</em>
+                        Lokasi dan Wilayah <em>Desa {{ $profilDesa->nama_desa }}</em>
                     </h2>
                 </div>
             </div>

@@ -69,4 +69,40 @@ class PengaduanController extends Controller
             'no_tiket' => $pengaduan->no_tiket
         ]);
     }
+
+    public function track($no_tiket)
+    {
+        $pengaduan = Pengaduan::with(['kategoriPengaduan', 'tanggapanPengaduan' => function ($q) {
+            $q->orderBy('created_at', 'asc');
+        }])->where('no_tiket', $no_tiket)->first();
+
+        if (!$pengaduan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Nomor tiket tidak ditemukan. Pastikan format penulisan benar (contoh: ADU-2026-0001).'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'no_tiket' => $pengaduan->no_tiket,
+                'nama_pelapor' => $pengaduan->nama_pelapor,
+                'judul' => $pengaduan->judul,
+                'isi_pengaduan' => $pengaduan->isi_pengaduan,
+                'tanggal' => $pengaduan->created_at->translatedFormat('d F Y H:i'),
+                'kategori' => $pengaduan->kategoriPengaduan?->nama ?? 'Umum',
+                'status' => $pengaduan->status,
+                'lampiran' => $pengaduan->lampiran ? asset('storage/' . $pengaduan->lampiran) : null,
+                'tanggapan' => $pengaduan->tanggapanPengaduan->map(function ($t) {
+                    return [
+                        'petugas' => 'Petugas Desa',
+                        'isi_tanggapan' => $t->isi_tanggapan,
+                        'tanggal' => $t->created_at->translatedFormat('d M Y H:i'),
+                        'lampiran' => $t->lampiran ? asset('storage/' . $t->lampiran) : null,
+                    ];
+                })
+            ]
+        ]);
+    }
 }

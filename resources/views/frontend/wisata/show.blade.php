@@ -13,7 +13,7 @@
         <div class="hero-content">
             <div class="container">
                 {{-- Breadcrumb --}}
-                <div class="breadcrumb-wisata">
+                <div class="breadcrumb-custom">
                     <a href="{{ url('/') }}">Beranda</a>
                     <i class="fas fa-chevron-right"></i>
                     <a href="{{ url('/wisata') }}">Wisata</a>

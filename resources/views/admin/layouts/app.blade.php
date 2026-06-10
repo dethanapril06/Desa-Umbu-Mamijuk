@@ -17,12 +17,12 @@
     />
 
     <title>
-        @yield('title', 'Dashboard Admin') | Desa Sukamaju
+        @yield('title', 'Dashboard Admin') | Desa {{ \App\Models\ProfilDesa::first()?->nama_desa ?? 'Sukamaju' }}
     </title>
 
     <meta
         name="description"
-        content="Dashboard administrator website Desa Sukamaju"
+        content="Dashboard administrator website Desa {{ \App\Models\ProfilDesa::first()?->nama_desa ?? 'Sukamaju' }}"
     />
 
     {{-- Favicon --}}

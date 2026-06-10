@@ -11,7 +11,7 @@
     {{-- PAGE HEADER --}}
     <header class="page-header">
         <div class="container position-relative" style="z-index: 2;">
-            <div class="breadcrumb-wisata">
+            <div class="breadcrumb-custom">
                 <a href="{{ url('/') }}">Beranda</a>
                 <i class="fas fa-chevron-right"></i>
                 <span style="color:rgba(255,255,255,0.9)">Wisata Desa</span>

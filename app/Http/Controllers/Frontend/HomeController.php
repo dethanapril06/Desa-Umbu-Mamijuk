@@ -9,6 +9,7 @@ use App\Models\KepalaDesa;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
 use App\Models\ProfilDesa;
+use App\Models\Slider;
 use App\Models\Wisata;
 use Illuminate\View\View;
 
@@ -65,6 +66,11 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
+        // Sliders banner
+        $sliders = Slider::where('is_active', true)
+            ->orderBy('urutan', 'asc')
+            ->get();
+
         return view('frontend.home.index', compact(
             'profilDesa',
             'kepalaDesa',
@@ -79,6 +85,7 @@ class HomeController extends Controller
             'demografiPekerjaan',
             'galeri',
             'beritaTerbaru',
+            'sliders',
         ));
     }
 

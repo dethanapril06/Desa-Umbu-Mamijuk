@@ -32,7 +32,7 @@
     <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('fe/assets/img/logo-desa.png') }}" />
 
     {{-- Custom CSS --}}
-    <link rel="stylesheet" href="{{ asset('fe/assets/css/all.css') }}" />
+    <link rel="stylesheet" href="{{ asset('fe/assets/css/main.css') }}" />
 
     @stack('styles')
 </head>

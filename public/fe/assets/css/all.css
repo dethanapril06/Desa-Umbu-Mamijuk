@@ -1,4 +1,4 @@
-﻿/* Combined local styles for all pages */
+/* Combined local styles for all pages */
 
 /* === assets/css/index.css === */
 
@@ -28,10 +28,10 @@ body {
   font-family: 'DM Sans', sans-serif;
   background: var(--cream);
   color: var(--text-dark);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
-/* ─── NAVBAR ─────────────────────────────────── */
+/* --- NAVBAR ----------------------------------- */
 .navbar-desa {
   background: rgba(26, 58, 42, 0.97);
   backdrop-filter: blur(12px);
@@ -110,7 +110,7 @@ body {
   box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4) !important;
 }
 
-/* ─── HERO ───────────────────────────────────── */
+/* --- HERO ------------------------------------- */
 .hero {
   min-height: 100vh;
   background:
@@ -227,7 +227,7 @@ body {
   animation: fadeUp 0.8s 0.8s ease both;
 }
 
-/* ─── SCATTERED STATS (Desktop Right Side) ─── */
+/* --- SCATTERED STATS (Desktop Right Side) --- */
 .hero-stats-scattered {
   position: relative;
   height: 320px;
@@ -307,7 +307,7 @@ body {
   animation: bounce 2s infinite;
 }
 
-/* ─── SECTION HEADERS ────────────────────────── */
+/* --- SECTION HEADERS -------------------------- */
 .section-label {
   display: inline-flex;
   align-items: center;
@@ -341,7 +341,7 @@ body {
   font-style: normal;
 }
 
-/* ─── WISATA HERO SECTION ─────────────────────── */
+/* --- WISATA HERO SECTION ----------------------- */
 .wisata-section {
   padding: 100px 0 80px;
   background: var(--cream);
@@ -495,7 +495,7 @@ body {
   font-size: 0.75rem;
 }
 
-/* ─── PROFIL DESA ─────────────────────────────── */
+/* --- PROFIL DESA ------------------------------- */
 .profil-section {
   padding: 100px 0;
   background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-dark) 100%);
@@ -1101,7 +1101,7 @@ body {
   margin-top: 0.75rem;
 }
 
-/* ─── DATA KEPENDUDUKAN ───────────────────────── */
+/* --- DATA KEPENDUDUKAN ------------------------- */
 .data-section {
   padding: 100px 0;
   background: var(--green-mist);
@@ -1211,7 +1211,7 @@ body {
   background: linear-gradient(90deg, var(--green-fresh), var(--green-mid));
 }
 
-/* ─── BERITA / EVENT ──────────────────────────── */
+/* --- BERITA / EVENT ---------------------------- */
 .berita-section {
   padding: 100px 0;
   background: var(--cream);
@@ -1292,7 +1292,7 @@ body {
   color: var(--green-fresh);
 }
 
-/* ─── GALERI ──────────────────────────────────── */
+/* --- GALERI ------------------------------------ */
 .galeri-section {
   padding: 80px 0;
   background: var(--green-mist);
@@ -1373,7 +1373,7 @@ body {
   line-height: 1.2;
 }
 
-/* ─── FOOTER ──────────────────────────────────── */
+/* --- FOOTER ------------------------------------ */
 footer {
   background: var(--green-deep);
   padding: 70px 0 30px;
@@ -1467,7 +1467,7 @@ footer {
   transform: translateY(-2px);
 }
 
-/* ─── UTILITIES ───────────────────────────────── */
+/* --- UTILITIES --------------------------------- */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -1641,10 +1641,10 @@ footer {
   opacity: 1;
 }
 
-/* ─── MOBILE OVERRIDES ────────────────────────── */
+/* --- MOBILE OVERRIDES -------------------------- */
 @media (max-width: 991.98px) {
 
-  /* Stats label mobile — shadow gelap agar terbaca di atas background apapun */
+  /* Stats label mobile � shadow gelap agar terbaca di atas background apapun */
   .hero-stats .hero-stat-label {
     color: rgba(255, 255, 255, 0.95);
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 0, 0, 0.4);
@@ -1768,9 +1768,9 @@ footer {
       --text-light:   #8aab96;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: clip; }
 
-    /* ── NAVBAR ── */
+    /* -- NAVBAR -- */
     .navbar-desa {
       background: rgba(26,58,42,0.97);
       backdrop-filter: blur(12px);
@@ -1784,7 +1784,7 @@ footer {
     .navbar-desa .nav-link:hover { color: white !important; background: rgba(82,169,110,0.25); }
     .btn-wisata-nav { background: linear-gradient(135deg, var(--green-fresh), var(--green-mid)); color: white !important; border-radius: 50px !important; padding: 0.4rem 1.2rem !important; font-weight: 600 !important; }
 
-    /* ── HERO ARTIKEL ── */
+    /* -- HERO ARTIKEL -- */
     .hero-artikel {
       padding-top: 80px;
       background: linear-gradient(180deg, var(--green-deep) 0%, var(--green-dark) 100%);
@@ -1870,7 +1870,7 @@ footer {
       font-style: italic;
     }
 
-    /* ── READING PROGRESS ── */
+    /* -- READING PROGRESS -- */
     .reading-progress {
       position: fixed; top: 0; left: 0; right: 0;
       height: 3px; background: transparent; z-index: 1001;
@@ -1881,7 +1881,7 @@ footer {
       width: 0%; transition: width 0.1s linear;
     }
 
-    /* ── ARTICLE BODY ── */
+    /* -- ARTICLE BODY -- */
     .artikel-body {
       font-family: 'DM Sans', sans-serif;
       font-size: 1.02rem; line-height: 2;
@@ -1934,7 +1934,7 @@ footer {
     .highlight-box ul { color: rgba(255,255,255,0.8); }
     .highlight-box ul li { margin-bottom: 0.5rem; }
 
-    /* ── SHARE BAR ── */
+    /* -- SHARE BAR -- */
     .share-bar {
       background: white; border-radius: 20px;
       padding: 1.5rem 2rem;
@@ -1957,7 +1957,7 @@ footer {
     .share-copy { background: var(--green-mist); color: var(--green-mid); }
     .share-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-    /* ── TAGS ── */
+    /* -- TAGS -- */
     .tag-pill {
       display: inline-block;
       background: var(--green-mist); color: var(--green-mid);
@@ -1968,7 +1968,7 @@ footer {
     }
     .tag-pill:hover { background: var(--green-fresh); color: white; border-color: var(--green-fresh); }
 
-    /* ── SIDEBAR ── */
+    /* -- SIDEBAR -- */
     .sidebar-card {
       background: white; border-radius: 20px;
       border: 1px solid var(--green-pale);
@@ -2032,7 +2032,7 @@ footer {
       border-radius: 50px; padding: 2px 10px; font-size: 0.75rem; font-weight: 700;
     }
 
-    /* ── BERITA LAINNYA ── */
+    /* -- BERITA LAINNYA -- */
     .related-card {
       background: white; border-radius: 20px; overflow: hidden;
       border: 1px solid var(--green-pale);
@@ -2048,7 +2048,7 @@ footer {
     .related-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--green-deep); line-height: 1.4; margin-bottom: 0.5rem; }
     .related-date { font-size: 0.75rem; color: var(--text-light); }
 
-    /* ── FOOTER ── */
+    /* -- FOOTER -- */
     footer { background: var(--green-deep); padding: 50px 0 25px; color: rgba(255,255,255,0.7); }
     .footer-bottom { font-size: 0.82rem; color: rgba(255,255,255,0.4); text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 2rem; }
     .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 800; color: white; }
@@ -2056,7 +2056,7 @@ footer {
     .footer-link:hover { color: var(--green-light); }
     .footer-title { color: var(--green-light); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 1rem; }
 
-    /* ── UTILS ── */
+    /* -- UTILS -- */
     .section-label { display: inline-flex; align-items: center; gap: 8px; color: var(--green-mid); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-bottom: 0.8rem; }
     .section-label::before { content: ''; width: 24px; height: 2px; background: var(--green-fresh); border-radius: 2px; }
     .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--green-deep); line-height: 1.2; }
@@ -2101,10 +2101,10 @@ footer {
       font-family: 'DM Sans', sans-serif;
       background: var(--cream);
       color: var(--text-dark);
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
-    /* ── NAVBAR ── */
+    /* -- NAVBAR -- */
     .navbar-desa {
       background: rgba(26, 58, 42, 0.97);
       backdrop-filter: blur(12px);
@@ -2165,7 +2165,7 @@ footer {
       font-weight: 600 !important;
     }
 
-    /* ── HERO PARALLAX ── */
+    /* -- HERO PARALLAX -- */
     .hero-wisata {
       height: 100vh;
       position: relative;
@@ -2293,7 +2293,7 @@ footer {
       animation: fadeUp 0.8s 0.6s both;
     }
 
-    /* ── FLOATING INFO CARD ── */
+    /* -- FLOATING INFO CARD -- */
     .floating-info {
       position: sticky;
       top: 90px;
@@ -2420,7 +2420,7 @@ footer {
       background: var(--green-mist);
     }
 
-    /* ── CONTENT SECTIONS ── */
+    /* -- CONTENT SECTIONS -- */
     .detail-section {
       padding: 80px 0;
     }
@@ -3076,10 +3076,10 @@ footer {
       font-family: 'DM Sans', sans-serif;
       background: var(--cream);
       color: var(--text-dark);
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
-    /* ─── NAVBAR ─────────────────────────────────── */
+    /* --- NAVBAR ----------------------------------- */
     .navbar-desa {
       background: rgba(26, 58, 42, 0.97);
       backdrop-filter: blur(12px);
@@ -3158,7 +3158,7 @@ footer {
       box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4) !important;
     }
 
-    /* ─── PAGE HEADER ───────────────────────────────── */
+    /* --- PAGE HEADER --------------------------------- */
     .page-header {
       background: linear-gradient(rgba(26, 58, 42, 0.85), rgba(26, 58, 42, 0.85)), url('https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1600&q=80') center/cover no-repeat;
       padding: 180px 0 100px;
@@ -3225,7 +3225,7 @@ footer {
       animation: fadeUp 0.8s 0.4s ease both;
     }
 
-    /* ─── FILTER & SORT ────────────────────────────── */
+    /* --- FILTER & SORT ------------------------------ */
     .filter-wrapper {
       background: white;
       border-radius: 20px;
@@ -3297,7 +3297,7 @@ footer {
       color: var(--text-light);
     }
 
-    /* ─── BERITA CARDS ───────────────────────────── */
+    /* --- BERITA CARDS ----------------------------- */
     .berita-grid-section {
       padding: 60px 0 100px;
     }
@@ -3400,7 +3400,7 @@ footer {
       color: var(--green-fresh);
     }
 
-    /* ─── PAGINATION ─────────────────────────────── */
+    /* --- PAGINATION ------------------------------- */
     .pagination-custom {
       display: flex;
       justify-content: center;
@@ -3436,7 +3436,7 @@ footer {
       box-shadow: 0 4px 15px rgba(82, 169, 110, 0.3);
     }
 
-    /* ─── FOOTER ──────────────────────────────────── */
+    /* --- FOOTER ------------------------------------ */
     footer {
       background: var(--green-deep);
       padding: 70px 0 30px;
@@ -3564,10 +3564,10 @@ footer {
       font-family: 'DM Sans', sans-serif;
       background: var(--cream);
       color: var(--text-dark);
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
-    /* ─── NAVBAR ─────────────────────────────────── */
+    /* --- NAVBAR ----------------------------------- */
     .navbar-desa {
       background: rgba(26, 58, 42, 0.97);
       backdrop-filter: blur(12px);
@@ -3646,7 +3646,7 @@ footer {
       box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4) !important;
     }
 
-    /* ─── PAGE HEADER ───────────────────────────────── */
+    /* --- PAGE HEADER --------------------------------- */
     .page-header {
       background: linear-gradient(rgba(26, 58, 42, 0.85), rgba(26, 58, 42, 0.85)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat;
       padding: 180px 0 100px;
@@ -3713,7 +3713,7 @@ footer {
       animation: fadeUp 0.8s 0.4s ease both;
     }
 
-    /* ─── FILTER ────────────────────────────── */
+    /* --- FILTER ------------------------------ */
     .filter-wrapper {
       display: flex;
       flex-wrap: wrap;
@@ -3743,7 +3743,7 @@ footer {
       box-shadow: 0 4px 15px rgba(26, 58, 42, 0.2);
     }
 
-    /* ─── GALLERY GRID ───────────────────────────── */
+    /* --- GALLERY GRID ----------------------------- */
     .gallery-section {
       padding: 40px 0 100px;
     }
@@ -3877,7 +3877,7 @@ footer {
     }
     .lightbox-close:hover { opacity: 1; }
 
-    /* ─── FOOTER ──────────────────────────────────── */
+    /* --- FOOTER ------------------------------------ */
     footer {
       background: var(--green-deep);
       padding: 70px 0 30px;
@@ -3989,10 +3989,10 @@ footer {
       font-family: 'DM Sans', sans-serif;
       background: var(--cream);
       color: var(--text-dark);
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
-    /* ─── NAVBAR ─────────────────────────────────── */
+    /* --- NAVBAR ----------------------------------- */
     .navbar-desa {
       background: rgba(26, 58, 42, 0.97);
       backdrop-filter: blur(12px);
@@ -4071,7 +4071,7 @@ footer {
       box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4) !important;
     }
 
-    /* ─── PAGE HEADER ───────────────────────────────── */
+    /* --- PAGE HEADER --------------------------------- */
     .page-header {
       background: linear-gradient(rgba(26, 58, 42, 0.85), rgba(26, 58, 42, 0.85)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat;
       padding: 180px 0 100px;
@@ -4138,7 +4138,7 @@ footer {
       animation: fadeUp 0.8s 0.4s ease both;
     }
 
-    /* ─── FILTER & SORT ────────────────────────────── */
+    /* --- FILTER & SORT ------------------------------ */
     .filter-wrapper {
       background: white;
       border-radius: 20px;
@@ -4210,7 +4210,7 @@ footer {
       color: var(--text-light);
     }
 
-    /* ─── WISATA CARDS ───────────────────────────── */
+    /* --- WISATA CARDS ----------------------------- */
     .wisata-grid-section {
       padding: 60px 0 100px;
     }
@@ -4343,7 +4343,7 @@ footer {
       font-size: 0.95rem;
     }
 
-    /* ─── PAGINATION ─────────────────────────────── */
+    /* --- PAGINATION ------------------------------- */
     .pagination-custom {
       display: flex;
       justify-content: center;
@@ -4379,7 +4379,7 @@ footer {
       box-shadow: 0 4px 15px rgba(82, 169, 110, 0.3);
     }
 
-    /* ─── FOOTER ──────────────────────────────────── */
+    /* --- FOOTER ------------------------------------ */
     footer {
       background: var(--green-deep);
       padding: 70px 0 30px;
@@ -4579,7 +4579,7 @@ footer {
 html,
 body {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 img,

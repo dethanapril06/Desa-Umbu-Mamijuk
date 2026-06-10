@@ -1,7 +1,7 @@
 @php
     $avatar = auth()->user()->avatar
         ? asset('storage/' . auth()->user()->avatar)
-        : asset('template/assets/img/avatars/1.png');
+        : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=696cff&color=fff&size=100';
 @endphp
 
 <nav

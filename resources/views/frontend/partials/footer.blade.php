@@ -193,102 +193,186 @@
     </div>
     
     <div class="offcanvas-body" style="padding: 1.5rem; overflow-y: auto;">
-        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem;">
-            Silakan lengkapi formulir di bawah ini untuk mengirim pengaduan atau keluhan Anda. Tim admin kami akan meninjau dan menindaklanjuti laporan Anda segera.
-        </p>
+        
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs nav-fill mb-3" id="pengaduanTabs" role="tablist" style="border-bottom: 1px solid rgba(255, 255, 255, 0.15);">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active fw-bold text-white border-0 bg-transparent py-2" id="buat-laporan-tab" data-bs-toggle="tab" data-bs-target="#buat-laporan-pane" type="button" role="tab" aria-controls="buat-laporan-pane" aria-selected="true" style="font-size: 0.85rem;">
+                    Buat Laporan
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold text-white border-0 bg-transparent py-2" id="lacak-laporan-tab" data-bs-toggle="tab" data-bs-target="#lacak-laporan-pane" type="button" role="tab" aria-controls="lacak-laporan-pane" aria-selected="false" style="font-size: 0.85rem;">
+                    Lacak Laporan
+                </button>
+            </li>
+        </ul>
 
-        <!-- Dynamic Success Message Alert -->
-        <div id="pengaduanAlertSuccess" class="alert alert-success d-none" role="alert" style="background: rgba(46, 117, 81, 0.2); border: 1px solid var(--green-fresh); color: #8dd4a0;">
-            <div class="text-center py-2">
-                <i class="fas fa-check-circle fa-2x mb-2 text-success"></i> 
-                <h6 class="fw-bold mb-1" style="color: #8dd4a0;">Laporan Berhasil Terkirim!</h6>
-            </div>
-            <div class="mt-2 pt-2 border-top border-success-subtle">
-                <strong>Nomor Tiket Anda:</strong> 
-                <div class="text-center my-2">
-                    <span id="successTicketNum" class="badge bg-success font-monospace" style="font-size: 1.1rem; padding: 0.5rem 1rem;"></span>
-                </div>
-                <p class="mb-0 mt-1 text-center" style="font-size: 0.78rem; opacity: 0.9;">Simpan nomor tiket ini untuk melacak status laporan Anda di kemudian hari.</p>
-            </div>
-        </div>
-
-        <form id="formPengaduan" enctype="multipart/form-data">
-            @csrf
+        <!-- Tab Contents -->
+        <div class="tab-content" id="pengaduanTabsContent">
             
-            <!-- Kategori -->
-            <div class="mb-3">
-                <label for="kategori_pengaduan_id" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Kategori Pengaduan *</label>
-                <select name="kategori_pengaduan_id" id="kategori_pengaduan_id" class="form-select bg-dark text-white border-secondary" style="font-size: 0.9rem;" required>
-                    <option value="" disabled selected>Pilih Kategori...</option>
-                    @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->nama }}</option>
-                    @endforeach
-                </select>
-                <div class="invalid-feedback text-danger" id="err-kategori_pengaduan_id"></div>
+            <!-- Pane 1: Buat Laporan -->
+            <div class="tab-pane fade show active" id="buat-laporan-pane" role="tabpanel" aria-labelledby="buat-laporan-tab">
+                <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                    Silakan lengkapi formulir di bawah ini untuk mengirim pengaduan atau keluhan Anda. Tim admin kami akan meninjau dan menindaklanjuti laporan Anda segera.
+                </p>
+
+                <!-- Dynamic Success Message Alert -->
+                <div id="pengaduanAlertSuccess" class="alert alert-success d-none" role="alert" style="background: rgba(46, 117, 81, 0.2); border: 1px solid var(--green-fresh); color: #8dd4a0;">
+                    <div class="text-center py-2">
+                        <i class="fas fa-check-circle fa-2x mb-2 text-success"></i> 
+                        <h6 class="fw-bold mb-1" style="color: #8dd4a0;">Laporan Berhasil Terkirim!</h6>
+                    </div>
+                    <div class="mt-2 pt-2 border-top border-success-subtle">
+                        <strong>Nomor Tiket Anda:</strong> 
+                        <div class="text-center my-2">
+                            <span id="successTicketNum" class="badge bg-success font-monospace" style="font-size: 1.1rem; padding: 0.5rem 1rem;"></span>
+                        </div>
+                        <p class="mb-0 mt-1 text-center" style="font-size: 0.78rem; opacity: 0.9;">Simpan nomor tiket ini untuk melacak status laporan Anda di kemudian hari.</p>
+                    </div>
+                </div>
+
+                <form id="formPengaduan" enctype="multipart/form-data">
+                    @csrf
+                    
+                    <!-- Kategori -->
+                    <div class="mb-3">
+                        <label for="kategori_pengaduan_id" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Kategori Pengaduan *</label>
+                        <select name="kategori_pengaduan_id" id="kategori_pengaduan_id" class="form-select bg-dark text-white border-secondary" style="font-size: 0.9rem;" required>
+                            <option value="" disabled selected>Pilih Kategori...</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}">{{ $cat->nama }}</option>
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback text-danger" id="err-kategori_pengaduan_id"></div>
+                    </div>
+
+                    <!-- Nama Pelapor -->
+                    <div class="mb-3">
+                        <label for="nama_pelapor" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Nama Lengkap Pelapor *</label>
+                        <input type="text" name="nama_pelapor" id="nama_pelapor" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Masukkan nama lengkap Anda" required>
+                        <div class="invalid-feedback text-danger" id="err-nama_pelapor"></div>
+                    </div>
+
+                    <!-- NIK Pelapor -->
+                    <div class="mb-3">
+                        <label for="nik_pelapor" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">NIK (16 Digit) *</label>
+                        <input type="text" name="nik_pelapor" id="nik_pelapor" maxlength="16" class="form-control bg-dark text-white border-secondary font-monospace" style="font-size: 0.9rem;" placeholder="16 digit NIK sesuai KTP" required>
+                        <div class="invalid-feedback text-danger" id="err-nik_pelapor"></div>
+                    </div>
+
+                    <!-- No Telepon -->
+                    <div class="mb-3">
+                        <label for="no_telepon" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">No. Telepon / WhatsApp *</label>
+                        <input type="text" name="no_telepon" id="no_telepon" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="08xxxxxxxxxx" required>
+                        <div class="invalid-feedback text-danger" id="err-no_telepon"></div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Email (Opsional)</label>
+                        <input type="email" name="email" id="email" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="nama@email.com">
+                        <div class="invalid-feedback text-danger" id="err-email"></div>
+                    </div>
+
+                    <!-- Alamat -->
+                    <div class="mb-3">
+                        <label for="alamat" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Alamat Lengkap *</label>
+                        <textarea name="alamat" id="alamat" rows="2" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Alamat rumah / lokasi kejadian" required></textarea>
+                        <div class="invalid-feedback text-danger" id="err-alamat"></div>
+                    </div>
+
+                    <!-- Judul Pengaduan -->
+                    <div class="mb-3">
+                        <label for="judul" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Judul Pengaduan *</label>
+                        <input type="text" name="judul" id="judul" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Ringkasan singkat keluhan" required>
+                        <div class="invalid-feedback text-danger" id="err-judul"></div>
+                    </div>
+
+                    <!-- Isi Laporan -->
+                    <div class="mb-3">
+                        <label for="isi_pengaduan" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Detail Laporan Pengaduan *</label>
+                        <textarea name="isi_pengaduan" id="isi_pengaduan" rows="4" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Ceritakan kronologi atau keluhan Anda secara jelas" required></textarea>
+                        <div class="invalid-feedback text-danger" id="err-isi_pengaduan"></div>
+                    </div>
+
+                    <!-- Lampiran Gambar -->
+                    <div class="mb-3">
+                        <label for="lampiran" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Foto Lampiran / Bukti (Maks. 2MB)</label>
+                        <input type="file" name="lampiran" id="lampiran" accept="image/*" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;">
+                        <div class="invalid-feedback text-danger" id="err-lampiran"></div>
+                    </div>
+
+                    <button type="submit" id="btnSubmitPengaduan" class="btn w-100 py-2.5 fw-bold" style="background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--green-deep); border: none; font-size: 0.95rem; border-radius: 8px;">
+                        <i class="fas fa-paper-plane me-1"></i> Kirim Laporan Pengaduan
+                    </button>
+                </form>
             </div>
 
-            <!-- Nama Pelapor -->
-            <div class="mb-3">
-                <label for="nama_pelapor" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Nama Lengkap Pelapor *</label>
-                <input type="text" name="nama_pelapor" id="nama_pelapor" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Masukkan nama lengkap Anda" required>
-                <div class="invalid-feedback text-danger" id="err-nama_pelapor"></div>
+            <!-- Pane 2: Lacak Laporan -->
+            <div class="tab-pane fade" id="lacak-laporan-pane" role="tabpanel" aria-labelledby="lacak-laporan-tab">
+                <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.2rem;">
+                    Masukkan nomor tiket pengaduan Anda untuk memeriksa status tindak lanjut terkini dari Pemerintah Desa.
+                </p>
+
+                <!-- Tracking Form -->
+                <div class="mb-4">
+                    <label for="track_ticket_num" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Nomor Tiket Laporan</label>
+                    <div class="input-group">
+                        <input type="text" id="track_ticket_num" class="form-control bg-dark text-white border-secondary font-monospace" placeholder="Contoh: ADU-2026-0001" style="font-size: 0.9rem;" required>
+                        <button class="btn btn-outline-success" type="button" id="btnTrackReport" style="border-color: #8dd4a0; color: #8dd4a0; background: transparent;">
+                            <i class="fas fa-search"></i> Lacak
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="trackError" class="alert alert-danger d-none" role="alert" style="background: rgba(132, 32, 32, 0.2); border: 1px solid #ff9494; color: #ff9494; font-size: 0.82rem; padding: 0.75rem;"></div>
+
+                <!-- Result Container -->
+                <div id="trackResult" class="d-none">
+                    <div class="border rounded p-3 mb-4" style="background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1) !important;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span id="trackKategori" class="badge bg-secondary" style="font-size: 0.75rem;"></span>
+                            <span id="trackStatus" class="badge text-white" style="font-size: 0.75rem;"></span>
+                        </div>
+                        <h6 id="trackJudul" class="fw-bold text-warning mb-1" style="font-size: 1rem;"></h6>
+                        <small id="trackTanggal" class="text-muted d-block mb-3" style="font-size: 0.75rem;"></small>
+                        
+                        <p id="trackIsi" class="mb-3 text-white-50" style="font-size: 0.85rem; white-space: pre-wrap; line-height: 1.5;"></p>
+                        
+                        <div id="trackLampiranContainer" class="d-none border-top pt-2 mt-2">
+                            <a id="trackLampiranLink" href="#" target="_blank" class="text-success d-inline-flex align-items-center" style="font-size: 0.8rem; text-decoration: none;">
+                                <i class="fas fa-image me-1"></i> Lihat Lampiran Laporan
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Responses/Timeline -->
+                    <h6 class="fw-bold text-white mb-3" style="font-size: 0.9rem;"><i class="fas fa-history me-1 text-info"></i> Tindak Lanjut & Tanggapan:</h6>
+                    <div id="trackTanggapanList" class="ps-3 border-start border-secondary" style="border-width: 2px !important; border-color: rgba(255, 255, 255, 0.15) !important;">
+                        <!-- Responses loaded here -->
+                    </div>
+                </div>
             </div>
 
-            <!-- NIK Pelapor -->
-            <div class="mb-3">
-                <label for="nik_pelapor" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">NIK (16 Digit) *</label>
-                <input type="text" name="nik_pelapor" id="nik_pelapor" maxlength="16" class="form-control bg-dark text-white border-secondary font-monospace" style="font-size: 0.9rem;" placeholder="16 digit NIK sesuai KTP" required>
-                <div class="invalid-feedback text-danger" id="err-nik_pelapor"></div>
-            </div>
-
-            <!-- No Telepon -->
-            <div class="mb-3">
-                <label for="no_telepon" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">No. Telepon / WhatsApp *</label>
-                <input type="text" name="no_telepon" id="no_telepon" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="08xxxxxxxxxx" required>
-                <div class="invalid-feedback text-danger" id="err-no_telepon"></div>
-            </div>
-
-            <!-- Email -->
-            <div class="mb-3">
-                <label for="email" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Email (Opsional)</label>
-                <input type="email" name="email" id="email" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="nama@email.com">
-                <div class="invalid-feedback text-danger" id="err-email"></div>
-            </div>
-
-            <!-- Alamat -->
-            <div class="mb-3">
-                <label for="alamat" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Alamat Lengkap *</label>
-                <textarea name="alamat" id="alamat" rows="2" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Alamat rumah / lokasi kejadian" required></textarea>
-                <div class="invalid-feedback text-danger" id="err-alamat"></div>
-            </div>
-
-            <!-- Judul Pengaduan -->
-            <div class="mb-3">
-                <label for="judul" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Judul Pengaduan *</label>
-                <input type="text" name="judul" id="judul" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Ringkasan singkat keluhan" required>
-                <div class="invalid-feedback text-danger" id="err-judul"></div>
-            </div>
-
-            <!-- Isi Laporan -->
-            <div class="mb-3">
-                <label for="isi_pengaduan" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Detail Laporan Pengaduan *</label>
-                <textarea name="isi_pengaduan" id="isi_pengaduan" rows="4" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Ceritakan kronologi atau keluhan Anda secara jelas" required></textarea>
-                <div class="invalid-feedback text-danger" id="err-isi_pengaduan"></div>
-            </div>
-
-            <!-- Lampiran Gambar -->
-            <div class="mb-3">
-                <label for="lampiran" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Foto Lampiran / Bukti (Maks. 2MB)</label>
-                <input type="file" name="lampiran" id="lampiran" accept="image/*" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;">
-                <div class="invalid-feedback text-danger" id="err-lampiran"></div>
-            </div>
-
-            <button type="submit" id="btnSubmitPengaduan" class="btn w-100 py-2.5 fw-bold" style="background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--green-deep); border: none; font-size: 0.95rem; border-radius: 8px;">
-                <i class="fas fa-paper-plane me-1"></i> Kirim Laporan Pengaduan
-            </button>
-        </form>
+        </div>
     </div>
 </div>
+
+<style>
+#pengaduanTabs .nav-link {
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0;
+    transition: all 0.2s ease;
+    opacity: 0.65;
+}
+#pengaduanTabs .nav-link.active {
+    border-bottom: 2px solid #e8c97a !important;
+    color: #e8c97a !important;
+    opacity: 1;
+}
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -360,6 +444,120 @@ document.addEventListener('DOMContentLoaded', function() {
         form.classList.remove('d-none');
         successAlert.classList.add('d-none');
         document.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
+        
+        // Reset tracking pane as well
+        document.getElementById('track_ticket_num').value = '';
+        document.getElementById('trackError').classList.add('d-none');
+        document.getElementById('trackResult').classList.add('d-none');
+    });
+
+    // Tracking ticket logic
+    const btnTrack = document.getElementById('btnTrackReport');
+    const inputTicket = document.getElementById('track_ticket_num');
+    const trackError = document.getElementById('trackError');
+    const trackResult = document.getElementById('trackResult');
+
+    btnTrack.addEventListener('click', function() {
+        const ticketNum = inputTicket.value.trim();
+        if (!ticketNum) {
+            alert('Masukkan nomor tiket terlebih dahulu!');
+            return;
+        }
+
+        btnTrack.disabled = true;
+        btnTrack.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+        trackError.classList.add('d-none');
+        trackResult.classList.add('d-none');
+
+        // Build route dynamically
+        const url = "{{ route('pengaduan.track', ':ticket') }}".replace(':ticket', encodeURIComponent(ticketNum));
+
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(res => {
+            btnTrack.disabled = false;
+            btnTrack.innerHTML = '<i class="fas fa-search"></i> Lacak';
+
+            if (res.status === 404 || !res.body.success) {
+                trackError.textContent = res.body.message || 'Nomor tiket tidak ditemukan.';
+                trackError.classList.remove('d-none');
+            } else if (res.status === 200 && res.body.success) {
+                const complaint = res.body.data;
+                
+                // Populate elements
+                document.getElementById('trackKategori').textContent = complaint.kategori;
+                document.getElementById('trackJudul').textContent = complaint.judul;
+                document.getElementById('trackTanggal').textContent = 'Dikirim: ' + complaint.tanggal;
+                document.getElementById('trackIsi').textContent = complaint.isi_pengaduan;
+
+                // Status Badge Color coding
+                const statusBadge = document.getElementById('trackStatus');
+                statusBadge.textContent = complaint.status.toUpperCase();
+                statusBadge.className = 'badge'; // Reset classes
+                if (complaint.status === 'masuk') {
+                    statusBadge.classList.add('bg-info');
+                } else if (complaint.status === 'diproses') {
+                    statusBadge.classList.add('bg-warning', 'text-dark');
+                } else if (complaint.status === 'selesai') {
+                    statusBadge.classList.add('bg-success');
+                } else if (complaint.status === 'ditolak') {
+                    statusBadge.classList.add('bg-danger');
+                }
+
+                // Lampiran
+                const lampContainer = document.getElementById('trackLampiranContainer');
+                if (complaint.lampiran) {
+                    document.getElementById('trackLampiranLink').href = complaint.lampiran;
+                    lampContainer.classList.remove('d-none');
+                } else {
+                    lampContainer.classList.add('d-none');
+                }
+
+                // Populate Tanggapan List
+                const tanggapanList = document.getElementById('trackTanggapanList');
+                tanggapanList.innerHTML = '';
+                
+                if (complaint.tanggapan.length === 0) {
+                    tanggapanList.innerHTML = `<div class="text-white-50 text-center py-2" style="font-size: 0.8rem; font-style: italic;">Laporan Anda belum ditanggapi oleh petugas.</div>`;
+                } else {
+                    complaint.tanggapan.forEach(t => {
+                        const tItem = document.createElement('div');
+                        tItem.className = 'mb-3 pb-2 border-bottom';
+                        tItem.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        tItem.innerHTML = `
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <strong class="text-info" style="font-size: 0.85rem;"><i class="fas fa-user-shield me-1"></i>${t.petugas}</strong>
+                                <small class="text-muted" style="font-size: 0.75rem;">${t.tanggal}</small>
+                            </div>
+                            <p class="mb-1 text-white-50" style="font-size: 0.85rem; white-space: pre-wrap; line-height: 1.4;">${t.isi_tanggapan}</p>
+                            ${t.lampiran ? `
+                                <div class="mt-1">
+                                    <a href="${t.lampiran}" target="_blank" class="text-success d-inline-flex align-items-center" style="font-size: 0.78rem; text-decoration: none;">
+                                        <i class="fas fa-paperclip me-1"></i> Lihat Lampiran Petugas
+                                    </a>
+                                </div>
+                            ` : ''}
+                        `;
+                        tanggapanList.appendChild(tItem);
+                    });
+                }
+
+                trackResult.classList.remove('d-none');
+            } else {
+                alert('Gagal mengambil data status laporan.');
+            }
+        })
+        .catch(err => {
+            console.error('Error tracking report:', err);
+            btnTrack.disabled = false;
+            btnTrack.innerHTML = '<i class="fas fa-search"></i> Lacak';
+            alert('Terjadi kesalahan koneksi.');
+        });
     });
 });
 </script>
