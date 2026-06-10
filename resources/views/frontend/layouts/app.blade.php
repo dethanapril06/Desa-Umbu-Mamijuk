@@ -7,10 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>
-        @yield('title', 'Website Resmi') | Desa Kami
+        @yield('title', 'Website Resmi') | Desa Umbu Mamijuk
     </title>
 
-    <meta name="description" content="@yield('meta_description', 'Website resmi Desa Kami. Portal informasi desa, data kependudukan, wisata, berita, galeri, dan pelayanan publik.')" />
+    <meta name="description" content="@yield('meta_description', 'Website resmi Desa Umbu Mamijuk. Portal informasi desa, data kependudukan, wisata, berita, galeri, dan pelayanan publik.')" />
+
+    {{-- Open Graph / Facebook / WhatsApp --}}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:title" content="@yield('title', 'Website Resmi') | Desa Umbu Mamijuk" />
+    <meta property="og:description" content="@yield('meta_description', 'Website resmi Desa Umbu Mamijuk. Portal informasi desa, data kependudukan, wisata, berita, galeri, dan pelayanan publik.')" />
+    <meta property="og:image" content="@yield('meta_image', asset('fe/assets/img/logo-desa.png'))" />
+
+    {{-- Twitter --}}
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="{{ url()->current() }}" />
+    <meta property="twitter:title" content="@yield('title', 'Website Resmi') | Desa Umbu Mamijuk" />
+    <meta property="twitter:description" content="@yield('meta_description', 'Website resmi Desa Umbu Mamijuk. Portal informasi desa, data kependudukan, wisata, berita, galeri, dan pelayanan publik.')" />
+    <meta property="twitter:image" content="@yield('meta_image', asset('fe/assets/img/logo-desa.png'))" />
 
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
