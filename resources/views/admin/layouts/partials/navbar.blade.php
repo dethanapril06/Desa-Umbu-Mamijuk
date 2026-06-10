@@ -88,6 +88,17 @@
                     </li>
 
                     <li>
+                        <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
+                            <i class="bx bx-user me-2"></i>
+                            <span class="align-middle">Profil Saya</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+
+                    <li>
                         <form
                             action="{{ route('admin.logout') }}"
                             method="POST"

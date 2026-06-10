@@ -341,5 +341,15 @@
                 <div>Sosial Media</div>
             </a>
         </li>
+
+        <li class="menu-item {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
+            <a
+                href="{{ route('admin.profile.edit') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div>Profil & Password</div>
+            </a>
+        </li>
     </ul>
 </aside>

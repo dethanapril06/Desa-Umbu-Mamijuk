@@ -33,6 +33,11 @@ Route::prefix('admin')
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
+        // Profile Settings
+        Route::get('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
+        Route::put('/profile/password', [\App\Http\Controllers\Admin\ProfileController::class, 'updatePassword'])->name('profile.password');
+
         // Profil Desa
         Route::get('/profil-desa', [\App\Http\Controllers\Admin\ProfilDesaController::class, 'index'])->name('profil-desa.index');
         Route::put('/profil-desa', [\App\Http\Controllers\Admin\ProfilDesaController::class, 'update'])->name('profil-desa.update');
