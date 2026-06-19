@@ -3,7 +3,7 @@
 @endphp
 
 <nav class="navbar-desa navbar navbar-expand-lg">
-    <div class="container">
+    <div class="container-fluid">
         <a
             class="navbar-brand"
             href="{{ url('/') }}"
@@ -45,7 +45,7 @@
             class="collapse navbar-collapse"
             id="mainNav"
         >
-            <ul class="navbar-nav ms-auto align-items-center gap-1">
+            <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
                     <a
                         class="nav-link {{ request()->is('/') ? 'active' : '' }}"
@@ -75,10 +75,28 @@
 
                 <li class="nav-item">
                     <a
-                        class="nav-link"
+                        class="nav-link {{ request()->is('berita*') ? 'active' : '' }}"
                         href="{{ url('/berita') }}"
                     >
                         Berita
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link {{ request()->is('umkm*') ? 'active' : '' }}"
+                        href="{{ url('/umkm') }}"
+                    >
+                        UMKM
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link {{ request()->is('galeri') ? 'active' : '' }}"
+                        href="{{ url('/galeri') }}"
+                    >
+                        Galeri
                     </a>
                 </li>
 

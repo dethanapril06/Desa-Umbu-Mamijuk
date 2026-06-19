@@ -18,12 +18,12 @@ class UlasanWisataSeeder extends Seeder
         DB::table('ulasan_wisata')->updateOrInsert(
             [
                 'wisata_id' => $wisataId,
-                'nama' => 'Lorem I.',
+                'nama' => 'Budi S.',
             ],
             [
                 'avatar' => null,
                 'rating' => 5,
-                'ulasan' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'ulasan' => 'Pengalaman luar biasa berkunjung ke Kampung Adat Pasunga. Kubur batu megalitikumnya sangat megah dan sejarahnya sangat mendalam. Warga setempat juga sangat ramah dalam menjelaskan makna dari setiap motif ukiran tenun dan makam leluhur.',
                 'is_approved' => true,
                 'created_at' => $now,
                 'updated_at' => $now,

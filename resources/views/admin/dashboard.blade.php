@@ -17,13 +17,6 @@
                                 Gunakan dashboard ini untuk mengelola data desa,
                                 kependudukan, berita, wisata, galeri, dan pengaduan masyarakat.
                             </p>
-
-                            <a
-                                href="javascript:void(0);"
-                                class="btn btn-sm btn-outline-primary"
-                            >
-                                Lihat Website Publik
-                            </a>
                         </div>
                     </div>
 

@@ -14,19 +14,19 @@ class SosialMediaSeeder extends Seeder
         $items = [
             [
                 'platform' => 'Facebook',
-                'url' => 'https://facebook.com/xxxxx',
+                'url' => 'https://facebook.com/desaudb.umbumamijuk',
                 'icon' => 'bi bi-facebook',
                 'urutan' => 1,
             ],
             [
                 'platform' => 'Instagram',
-                'url' => 'https://instagram.com/xxxxx',
+                'url' => 'https://instagram.com/desa.umbumamijuk',
                 'icon' => 'bi bi-instagram',
                 'urutan' => 2,
             ],
             [
                 'platform' => 'YouTube',
-                'url' => 'https://youtube.com/@xxxxx',
+                'url' => 'https://youtube.com/@desaudb.umbumamijuk',
                 'icon' => 'bi bi-youtube',
                 'urutan' => 3,
             ],

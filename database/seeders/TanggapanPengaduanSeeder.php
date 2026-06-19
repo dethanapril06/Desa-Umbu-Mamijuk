@@ -25,7 +25,7 @@ class TanggapanPengaduanSeeder extends Seeder
                 'user_id' => $userId,
             ],
             [
-                'isi_tanggapan' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'isi_tanggapan' => 'Terima kasih atas laporan Bapak Yohanis Kula. Pengaduan Anda telah kami terima dan diteruskan ke Kepala Urusan Pembangunan dan Kesejahteraan Desa. Pihak Pemdes telah berkoordinasi dengan petugas PLN/teknisi kelistrikan desa untuk melakukan pengecekan dan penggantian bohlam lampu jalan yang mati dalam waktu 2x24 jam. Harap tetap berhati-hati saat berkendara di malam hari.',
                 'lampiran' => null,
                 'created_at' => $now,
                 'updated_at' => $now,

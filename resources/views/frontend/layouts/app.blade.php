@@ -70,6 +70,21 @@
     {{-- Custom JS --}}
     <script src="{{ asset('fe/assets/js/all.js') }}"></script>
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Override global alert with SweetAlert2
+        window.alert = function (message) {
+            Swal.fire({
+                title: 'Informasi',
+                text: message,
+                icon: 'info',
+                confirmButtonColor: '#2e7551', // Match village green theme color
+                confirmButtonText: 'Tutup'
+            });
+        };
+    </script>
+
     @stack('scripts')
 </body>
 

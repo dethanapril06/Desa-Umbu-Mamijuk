@@ -13,13 +13,13 @@ class KepalaDesaSeeder extends Seeder
 
         DB::table('kepala_desa')->updateOrInsert(
             [
-                'nama' => 'Lorem Ipsum',
+                'nama' => 'Budi Santoso',
                 'periode_mulai' => '2023',
             ],
             [
                 'foto' => 'images/kepala-desa/budi-santoso.jpg',
                 'gelar' => 'S.Sos.',
-                'sambutan' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, laborum.',
+                'sambutan' => 'Selamat datang di official website Desa Umbu Mamijuk. Platform ini hadir sebagai wujud transparansi pelayanan publik dan media komunikasi untuk mendekatkan pemerintah desa dengan seluruh masyarakat.',
                 'periode_selesai' => '2029',
                 'is_active' => true,
                 'created_at' => $now,

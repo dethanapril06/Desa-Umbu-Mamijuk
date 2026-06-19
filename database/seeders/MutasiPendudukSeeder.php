@@ -25,7 +25,7 @@ class MutasiPendudukSeeder extends Seeder
                 'no_surat' => 'SKL-2024-0001',
                 'alamat_tujuan' => null,
                 'alamat_asal' => null,
-                'keterangan' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                'keterangan' => 'Pencatatan kelahiran baru untuk warga anak bernama Gabriel Umbu.',
                 'lampiran' => 'documents/mutasi/skl-2024-0001.pdf',
                 'created_at' => $now,
                 'updated_at' => $now,

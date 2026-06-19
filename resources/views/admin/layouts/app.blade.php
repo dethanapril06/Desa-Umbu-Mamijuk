@@ -93,37 +93,7 @@
                 <div class="content-wrapper">
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        @if (session('success'))
-                            <div
-                                class="alert alert-success alert-dismissible"
-                                role="alert"
-                            >
-                                {!! session('success') !!}
 
-                                <button
-                                    type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="alert"
-                                    aria-label="Close"
-                                ></button>
-                            </div>
-                        @endif
-
-                        @if (session('error'))
-                            <div
-                                class="alert alert-danger alert-dismissible"
-                                role="alert"
-                            >
-                                {{ session('error') }}
-
-                                <button
-                                    type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="alert"
-                                    aria-label="Close"
-                                ></button>
-                            </div>
-                        @endif
 
                         @yield('content')
                     </div>
@@ -151,6 +121,85 @@
 
     {{-- Main JS --}}
     <script src="{{ asset('template/assets/js/main.js') }}"></script>
+
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Intercept forms with native confirm in onsubmit
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                const onsubmitAttr = form.getAttribute('onsubmit');
+                if (onsubmitAttr && onsubmitAttr.includes('confirm(')) {
+                    // Extract the message inside confirm('...')
+                    const match = onsubmitAttr.match(/confirm\(['"](.+?)['"]\)/);
+                    const message = match ? match[1] : 'Apakah Anda yakin ingin melanjutkan tindakan ini?';
+                    
+                    // Remove the inline onsubmit attribute
+                    form.removeAttribute('onsubmit');
+                    
+                    // Add submit event listener
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        
+                        Swal.fire({
+                            title: 'Konfirmasi Tindakan',
+                            text: message,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#6c757d',
+                            confirmButtonText: 'Ya, Lanjutkan!',
+                            cancelButtonText: 'Batal',
+                            customClass: {
+                                confirmButton: 'btn btn-primary me-2',
+                                cancelButton: 'btn btn-secondary'
+                            },
+                            buttonsStyling: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    });
+                }
+            });
+
+            // 2. Intercept flash messages from session
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    html: {!! json_encode(session('success')) !!},
+                    showConfirmButton: false,
+                    timer: 3500,
+                    timerProgressBar: true
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: {!! json_encode(session('error')) !!},
+                    showConfirmButton: true,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Tutup'
+                });
+            @endif
+
+            // 3. Override global alert with SweetAlert2
+            window.alert = function (message) {
+                Swal.fire({
+                    title: 'Informasi',
+                    text: message,
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Tutup'
+                });
+            };
+        });
+    </script>
 
     @stack('scripts')
 </body>

@@ -13,18 +13,18 @@ class DusunSeeder extends Seeder
 
         $items = [
             [
-                'nama' => 'Dusun I',
-                'kepala_dusun' => 'Lorem Ipsum',
+                'nama' => 'Dusun Karang Indah',
+                'kepala_dusun' => 'Yohanes Gede',
                 'urutan' => 1,
             ],
             [
-                'nama' => 'Dusun II',
-                'kepala_dusun' => 'Dolor Sit Amet',
+                'nama' => 'Dusun Watu Langit',
+                'kepala_dusun' => 'Martinus Londa',
                 'urutan' => 2,
             ],
             [
-                'nama' => 'Dusun III',
-                'kepala_dusun' => 'Consectetur Adipiscing',
+                'nama' => 'Dusun Sentosa',
+                'kepala_dusun' => 'Joko Susilo',
                 'urutan' => 3,
             ],
         ];

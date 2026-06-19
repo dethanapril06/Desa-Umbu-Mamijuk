@@ -122,6 +122,12 @@
                 >
                     Galeri
                 </a>
+                <a
+                    href="{{ url('/umkm') }}"
+                    class="footer-link"
+                >
+                    UMKM
+                </a>
             </div>
 
             <div class="col-lg-4">

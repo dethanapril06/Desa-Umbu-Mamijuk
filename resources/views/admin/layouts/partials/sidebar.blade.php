@@ -278,6 +278,17 @@
             </ul>
         </li>
 
+        {{-- UMKM --}}
+        <li class="menu-item {{ request()->routeIs('admin.umkm.*') ? 'active' : '' }}">
+            <a
+                href="{{ route('admin.umkm.index') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon tf-icons bx bx-store"></i>
+                <div>UMKM</div>
+            </a>
+        </li>
+
         {{-- Pengaduan --}}
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">

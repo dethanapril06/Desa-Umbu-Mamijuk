@@ -107,6 +107,9 @@ Route::prefix('admin')
             'wisata' => 'wisata'
         ]);
 
+        // UMKM
+        Route::resource('/umkm', \App\Http\Controllers\Admin\UmkmController::class);
+
         // Sub-Wisata (Fasilitas, Tips, Rute, Galeri)
         Route::post('/fasilitas-wisata', [\App\Http\Controllers\Admin\FasilitasWisataController::class, 'store'])->name('fasilitas-wisata.store');
         Route::delete('/fasilitas-wisata/{fasilitas}', [\App\Http\Controllers\Admin\FasilitasWisataController::class, 'destroy'])->name('fasilitas-wisata.destroy');
@@ -158,5 +161,8 @@ Route::get('/berita/{slug}', [App\Http\Controllers\Frontend\BeritaController::cl
 Route::get('/wisata', [App\Http\Controllers\Frontend\WisataController::class, 'index'])->name('wisata.index');
 Route::post('/wisata/{slug}/ulasan', [App\Http\Controllers\Frontend\WisataController::class, 'storeUlasan'])->name('wisata.ulasan.store');
 Route::get('/wisata/{slug}', [App\Http\Controllers\Frontend\WisataController::class, 'show'])->name('wisata.show');
+
+Route::get('/umkm', [App\Http\Controllers\Frontend\UmkmController::class, 'index'])->name('umkm.index');
+Route::get('/umkm/{slug}', [App\Http\Controllers\Frontend\UmkmController::class, 'show'])->name('umkm.show');
 Route::post('/pengaduan', [App\Http\Controllers\Frontend\PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/pengaduan/lacak/{no_tiket}', [App\Http\Controllers\Frontend\PengaduanController::class, 'track'])->name('pengaduan.track');

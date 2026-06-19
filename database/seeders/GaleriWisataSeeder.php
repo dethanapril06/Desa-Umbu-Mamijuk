@@ -18,17 +18,17 @@ class GaleriWisataSeeder extends Seeder
         $items = [
             [
                 'gambar' => 'images/wisata/galeri/bukit-kami-1.jpg',
-                'caption' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                'caption' => 'Pintu masuk dan jajaran batu kubur megalitikum utama di Kampung Adat Pasunga.',
                 'urutan' => 1,
             ],
             [
                 'gambar' => 'images/wisata/galeri/bukit-kami-2.jpg',
-                'caption' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                'caption' => 'Detail ukiran tradisional bermotif figur manusia dan simbol adat pada makam megalitik.',
                 'urutan' => 2,
             ],
             [
                 'gambar' => 'images/wisata/galeri/bukit-kami-3.jpg',
-                'caption' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                'caption' => 'Uma Adung, rumah panggung tradisional Sumba dengan atap ilalang menjulang tinggi.',
                 'urutan' => 3,
             ],
         ];

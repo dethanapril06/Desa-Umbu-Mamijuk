@@ -862,7 +862,7 @@
     </section>
 
     {{-- GALERI --}}
-    <section class="galeri-section">
+    <!-- <section class="galeri-section">
         <div class="container">
             <div class="row align-items-end mb-4">
                 <div class="col">
@@ -937,7 +937,7 @@
                 @endforelse
             </div>
         </div>
-    </section>
+    </section> -->
 
     {{-- BERITA --}}
     <section class="berita-section">

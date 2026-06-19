@@ -155,7 +155,7 @@
                             @foreach ($wisata->fasilitasWisata as $fasilitas)
                                 <div class="fasilitas-item">
                                     <span class="fasilitas-icon"><i
-                                            class="{{ $fasilitas->icon ?? 'bi bi-check-circle' }}"></i></span>
+                                            class="bx {{ $fasilitas->icon ?? 'bi bi-check-circle' }}"></i></span>
                                     <div class="fasilitas-label">{{ $fasilitas->nama }}</div>
                                 </div>
                             @endforeach

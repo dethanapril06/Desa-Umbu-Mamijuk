@@ -17,13 +17,13 @@ class TipsWisataSeeder extends Seeder
 
         $items = [
             [
-                'judul' => 'Lorem ipsum dolor',
-                'deskripsi' => 'Lorem inpsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'judul' => 'Hormati Adat dan Sopan Santun',
+                'deskripsi' => 'Sebelum mengambil foto warga lokal, rumah adat, atau kubur batu megalitikum, sebaiknya mintalah izin terlebih dahulu kepada pemandu lokal atau tetua adat sebagai bentuk penghormatan.',
                 'urutan' => 1,
             ],
             [
-                'judul' => 'Dolor sit amet',
-                'deskripsi' => 'Lorem inpsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'judul' => 'Gunakan Pakaian yang Sopan',
+                'deskripsi' => 'Mengingat Kampung Adat Pasunga merupakan situs sakral tempat bersemayamnya arwah leluhur Marapu, pengunjung diimbau mengenakan pakaian yang sopan dan tertutup.',
                 'urutan' => 2,
             ],
         ];

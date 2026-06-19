@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
 
             SliderSeeder::class,
             SosialMediaSeeder::class,
+            UmkmSeeder::class,
         ]);
     }
 }

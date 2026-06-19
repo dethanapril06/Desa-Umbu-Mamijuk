@@ -11,20 +11,20 @@ class BeritaTagSeeder extends Seeder
     {
         $items = [
             [
-                'berita' => 'lorem-ipsum-dolor-sit-amet-consectetur',
-                'tag' => 'tag-lorem',
+                'berita' => 'pemdes-umbu-mamijuk-tingkatkan-pelayanan-publik-digital-lewat-sid',
+                'tag' => 'kegiatan-desa',
             ],
             [
-                'berita' => 'lorem-ipsum-dolor-sit-amet-consectetur',
-                'tag' => 'tag-ipsum',
+                'berita' => 'pemdes-umbu-mamijuk-tingkatkan-pelayanan-publik-digital-lewat-sid',
+                'tag' => 'pengumuman',
             ],
             [
-                'berita' => 'sed-do-eiusmod-tempor-incididunt-ut-labore',
-                'tag' => 'tag-dolor',
+                'berita' => 'pembangunan-jalan-rabat-beton-dusun-karang-indah-selesai-100-persen',
+                'tag' => 'infrastruktur',
             ],
             [
-                'berita' => 'duis-aute-irure-dolor-in-reprehenderit',
-                'tag' => 'tag-sit-amet',
+                'berita' => 'masyarakat-desa-gotong-royong-bersihkan-saluran-irigasi-jelang-musim-tanam',
+                'tag' => 'budaya-sumba',
             ],
         ];
 

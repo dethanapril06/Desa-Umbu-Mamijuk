@@ -7,7 +7,7 @@
             © {{ date('Y') }}
 
             <span class="fw-semibold">
-                Pemerintah Desa Sukamaju
+                Pemerintah Desa Umbu Mamijuk
             </span>
         </div>
 
