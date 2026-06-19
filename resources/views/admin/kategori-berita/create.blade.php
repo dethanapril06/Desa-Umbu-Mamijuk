@@ -38,9 +38,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="icon">Icon Class (Boxicons - Opsional)</label>
-                        <input type="text" class="form-control" id="icon" name="icon" value="{{ old('icon') }}" placeholder="Contoh: bx-news, bx-bullhorn" />
-                        <div class="form-text">Gunakan class icon dari Boxicons (contoh: <code>bx-news</code>, <code>bx-calendar</code>).</div>
+                        <label class="form-label" for="icon">Icon (Opsional)</label>
+                        @include('admin.layouts.partials.icon-picker', [
+                            'id' => 'icon',
+                            'name' => 'icon',
+                            'value' => old('icon'),
+                            'type' => 'berita'
+                        ])
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">

@@ -215,8 +215,13 @@
                                     <input type="text" class="form-control" id="fasilitas_nama" name="nama" placeholder="Contoh: Toilet Umum, Tempat Parkir" required />
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label" for="fasilitas_icon">Icon Class (Boxicons - Opsional)</label>
-                                    <input type="text" class="form-control" id="fasilitas_icon" name="icon" placeholder="Contoh: bx-wifi, bx-car" />
+                                    <label class="form-label" for="fasilitas_icon">Icon (Opsional)</label>
+                                    @include('admin.layouts.partials.icon-picker', [
+                                        'id' => 'fasilitas_icon',
+                                        'name' => 'icon',
+                                        'value' => old('icon'),
+                                        'type' => 'fasilitas'
+                                    ])
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm w-100">Tambah Fasilitas</button>
                             </form>
@@ -339,8 +344,13 @@
                                     <input type="text" class="form-control" id="rute_transport" name="jenis_transportasi" placeholder="Contoh: Rute Motor, Rute Mobil" required />
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label" for="rute_icon">Icon Class (Boxicons)</label>
-                                    <input type="text" class="form-control" id="rute_icon" name="icon" placeholder="Contoh: bx-car, bx-cycling" />
+                                    <label class="form-label" for="rute_icon">Icon (Opsional)</label>
+                                    @include('admin.layouts.partials.icon-picker', [
+                                        'id' => 'rute_icon',
+                                        'name' => 'icon',
+                                        'value' => old('icon'),
+                                        'type' => 'rute'
+                                    ])
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="rute_warna">Warna Badge</label>

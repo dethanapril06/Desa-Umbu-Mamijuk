@@ -22,7 +22,6 @@
                     <thead>
                         <tr>
                             <th>Nama Tag</th>
-                            <th>Slug</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -30,7 +29,6 @@
                         @forelse($tags as $tag)
                             <tr>
                                 <td><strong>{{ $tag->nama }}</strong></td>
-                                <td><code>{{ $tag->slug }}</code></td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

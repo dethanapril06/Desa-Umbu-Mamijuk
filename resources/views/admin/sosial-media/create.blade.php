@@ -33,8 +33,19 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label class="form-label" for="platform">Nama Platform <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="platform" name="platform" value="{{ old('platform') }}" placeholder="Contoh: Facebook, Instagram, YouTube" required />
+                        <label class="form-label" for="platform_select">Nama Platform <span class="text-danger">*</span></label>
+                        <select class="form-select mb-2" id="platform_select" required>
+                            <option value="" disabled selected>Pilih Platform</option>
+                            <option value="Facebook" {{ old('platform') == 'Facebook' ? 'selected' : '' }}>Facebook</option>
+                            <option value="Instagram" {{ old('platform') == 'Instagram' ? 'selected' : '' }}>Instagram</option>
+                            <option value="YouTube" {{ old('platform') == 'YouTube' ? 'selected' : '' }}>YouTube</option>
+                            <option value="TikTok" {{ old('platform') == 'TikTok' ? 'selected' : '' }}>TikTok</option>
+                            <option value="Twitter / X" {{ old('platform') == 'Twitter / X' ? 'selected' : '' }}>Twitter / X</option>
+                            <option value="WhatsApp" {{ old('platform') == 'WhatsApp' ? 'selected' : '' }}>WhatsApp</option>
+                            <option value="Telegram" {{ old('platform') == 'Telegram' ? 'selected' : '' }}>Telegram</option>
+                            <option value="Lainnya" {{ (old('platform') && !in_array(old('platform'), ['Facebook', 'Instagram', 'YouTube', 'TikTok', 'Twitter / X', 'WhatsApp', 'Telegram'])) ? 'selected' : '' }}>Lainnya (Website / Lain-lain)</option>
+                        </select>
+                        <input type="text" class="form-control {{ (old('platform') && !in_array(old('platform'), ['Facebook', 'Instagram', 'YouTube', 'TikTok', 'Twitter / X', 'WhatsApp', 'Telegram'])) ? '' : 'd-none' }}" id="platform" name="platform" value="{{ old('platform') }}" placeholder="Masukkan nama platform..." required />
                     </div>
 
                     <div class="mb-3">
@@ -44,9 +55,13 @@
 
                     <div class="row">
                         <div class="col-md-8 mb-3">
-                            <label class="form-label" for="icon">Icon Class (Boxicons) <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="icon" name="icon" value="{{ old('icon') }}" placeholder="Contoh: bxl-facebook, bxl-instagram, bxl-youtube" required />
-                            <div class="form-text">Gunakan class icon dari Boxicons (contoh: <code>bxl-facebook</code>, <code>bxl-instagram</code>, <code>bxl-youtube</code>, <code>bxl-twitter</code>, <code>bxl-tiktok</code>).</div>
+                            <label class="form-label" for="icon">Icon <span class="text-danger">*</span></label>
+                            @include('admin.layouts.partials.icon-picker', [
+                                'id' => 'icon',
+                                'name' => 'icon',
+                                'value' => old('icon'),
+                                'type' => 'sosial_media'
+                            ])
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="urutan">Urutan Tampil <span class="text-danger">*</span></label>
@@ -67,4 +82,70 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const platformSelect = document.getElementById('platform_select');
+        const platformInput = document.getElementById('platform');
+        const iconInput = document.getElementById('icon');
+        
+        const platformIcons = {
+            'Facebook': 'bxl-facebook-circle',
+            'Instagram': 'bxl-instagram',
+            'YouTube': 'bxl-youtube',
+            'TikTok': 'bxl-tiktok',
+            'Twitter / X': 'bxl-twitter',
+            'WhatsApp': 'bxl-whatsapp',
+            'Telegram': 'bxl-telegram',
+            'Lainnya': 'bx-globe'
+        };
+
+        function updateIconPicker(targetIcon) {
+            if (!targetIcon) return;
+            iconInput.value = targetIcon;
+            
+            const pickerContainer = document.getElementById('picker-container-icon');
+            if (pickerContainer) {
+                const iconPreview = pickerContainer.querySelector('.selected-icon-preview');
+                const iconLabel = pickerContainer.querySelector('.selected-icon-label');
+                const grid = pickerContainer.querySelector('.icon-grid');
+                
+                iconPreview.innerHTML = `<i class="bx ${targetIcon} fs-4 text-primary"></i>`;
+                
+                const found = window.boxiconLists.sosial_media.find(i => i.class === targetIcon);
+                iconLabel.textContent = found ? found.label + ' (' + targetIcon + ')' : targetIcon;
+                
+                grid.querySelectorAll('.icon-option-btn').forEach(btn => {
+                    if (btn.dataset.icon === targetIcon) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        if (platformSelect && platformInput && iconInput) {
+            platformSelect.addEventListener('change', function() {
+                const selectedVal = this.value;
+                if (selectedVal === 'Lainnya') {
+                    platformInput.classList.remove('d-none');
+                    if (['Facebook', 'Instagram', 'YouTube', 'TikTok', 'Twitter / X', 'WhatsApp', 'Telegram'].includes(platformInput.value)) {
+                        platformInput.value = '';
+                    }
+                    platformInput.focus();
+                    updateIconPicker('bx-globe');
+                } else {
+                    platformInput.classList.add('d-none');
+                    platformInput.value = selectedVal;
+                    
+                    const targetIcon = platformIcons[selectedVal];
+                    updateIconPicker(targetIcon);
+                }
+            });
+        }
+    });
+</script>
+@endpush
 @endsection

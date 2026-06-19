@@ -81,14 +81,11 @@ class PendudukController extends Controller
         $data['is_asuransi_kesehatan'] = $request->has('is_asuransi_kesehatan') ? (bool) $request->is_asuransi_kesehatan : false;
         $data['is_disabilitas'] = $request->has('is_disabilitas') ? (bool) $request->is_disabilitas : false;
 
-        // If status_hubungan_keluarga is kepala_keluarga, check if there's already one in the KK
+        // If status_hubungan_keluarga is kepala_keluarga, demote the existing one in the KK
         if ($data['status_hubungan_keluarga'] === 'kepala_keluarga') {
-            $existingKepala = Penduduk::where('keluarga_id', $request->keluarga_id)
+            Penduduk::where('keluarga_id', $request->keluarga_id)
                 ->where('status_hubungan_keluarga', 'kepala_keluarga')
-                ->exists();
-            if ($existingKepala) {
-                return redirect()->back()->withInput()->withErrors(['status_hubungan_keluarga' => 'Kartu Keluarga ini sudah memiliki Kepala Keluarga! Silakan sesuaikan hubungan keluarga penduduk.']);
-            }
+                ->update(['status_hubungan_keluarga' => 'lainnya']);
         }
 
         Penduduk::create($data);
@@ -140,15 +137,12 @@ class PendudukController extends Controller
         $data['is_asuransi_kesehatan'] = $request->has('is_asuransi_kesehatan') ? (bool) $request->is_asuransi_kesehatan : false;
         $data['is_disabilitas'] = $request->has('is_disabilitas') ? (bool) $request->is_disabilitas : false;
 
-        // If status_hubungan_keluarga is changed to kepala_keluarga, check if there's already one in the KK
-        if ($data['status_hubungan_keluarga'] === 'kepala_keluarga' && $penduduk->status_hubungan_keluarga !== 'kepala_keluarga') {
-            $existingKepala = Penduduk::where('keluarga_id', $request->keluarga_id)
+        // If status_hubungan_keluarga is kepala_keluarga, demote the existing one in the KK
+        if ($data['status_hubungan_keluarga'] === 'kepala_keluarga') {
+            Penduduk::where('keluarga_id', $request->keluarga_id)
                 ->where('status_hubungan_keluarga', 'kepala_keluarga')
                 ->where('id', '!=', $penduduk->id)
-                ->exists();
-            if ($existingKepala) {
-                return redirect()->back()->withInput()->withErrors(['status_hubungan_keluarga' => 'Kartu Keluarga ini sudah memiliki Kepala Keluarga!']);
-            }
+                ->update(['status_hubungan_keluarga' => 'lainnya']);
         }
 
         $penduduk->update($data);

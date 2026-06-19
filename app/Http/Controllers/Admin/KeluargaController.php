@@ -53,7 +53,8 @@ class KeluargaController extends Controller
     public function show(Keluarga $keluarga): View
     {
         $keluarga->load(['rtRw.dusun', 'penduduk' => function ($query) {
-            $query->orderByRaw("FIELD(status_hubungan_keluarga, 'kepala_keluarga', 'istri', 'anak', 'menantu', 'cucu', 'orang_tua', 'mertua', 'famili_lain', 'lainnya')");
+            $query->where('status', 'aktif')
+                  ->orderByRaw("FIELD(status_hubungan_keluarga, 'kepala_keluarga', 'istri', 'anak', 'menantu', 'cucu', 'orang_tua', 'mertua', 'famili_lain', 'lainnya')");
         }]);
 
         $kepalaKeluarga = $keluarga->penduduk->where('status_hubungan_keluarga', 'kepala_keluarga')->first();

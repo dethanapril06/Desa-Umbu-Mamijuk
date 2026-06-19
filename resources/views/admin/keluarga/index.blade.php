@@ -58,7 +58,7 @@
                                     RT {{ $keluarga->rtRw->no_rt }} / RW {{ $keluarga->rtRw->no_rw }} - {{ $keluarga->rtRw->dusun->nama }}
                                 </td>
                                 <td>
-                                    <span class="badge bg-label-info">{{ $keluarga->penduduk->count() }} Orang</span>
+                                    <span class="badge bg-label-info">{{ $keluarga->penduduk->where('status', 'aktif')->count() }} Orang</span>
                                 </td>
                                 <td>
                                     <div class="dropdown">

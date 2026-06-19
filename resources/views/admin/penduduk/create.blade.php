@@ -201,14 +201,6 @@
                                         <option value="B" {{ old('golongan_darah') == 'B' ? 'selected' : '' }}>B</option>
                                         <option value="AB" {{ old('golongan_darah') == 'AB' ? 'selected' : '' }}>AB</option>
                                         <option value="O" {{ old('golongan_darah') == 'O' ? 'selected' : '' }}>O</option>
-                                        <!-- <option value="A+" {{ old('golongan_darah') == 'A+' ? 'selected' : '' }}>A+</option>
-                                        <option value="A-" {{ old('golongan_darah') == 'A-' ? 'selected' : '' }}>A-</option>
-                                        <option value="B+" {{ old('golongan_darah') == 'B+' ? 'selected' : '' }}>B+</option>
-                                        <option value="B-" {{ old('golongan_darah') == 'B-' ? 'selected' : '' }}>B-</option>
-                                        <option value="AB+" {{ old('golongan_darah') == 'AB+' ? 'selected' : '' }}>AB+</option>
-                                        <option value="AB-" {{ old('golongan_darah') == 'AB-' ? 'selected' : '' }}>AB-</option>
-                                        <option value="O+" {{ old('golongan_darah') == 'O+' ? 'selected' : '' }}>O+</option>
-                                        <option value="O-" {{ old('golongan_darah') == 'O-' ? 'selected' : '' }}>O-</option> -->
                                         <option value="-" {{ old('golongan_darah') == '-' ? 'selected' : '' }}>Tidak Tahu / -</option>
                                     </select>
                                 </div>

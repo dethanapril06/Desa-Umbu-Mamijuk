@@ -22,8 +22,6 @@
                     <thead>
                         <tr>
                             <th>Nama Kategori</th>
-                            <th>Slug</th>
-                            <th>Icon Class (Boxicons)</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -31,15 +29,6 @@
                         @forelse($kategoriList as $kategori)
                             <tr>
                                 <td><strong>{{ $kategori->nama }}</strong></td>
-                                <td><code>{{ $kategori->slug }}</code></td>
-                                <td>
-                                    @if($kategori->icon)
-                                        <i class="bx {{ $kategori->icon }} fs-3 text-secondary me-1"></i>
-                                        <code>{{ $kategori->icon }}</code>
-                                    @else
-                                        <span class="text-muted">-</span>
-                                    @endif
-                                </td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -62,7 +51,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-4">Tidak ada data kategori pengaduan.</td>
+                                <td colspan="2" class="text-center py-4">Tidak ada data kategori pengaduan.</td>
                             </tr>
                         @endforelse
                     </tbody>

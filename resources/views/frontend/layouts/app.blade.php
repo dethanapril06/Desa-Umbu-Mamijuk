@@ -35,6 +35,9 @@
     {{-- Bootstrap Icons --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
 
+    {{-- Boxicons --}}
+    <link href="{{ asset('template/assets/vendor/fonts/boxicons.css') }}" rel="stylesheet" />
+
     {{-- Google Fonts --}}
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap"

@@ -98,7 +98,7 @@
                                 class="alert alert-success alert-dismissible"
                                 role="alert"
                             >
-                                {{ session('success') }}
+                                {!! session('success') !!}
 
                                 <button
                                     type="button"

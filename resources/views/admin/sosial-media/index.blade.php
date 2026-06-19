@@ -22,7 +22,6 @@
                     <thead>
                         <tr>
                             <th>Platform</th>
-                            <th>Icon</th>
                             <th>URL Link</th>
                             <th>Urutan Tampil</th>
                             <th>Status</th>
@@ -34,12 +33,6 @@
                             <tr>
                                 <td>
                                     <strong>{{ $social->platform }}</strong>
-                                </td>
-                                <td>
-                                    <span class="avatar avatar-sm d-inline-block text-center">
-                                        <i class="bx {{ $social->icon }} fs-3 text-secondary"></i>
-                                    </span>
-                                    <code class="ms-2">{{ $social->icon }}</code>
                                 </td>
                                 <td>
                                     <a href="{{ $social->url }}" target="_blank" class="text-info"><i class="bx bx-link-external me-1"></i> {{ $social->url }}</a>
@@ -74,7 +67,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-4">Tidak ada data sosial media.</td>
+                                <td colspan="5" class="text-center py-4">Tidak ada data sosial media.</td>
                             </tr>
                         @endforelse
                     </tbody>
