@@ -35,7 +35,7 @@
 @section('content')
     {{-- HERO --}}
     @if ($sliders->count() > 0)
-        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="6000" style="background: var(--green-deep); position: relative; overflow: hidden; min-height: 100vh;">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000" style="background: var(--green-deep); position: relative; overflow: hidden; min-height: 100vh;">
             {{-- Indicators --}}
             <div class="carousel-indicators" style="z-index: 5; bottom: 40px;">
                 <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -202,14 +202,14 @@
             </div>
 
             {{-- Controls --}}
-            <button class="carousel-control-prev hero-carousel-control" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 5;">
+            <!-- <button class="carousel-control-prev hero-carousel-control" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 5;">
                 <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next hero-carousel-control" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 5;">
                 <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
                 <span class="visually-hidden">Next</span>
-            </button>
+            </button> -->
 
             <div class="hero-scroll-hint" style="z-index: 5;">
                 <span>Scroll</span>
@@ -311,7 +311,7 @@
                     <h2 class="section-title">
                         Destinasi <em>Unggulan</em>
                         <br />
-                        {{ $profilDesa?->nama_desa ?? 'Desa Kami' }}
+                        Desa {{ $profilDesa?->nama_desa ?? 'Desa Kami' }}
                     </h2>
                 </div>
 
@@ -869,7 +869,7 @@
                     <div class="section-label">Galeri</div>
 
                     <h2 class="section-title">
-                        Keindahan <em>Alam</em> Desa
+                        Potret &amp; <em>Kegiatan</em> Desa
                     </h2>
                 </div>
 

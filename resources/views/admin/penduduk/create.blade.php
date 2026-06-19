@@ -144,10 +144,34 @@
                                 </div>
                             </div>
 
+                            @php
+                                $pekerjaanList = [
+                                    'Belum / Tidak Bekerja',
+                                    'Mengurus Rumah Tangga',
+                                    'Pelajar / Mahasiswa',
+                                    'PNS / ASN',
+                                    'TNI / POLRI',
+                                    'Karyawan Swasta / BUMN / BUMD',
+                                    'Petani / Pekebun / Peternak',
+                                    'Nelayan',
+                                    'Wiraswasta / Pedagang',
+                                    'Buruh Harian Lepas',
+                                    'Tenaga Pendidik (Guru / Dosen)',
+                                    'Tenaga Medis (Dokter / Perawat / Bidan)',
+                                    'Sopir / Pengemudi',
+                                    'Pensiunan',
+                                    'Lainnya'
+                                ];
+                            @endphp
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label" for="pekerjaan">Pekerjaan</label>
-                                    <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" value="{{ old('pekerjaan') }}" placeholder="Contoh: Petani, PNS, Karyawan" />
+                                    <select class="form-select" id="pekerjaan" name="pekerjaan">
+                                        <option value="">-- Pilih Pekerjaan --</option>
+                                        @foreach($pekerjaanList as $job)
+                                            <option value="{{ $job }}" {{ old('pekerjaan') == $job ? 'selected' : '' }}>{{ $job }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label" for="status_perkawinan">Status Perkawinan</label>
@@ -171,7 +195,22 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label" for="golongan_darah">Golongan Darah</label>
-                                    <input type="text" class="form-control" id="golongan_darah" name="golongan_darah" value="{{ old('golongan_darah') }}" placeholder="Contoh: A, B, O, AB" />
+                                    <select class="form-select" id="golongan_darah" name="golongan_darah">
+                                        <option value="">-- Pilih Golongan Darah --</option>
+                                        <option value="A" {{ old('golongan_darah') == 'A' ? 'selected' : '' }}>A</option>
+                                        <option value="B" {{ old('golongan_darah') == 'B' ? 'selected' : '' }}>B</option>
+                                        <option value="AB" {{ old('golongan_darah') == 'AB' ? 'selected' : '' }}>AB</option>
+                                        <option value="O" {{ old('golongan_darah') == 'O' ? 'selected' : '' }}>O</option>
+                                        <!-- <option value="A+" {{ old('golongan_darah') == 'A+' ? 'selected' : '' }}>A+</option>
+                                        <option value="A-" {{ old('golongan_darah') == 'A-' ? 'selected' : '' }}>A-</option>
+                                        <option value="B+" {{ old('golongan_darah') == 'B+' ? 'selected' : '' }}>B+</option>
+                                        <option value="B-" {{ old('golongan_darah') == 'B-' ? 'selected' : '' }}>B-</option>
+                                        <option value="AB+" {{ old('golongan_darah') == 'AB+' ? 'selected' : '' }}>AB+</option>
+                                        <option value="AB-" {{ old('golongan_darah') == 'AB-' ? 'selected' : '' }}>AB-</option>
+                                        <option value="O+" {{ old('golongan_darah') == 'O+' ? 'selected' : '' }}>O+</option>
+                                        <option value="O-" {{ old('golongan_darah') == 'O-' ? 'selected' : '' }}>O-</option> -->
+                                        <option value="-" {{ old('golongan_darah') == '-' ? 'selected' : '' }}>Tidak Tahu / -</option>
+                                    </select>
                                 </div>
                             </div>
 
