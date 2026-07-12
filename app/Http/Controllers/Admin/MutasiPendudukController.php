@@ -46,11 +46,10 @@ class MutasiPendudukController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $isLahir = $request->input('jenis_mutasi') === 'lahir';
         $isMasuk = $request->input('jenis_mutasi') === 'pindah_masuk';
 
         $rules = [
-            'jenis_mutasi' => 'required|in:lahir,mati,pindah_masuk,pindah_keluar',
+            'jenis_mutasi' => 'required|in:mati,pindah_masuk,pindah_keluar',
             'tanggal_mutasi' => 'required|date',
             'no_surat' => 'nullable|string|max:100',
             'alamat_tujuan' => 'nullable|string',
@@ -59,16 +58,7 @@ class MutasiPendudukController extends Controller
             'lampiran' => 'nullable|file|mimes:pdf,jpeg,png,jpg|max:2048',
         ];
 
-        if ($isLahir) {
-            $rules['baby_nama_lengkap'] = 'required|string|max:255';
-            $rules['baby_nik'] = 'required|string|size:16|unique:penduduk,nik';
-            $rules['baby_tempat_lahir'] = 'nullable|string|max:100';
-            $rules['baby_tanggal_lahir'] = 'required|date';
-            $rules['baby_jenis_kelamin'] = 'required|in:laki-laki,perempuan';
-            $rules['baby_keluarga_id'] = 'required|exists:keluarga,id';
-            $rules['baby_nama_ayah'] = 'nullable|string|max:255';
-            $rules['baby_nama_ibu'] = 'nullable|string|max:255';
-        } elseif ($isMasuk) {
+        if ($isMasuk) {
             $rules['masuk_keluarga_id'] = 'required|exists:keluarga,id';
             $rules['masuk_nik'] = 'required|string|size:16|unique:penduduk,nik';
             $rules['masuk_nama_lengkap'] = 'required|string|max:255';
@@ -105,31 +95,7 @@ class MutasiPendudukController extends Controller
 
         $promotedMessage = '';
 
-        if ($isLahir) {
-            DB::transaction(function () use ($request, $data) {
-                // Create newborn resident
-                $baby = Penduduk::create([
-                    'keluarga_id' => $request->baby_keluarga_id,
-                    'nik' => $request->baby_nik,
-                    'nama_lengkap' => $request->baby_nama_lengkap,
-                    'tempat_lahir' => $request->baby_tempat_lahir,
-                    'tanggal_lahir' => $request->baby_tanggal_lahir,
-                    'jenis_kelamin' => $request->baby_jenis_kelamin,
-                    'agama' => 'islam', // Default
-                    'pendidikan_terakhir' => 'tidak_sekolah',
-                    'status_perkawinan' => 'belum_kawin',
-                    'status_hubungan_keluarga' => 'anak',
-                    'kewarganegaraan' => 'WNI',
-                    'nama_ayah' => $request->baby_nama_ayah,
-                    'nama_ibu' => $request->baby_nama_ibu,
-                    'status' => 'aktif',
-                ]);
-
-                // Record the mutation linking to newborn
-                $data['penduduk_id'] = $baby->id;
-                MutasiPenduduk::create($data);
-            });
-        } elseif ($isMasuk) {
+        if ($isMasuk) {
             DB::transaction(function () use ($request, $data) {
                 $isAsuransi = $request->has('masuk_is_asuransi_kesehatan') ? (bool) $request->masuk_is_asuransi_kesehatan : false;
                 $isDisabilitas = $request->has('masuk_is_disabilitas') ? (bool) $request->masuk_is_disabilitas : false;
@@ -221,11 +187,10 @@ class MutasiPendudukController extends Controller
 
     public function update(Request $request, MutasiPenduduk $mutasiPenduduk): RedirectResponse
     {
-        $isLahir = $request->input('jenis_mutasi') === 'lahir';
         $isMasuk = $request->input('jenis_mutasi') === 'pindah_masuk';
 
         $rules = [
-            'jenis_mutasi' => 'required|in:lahir,mati,pindah_masuk,pindah_keluar',
+            'jenis_mutasi' => 'required|in:mati,pindah_masuk,pindah_keluar',
             'tanggal_mutasi' => 'required|date',
             'no_surat' => 'nullable|string|max:100',
             'alamat_tujuan' => 'nullable|string',
@@ -234,16 +199,7 @@ class MutasiPendudukController extends Controller
             'lampiran' => 'nullable|file|mimes:pdf,jpeg,png,jpg|max:2048',
         ];
 
-        if ($isLahir) {
-            $rules['baby_nama_lengkap'] = 'required|string|max:255';
-            $rules['baby_nik'] = 'required|string|size:16|unique:penduduk,nik,' . $mutasiPenduduk->penduduk_id;
-            $rules['baby_tempat_lahir'] = 'nullable|string|max:100';
-            $rules['baby_tanggal_lahir'] = 'required|date';
-            $rules['baby_jenis_kelamin'] = 'required|in:laki-laki,perempuan';
-            $rules['baby_keluarga_id'] = 'required|exists:keluarga,id';
-            $rules['baby_nama_ayah'] = 'nullable|string|max:255';
-            $rules['baby_nama_ibu'] = 'nullable|string|max:255';
-        } elseif ($isMasuk) {
+        if ($isMasuk) {
             $rules['masuk_keluarga_id'] = 'required|exists:keluarga,id';
             $rules['masuk_nik'] = 'required|string|size:16|unique:penduduk,nik,' . $mutasiPenduduk->penduduk_id;
             $rules['masuk_nama_lengkap'] = 'required|string|max:255';
@@ -283,25 +239,8 @@ class MutasiPendudukController extends Controller
 
         $promotedMessage = '';
 
-        DB::transaction(function () use ($request, $mutasiPenduduk, $data, $isLahir, $isMasuk, &$promotedMessage) {
-            if ($isLahir) {
-                // Update newborn resident
-                $baby = $mutasiPenduduk->penduduk;
-                if ($baby) {
-                    $baby->update([
-                        'keluarga_id' => $request->baby_keluarga_id,
-                        'nik' => $request->baby_nik,
-                        'nama_lengkap' => $request->baby_nama_lengkap,
-                        'tempat_lahir' => $request->baby_tempat_lahir,
-                        'tanggal_lahir' => $request->baby_tanggal_lahir,
-                        'jenis_kelamin' => $request->baby_jenis_kelamin,
-                        'nama_ayah' => $request->baby_nama_ayah,
-                        'nama_ibu' => $request->baby_nama_ibu,
-                    ]);
-                    $data['penduduk_id'] = $baby->id;
-                }
-                $mutasiPenduduk->update($data);
-            } elseif ($isMasuk) {
+        DB::transaction(function () use ($request, $mutasiPenduduk, $data, $isMasuk, &$promotedMessage) {
+            if ($isMasuk) {
                 // Update or create inbound resident
                 $resident = $mutasiPenduduk->penduduk;
                 $isAsuransi = $request->has('masuk_is_asuransi_kesehatan') ? (bool) $request->masuk_is_asuransi_kesehatan : false;

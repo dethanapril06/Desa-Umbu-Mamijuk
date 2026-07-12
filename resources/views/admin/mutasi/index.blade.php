@@ -21,7 +21,6 @@
                         <label class="form-label" for="jenis_mutasi">Jenis Mutasi</label>
                         <select name="jenis_mutasi" id="jenis_mutasi" class="form-select">
                             <option value="">-- Semua Jenis Mutasi --</option>
-                            <option value="lahir" {{ $jenis == 'lahir' ? 'selected' : '' }}>Lahir</option>
                             <option value="mati" {{ $jenis == 'mati' ? 'selected' : '' }}>Meninggal (Mati)</option>
                             <option value="pindah_masuk" {{ $jenis == 'pindah_masuk' ? 'selected' : '' }}>Pindah Masuk</option>
                             <option value="pindah_keluar" {{ $jenis == 'pindah_keluar' ? 'selected' : '' }}>Pindah Keluar</option>

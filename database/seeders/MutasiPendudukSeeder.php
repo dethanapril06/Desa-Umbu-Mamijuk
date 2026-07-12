@@ -18,15 +18,15 @@ class MutasiPendudukSeeder extends Seeder
         DB::table('mutasi_penduduk')->updateOrInsert(
             [
                 'penduduk_id' => $pendudukId,
-                'jenis_mutasi' => 'lahir',
+                'jenis_mutasi' => 'pindah_masuk',
                 'tanggal_mutasi' => '2024-06-06',
             ],
             [
-                'no_surat' => 'SKL-2024-0001',
+                'no_surat' => 'SKP-2024-0001',
                 'alamat_tujuan' => null,
-                'alamat_asal' => null,
-                'keterangan' => 'Pencatatan kelahiran baru untuk warga anak bernama Gabriel Umbu.',
-                'lampiran' => 'documents/mutasi/skl-2024-0001.pdf',
+                'alamat_asal' => 'Jl. Merdeka No. 10, Kota Kupang',
+                'keterangan' => 'Pencatatan pindah masuk untuk warga atas nama Gabriel Umbu.',
+                'lampiran' => null,
                 'created_at' => $now,
                 'updated_at' => $now,
             ]

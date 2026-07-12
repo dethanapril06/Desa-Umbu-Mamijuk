@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mutasi_penduduk', function (Blueprint $table) {
             $table->id();
             $table->foreignId('penduduk_id')->constrained('penduduk')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->enum('jenis_mutasi', ['lahir', 'mati', 'pindah_masuk', 'pindah_keluar']);
+            $table->enum('jenis_mutasi', ['mati', 'pindah_masuk', 'pindah_keluar']);
             $table->date('tanggal_mutasi');
             $table->string('no_surat')->nullable();
             $table->text('alamat_tujuan')->nullable();
