@@ -82,4 +82,9 @@ class Wisata extends Model
     {
         return $this->hasMany(UlasanWisata::class);
     }
+
+    public function penginapanWisata(): HasMany
+    {
+        return $this->hasMany(PenginapanWisata::class);
+    }
 }

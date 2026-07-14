@@ -123,6 +123,9 @@ Route::prefix('admin')
         Route::post('/galeri-wisata', [\App\Http\Controllers\Admin\GaleriWisataController::class, 'store'])->name('galeri-wisata.store');
         Route::delete('/galeri-wisata/{galeri}', [\App\Http\Controllers\Admin\GaleriWisataController::class, 'destroy'])->name('galeri-wisata.destroy');
 
+        Route::post('/penginapan-wisata', [\App\Http\Controllers\Admin\PenginapanWisataController::class, 'store'])->name('penginapan-wisata.store');
+        Route::delete('/penginapan-wisata/{penginapan}', [\App\Http\Controllers\Admin\PenginapanWisataController::class, 'destroy'])->name('penginapan-wisata.destroy');
+
         // Ulasan Wisata
         Route::patch('/ulasan-wisata/{ulasan}/toggle-approve', [\App\Http\Controllers\Admin\UlasanWisataController::class, 'toggleApprove'])->name('ulasan-wisata.toggle-approve');
         Route::resource('/ulasan-wisata', \App\Http\Controllers\Admin\UlasanWisataController::class)->only(['index', 'destroy'])->parameters([

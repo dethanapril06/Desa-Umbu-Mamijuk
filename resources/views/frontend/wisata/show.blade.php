@@ -75,6 +75,12 @@
                                     <i class="fas fa-images"></i> Lihat Galeri
                                 </a>
                             @endif
+                            @if ($wisata->penginapanWisata->count() > 0)
+                                <a href="#penginapan" class="btn-outline-green"
+                                    style="border-color:rgba(255,255,255,0.4);color:white;">
+                                    <i class="fas fa-home"></i> Penginapan
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -234,6 +240,66 @@
                         </div>
                     @endif
                 </section>
+
+                {{-- PENGINAPAN & HOMESTAY TERDEKAT --}}
+                @if ($wisata->penginapanWisata->count() > 0)
+                    <section class="mb-5 reveal" id="penginapan">
+                        <div class="section-label">Akomodasi & Homestay</div>
+                        <h2 class="section-title mb-4">Penginapan Terdekat di <em>Destinasi</em></h2>
+                        <div class="row g-4">
+                            @foreach ($wisata->penginapanWisata as $penginapan)
+                                @php
+                                    $waNumber = preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $penginapan->no_telepon ?? ''));
+                                    $pesanWa = urlencode("Halo {$penginapan->nama_penginapan}, saya melihat informasi penginapan Anda di website Desa Ibu Adri (Destinasi {$wisata->nama}). Saya ingin menanyakan ketersediaan kamar.");
+                                @endphp
+                                <div class="col-md-6">
+                                    <div class="tips-card h-100 d-flex flex-column justify-content-between p-0" style="overflow: hidden; border-radius: 20px;">
+                                        <div style="position: relative; height: 210px; overflow: hidden;">
+                                            @if ($penginapan->foto)
+                                                <img src="{{ asset('storage/' . $penginapan->foto) }}" alt="{{ $penginapan->nama_penginapan }}" style="width: 100%; height: 100%; object-fit: cover;" />
+                                            @else
+                                                <div class="d-flex align-items-center justify-content-center h-100" style="background: var(--green-mist); color: var(--green-mid);">
+                                                    <i class="fas fa-home fa-3x"></i>
+                                                </div>
+                                            @endif
+                                            @if ($penginapan->jenis)
+                                                <span class="badge" style="position: absolute; top: 14px; left: 14px; background: var(--green-deep); color: var(--gold-light); font-weight: 600; font-size: 0.78rem; padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(201, 168, 76, 0.4); box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+                                                    <i class="fas fa-bed me-1" style="color: var(--gold-light);"></i> {{ $penginapan->jenis }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
+                                            <div>
+                                                <h5 class="fw-bold mb-2" style="color: var(--green-deep); font-size: 1.15rem;">{{ $penginapan->nama_penginapan }}</h5>
+                                                @if ($penginapan->kisaran_harga)
+                                                    <div class="mb-2" style="color: var(--green-mid); font-weight: 700; font-size: 0.95rem;">
+                                                        <i class="fas fa-tag me-1" style="color: var(--green-fresh);"></i> {{ $penginapan->kisaran_harga }}
+                                                    </div>
+                                                @endif
+                                                @if ($penginapan->jarak)
+                                                    <div class="small mb-2" style="color: var(--text-mid);">
+                                                        <i class="fas fa-map-marker-alt me-1" style="color: var(--gold);"></i> {{ $penginapan->jarak }}
+                                                    </div>
+                                                @endif
+                                                @if ($penginapan->fasilitas_singkat)
+                                                    <div class="small mb-3" style="color: var(--text-mid); line-height: 1.5;">
+                                                        <i class="fas fa-check-circle me-1" style="color: var(--green-fresh);"></i> {{ $penginapan->fasilitas_singkat }}
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            @if ($waNumber)
+                                                <a href="https://wa.me/{{ $waNumber }}?text={{ $pesanWa }}" target="_blank"
+                                                    class="btn-pesan mt-auto text-decoration-none">
+                                                    <i class="fab fa-whatsapp fa-lg"></i> Reservasi via WhatsApp
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </section>
+                @endif
 
                 {{-- ULASAN --}}
                 <section class="mb-5 reveal" id="ulasan">

@@ -65,6 +65,7 @@ class WisataController extends Controller
                 'fasilitasWisata',
                 'tipsWisata' => fn ($q) => $q->orderBy('urutan'),
                 'ruteWisata' => fn ($q) => $q->orderBy('urutan'),
+                'penginapanWisata' => fn ($q) => $q->orderBy('urutan'),
                 'ulasanWisata' => fn ($q) => $q->where('is_approved', true)->latest(),
             ])
             ->firstOrFail();

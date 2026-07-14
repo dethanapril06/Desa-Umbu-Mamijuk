@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Rules\LandscapeImage;
 
 class BeritaController extends Controller
 {
@@ -50,11 +51,15 @@ class BeritaController extends Controller
             'kategori_berita_id' => 'required|exists:kategori_berita,id',
             'konten' => 'required|string',
             'excerpt' => 'nullable|string|max:500',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption_gambar' => 'nullable|string|max:255',
             'is_published' => 'nullable|boolean',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+        ], [
+            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar', 'tags']);
@@ -94,11 +99,15 @@ class BeritaController extends Controller
             'kategori_berita_id' => 'required|exists:kategori_berita,id',
             'konten' => 'required|string',
             'excerpt' => 'nullable|string|max:500',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption_gambar' => 'nullable|string|max:255',
             'is_published' => 'nullable|boolean',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+        ], [
+            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar', 'tags']);

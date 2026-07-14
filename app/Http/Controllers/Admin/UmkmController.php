@@ -45,9 +45,13 @@ class UmkmController extends Controller
             'no_telepon' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:100',
             'website_url' => 'nullable|url|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=300,min_height=300',
             'jam_operasional' => 'nullable|string|max:150',
             'status' => 'required|in:aktif,tidak_aktif',
+        ], [
+            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 300px dan tinggi 300px.',
+            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $slug = Str::slug($request->nama_usaha);
@@ -87,9 +91,13 @@ class UmkmController extends Controller
             'no_telepon' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:100',
             'website_url' => 'nullable|url|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=300,min_height=300',
             'jam_operasional' => 'nullable|string|max:150',
             'status' => 'required|in:aktif,tidak_aktif',
+        ], [
+            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 300px dan tinggi 300px.',
+            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['foto']);

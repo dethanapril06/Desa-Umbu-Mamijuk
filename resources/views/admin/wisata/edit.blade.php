@@ -48,6 +48,11 @@
                     </button>
                 </li>
                 <li class="nav-item">
+                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-penginapan" aria-controls="navs-penginapan" aria-selected="false">
+                        <i class="tf-icons bx bx-home-heart me-1"></i> Info Penginapan ({{ $wisata->penginapanWisata->count() }})
+                    </button>
+                </li>
+                <li class="nav-item">
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-ulasan" aria-controls="navs-ulasan" aria-selected="false">
                         <i class="tf-icons bx bx-star me-1"></i> Ulasan Warga ({{ $wisata->ulasanWisata->count() }})
                     </button>
@@ -81,7 +86,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="gambar_utama">Gambar Utama (Cover Banner)</label>
                                     <input type="file" class="form-control" id="gambar_utama" name="gambar_utama" accept="image/*" />
-                                    <div class="form-text">Biarkan kosong jika tidak ingin mengganti cover. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
+                                    <div class="form-text">Biarkan kosong jika tidak ingin mengganti cover. <strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
 
                                     @if ($wisata->gambar_utama)
                                         <div class="mt-3">
@@ -471,7 +476,139 @@
                     </div>
                 </div>
 
-                {{-- TAB 6: Ulasan Pengunjung --}}
+                {{-- TAB 6: Info Penginapan --}}
+                <div class="tab-pane fade" id="navs-penginapan" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-md-5">
+                            <div class="card bg-light border-0">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3"><i class="bx bx-plus-circle me-1 text-primary"></i> Tambah Info Penginapan / Homestay</h6>
+                                    <form action="{{ route('admin.penginapan-wisata.store') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="wisata_id" value="{{ $wisata->id }}">
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="nama_penginapan">Nama Penginapan <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="nama_penginapan" name="nama_penginapan" placeholder="Contoh: Homestay Asri Ibu Adri" required />
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label" for="jenis">Jenis Penginapan</label>
+                                                <select class="form-select" id="jenis" name="jenis">
+                                                    <option value="Homestay">Homestay</option>
+                                                    <option value="Villa">Villa</option>
+                                                    <option value="Hotel">Hotel</option>
+                                                    <option value="Guesthouse">Guesthouse</option>
+                                                    <option value="Pondok Wisata">Pondok Wisata</option>
+                                                    <option value="Camping Ground">Camping Ground</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label" for="urutan_penginapan">Urutan Tampil</label>
+                                                <input type="number" class="form-control" id="urutan_penginapan" name="urutan" value="0" min="0" />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="kisaran_harga">Kisaran Harga / Malam</label>
+                                            <input type="text" class="form-control" id="kisaran_harga" name="kisaran_harga" placeholder="Contoh: Rp 150.000 - Rp 300.000" />
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label" for="jarak">Jarak dari Wisata</label>
+                                                <input type="text" class="form-control" id="jarak" name="jarak" placeholder="Contoh: 200 meter" />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label" for="no_telepon">No. WhatsApp</label>
+                                                <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="Contoh: 08123456789" />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="fasilitas_singkat">Fasilitas Singkat</label>
+                                            <input type="text" class="form-control" id="fasilitas_singkat" name="fasilitas_singkat" placeholder="Contoh: AC, Wi-Fi, Sarapan Pagi, Kamar Mandi Dalam" />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label" for="foto_penginapan">Foto Penginapan</label>
+                                            <input type="file" class="form-control" id="foto_penginapan" name="foto" accept="image/*" />
+                                            <div class="form-text"><strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary w-100"><i class="bx bx-save me-1"></i> Simpan Penginapan</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <h6 class="fw-bold mb-3"><i class="bx bx-home-heart me-1 text-primary"></i> Daftar Penginapan di Destinasi Ini</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Foto</th>
+                                            <th>Info Penginapan</th>
+                                            <th>Harga & Jarak</th>
+                                            <th>WhatsApp</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($wisata->penginapanWisata->sortBy('urutan') as $p)
+                                            <tr>
+                                                <td style="width: 80px;">
+                                                    @if($p->foto)
+                                                        <img src="{{ asset('storage/' . $p->foto) }}" alt="Foto" class="rounded" style="width: 70px; height: 45px; object-fit: cover;" />
+                                                    @else
+                                                        <span class="badge bg-secondary">No Pic</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="fw-bold">{{ $p->nama_penginapan }}</div>
+                                                    <span class="badge bg-label-primary">{{ $p->jenis ?? 'Homestay' }}</span>
+                                                    @if($p->fasilitas_singkat)
+                                                        <div class="text-muted small mt-1"><i class="bx bx-check-circle text-success"></i> {{ $p->fasilitas_singkat }}</div>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="text-success fw-semibold small">{{ $p->kisaran_harga ?? '-' }}</div>
+                                                    @if($p->jarak)
+                                                        <div class="text-muted small"><i class="bx bx-map-pin"></i> {{ $p->jarak }}</div>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($p->no_telepon)
+                                                        <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $p->no_telepon)) }}" target="_blank" class="btn btn-xs btn-outline-success">
+                                                            <i class="bx bxl-whatsapp me-1"></i> WA
+                                                        </a>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <form action="{{ route('admin.penginapan-wisata.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Hapus info penginapan ini?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-xs btn-danger"><i class="bx bx-trash"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center py-3 text-muted">Belum ada data penginapan / homestay untuk destinasi wisata ini.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TAB 7: Ulasan Pengunjung --}}
                 <div class="tab-pane fade" id="navs-ulasan" role="tabpanel">
                     <h6 class="fw-bold mb-3"><i class="bx bx-star me-1 text-primary"></i> Daftar Ulasan Masuk</h6>
                     <div class="table-responsive">

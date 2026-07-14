@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Rules\LandscapeImage;
 
 class WisataController extends Controller
 {
@@ -49,7 +50,7 @@ class WisataController extends Controller
             'deskripsi_singkat' => 'nullable|string|max:1000',
             'deskripsi' => 'nullable|string',
             'highlight_quote' => 'nullable|string|max:500',
-            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar_utama' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'harga_tiket' => 'required|numeric|min:0',
             'harga_parkir_motor' => 'nullable|string|max:50',
             'harga_parkir_mobil' => 'nullable|string|max:50',
@@ -64,6 +65,10 @@ class WisataController extends Controller
             'google_maps_embed_url' => 'nullable|string',
             'is_unggulan' => 'nullable|boolean',
             'is_published' => 'nullable|boolean',
+        ], [
+            'gambar_utama.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'gambar_utama.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar_utama.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar_utama']);
@@ -84,7 +89,7 @@ class WisataController extends Controller
 
     public function edit(Wisata $wisata): View
     {
-        $wisata->load(['galeriWisata', 'fasilitasWisata', 'tipsWisata', 'ruteWisata', 'ulasanWisata']);
+        $wisata->load(['galeriWisata', 'fasilitasWisata', 'tipsWisata', 'ruteWisata', 'ulasanWisata', 'penginapanWisata']);
         $categories = KategoriWisata::all();
 
         return view('admin.wisata.edit', compact('wisata', 'categories'));
@@ -98,7 +103,7 @@ class WisataController extends Controller
             'deskripsi_singkat' => 'nullable|string|max:1000',
             'deskripsi' => 'nullable|string',
             'highlight_quote' => 'nullable|string|max:500',
-            'gambar_utama' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar_utama' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'harga_tiket' => 'required|numeric|min:0',
             'harga_parkir_motor' => 'nullable|string|max:50',
             'harga_parkir_mobil' => 'nullable|string|max:50',
@@ -113,6 +118,10 @@ class WisataController extends Controller
             'google_maps_embed_url' => 'nullable|string',
             'is_unggulan' => 'nullable|boolean',
             'is_published' => 'nullable|boolean',
+        ], [
+            'gambar_utama.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'gambar_utama.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar_utama.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar_utama']);

@@ -45,7 +45,7 @@
                     <div class="mb-3">
                         <label class="form-label" for="gambar">Pilih Foto <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" required />
-                        <div class="form-text">Format: jpeg, png, jpg, gif, webp. Maksimal 2MB.</div>
+                        <div class="form-text"><strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                     </div>
 
                     <div class="mb-3">

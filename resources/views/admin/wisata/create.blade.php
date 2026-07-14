@@ -59,7 +59,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="gambar_utama">Gambar Utama (Cover Banner) <span class="text-danger">*</span></label>
                                 <input type="file" class="form-control" id="gambar_utama" name="gambar_utama" accept="image/*" required />
-                                <div class="form-text">Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
+                                <div class="form-text"><strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px (rasio 3:2 / 16:9). Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                             </div>
                         </div>
 

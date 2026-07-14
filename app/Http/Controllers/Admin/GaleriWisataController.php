@@ -7,6 +7,7 @@ use App\Models\GaleriWisata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
+use App\Rules\LandscapeImage;
 
 class GaleriWisataController extends Controller
 {
@@ -14,9 +15,13 @@ class GaleriWisataController extends Controller
     {
         $request->validate([
             'wisata_id' => 'required|exists:wisata,id',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption' => 'nullable|string|max:255',
             'urutan' => 'required|integer|min:0',
+        ], [
+            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar']);

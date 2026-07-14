@@ -59,7 +59,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="gambar">Gambar Cover / Banner</label>
                                 <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" />
-                                <div class="form-text">Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
+                                <div class="form-text"><strong>Wajib orientasi mendatar (Landscape, rasio 16:9).</strong> Rekomendasi: 1200x675 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                             </div>
                         </div>
 

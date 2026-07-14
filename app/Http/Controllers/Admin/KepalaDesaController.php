@@ -30,8 +30,12 @@ class KepalaDesaController extends Controller
             'periode_mulai' => 'required|string|max:50',
             'periode_selesai' => 'required|string|max:50',
             'sambutan' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
             'is_active' => 'nullable|boolean',
+        ], [
+            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
+            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['foto']);
@@ -65,8 +69,12 @@ class KepalaDesaController extends Controller
             'periode_mulai' => 'required|string|max:50',
             'periode_selesai' => 'required|string|max:50',
             'sambutan' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
             'is_active' => 'nullable|boolean',
+        ], [
+            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
+            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['foto']);

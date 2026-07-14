@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Rules\LandscapeImage;
 
 class SliderController extends Controller
 {
@@ -29,8 +30,12 @@ class SliderController extends Controller
             'deskripsi' => 'nullable|string',
             'link' => 'nullable|url|max:255',
             'urutan' => 'required|integer|min:1',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=800,min_height=350', new LandscapeImage],
             'is_active' => 'nullable|boolean',
+        ], [
+            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 800px dan tinggi 350px agar tampilan banner tidak pecah.',
+            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar']);
@@ -58,8 +63,12 @@ class SliderController extends Controller
             'deskripsi' => 'nullable|string',
             'link' => 'nullable|url|max:255',
             'urutan' => 'required|integer|min:1',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=800,min_height=350', new LandscapeImage],
             'is_active' => 'nullable|boolean',
+        ], [
+            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 800px dan tinggi 350px agar tampilan banner tidak pecah.',
+            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar']);

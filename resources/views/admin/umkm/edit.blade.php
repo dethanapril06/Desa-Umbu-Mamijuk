@@ -101,7 +101,7 @@
                     <div class="mb-4">
                         <label class="form-label" for="foto">Foto Cover / Logo Usaha / Produk</label>
                         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" onchange="previewImage(this)" />
-                        <div class="form-text">Biarkan kosong jika tidak ingin merubah foto. Format: jpeg, png, jpg. Maksimal 2MB.</div>
+                        <div class="form-text">Biarkan kosong jika tidak ingin merubah foto. Rekomendasi resolusi: 800x800 px. Minimal: 300x300 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                         <div class="mt-3">
                             @if($umkm->foto)
                                 <div class="mb-2">

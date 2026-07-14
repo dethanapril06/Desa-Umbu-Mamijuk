@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Rules\LandscapeImage;
 
 class GaleriController extends Controller
 {
@@ -39,9 +40,13 @@ class GaleriController extends Controller
     {
         $request->validate([
             'album_galeri_id' => 'required|exists:album_galeri,id',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption' => 'nullable|string|max:255',
             'urutan' => 'required|integer|min:0',
+        ], [
+            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar']);
@@ -66,9 +71,13 @@ class GaleriController extends Controller
     {
         $request->validate([
             'album_galeri_id' => 'required|exists:album_galeri,id',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption' => 'nullable|string|max:255',
             'urutan' => 'required|integer|min:0',
+        ], [
+            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar']);

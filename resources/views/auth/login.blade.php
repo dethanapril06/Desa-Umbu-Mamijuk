@@ -235,7 +235,7 @@
                         </form>
 
                         <p class="text-center mb-0 text-muted">
-                            Website Resmi Pemerintah Desa Sukamaju
+                            Website Resmi Pemerintah Desa Umbu Mamijuk
                         </p>
                     </div>
                 </div>
