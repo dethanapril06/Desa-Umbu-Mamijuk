@@ -362,5 +362,22 @@
                 <div>Profil & Password</div>
             </a>
         </li>
+
+        {{-- Bantuan & Panduan --}}
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">
+                Bantuan
+            </span>
+        </li>
+
+        <li class="menu-item {{ request()->routeIs('admin.panduan') ? 'active' : '' }}">
+            <a
+                href="{{ route('admin.panduan') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon tf-icons bx bx-book-open text-warning"></i>
+                <div class="fw-semibold">Buku Panduan</div>
+            </a>
+        </li>
     </ul>
 </aside>

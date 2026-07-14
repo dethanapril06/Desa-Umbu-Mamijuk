@@ -144,6 +144,9 @@ Route::prefix('admin')
         Route::post('/tanggapan-pengaduan', [\App\Http\Controllers\Admin\TanggapanPengaduanController::class, 'store'])->name('tanggapan-pengaduan.store');
         Route::delete('/tanggapan-pengaduan/{tanggapan}', [\App\Http\Controllers\Admin\TanggapanPengaduanController::class, 'destroy'])->name('tanggapan-pengaduan.destroy');
 
+        // Buku Panduan Administrator
+        Route::get('/panduan', [\App\Http\Controllers\Admin\PanduanController::class, 'index'])->name('panduan');
+
         Route::post('/logout', [LoginController::class, 'destroy'])
             ->name('logout');
     });

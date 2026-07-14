@@ -13,10 +13,13 @@
                                 Selamat datang, {{ auth()->user()->name }}! 👋
                             </h5>
 
-                            <p class="mb-4">
+                            <p class="mb-3">
                                 Gunakan dashboard ini untuk mengelola data desa,
                                 kependudukan, berita, wisata, galeri, dan pengaduan masyarakat.
                             </p>
+                            <a href="{{ route('admin.panduan') }}" class="btn btn-sm btn-primary d-inline-flex align-items-center gap-1 shadow-sm" style="border-radius: 8px;">
+                                <i class="bx bx-download"></i> Download Buku Panduan
+                            </a>
                         </div>
                     </div>
 
