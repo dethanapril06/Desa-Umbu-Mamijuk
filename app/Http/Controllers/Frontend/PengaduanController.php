@@ -11,6 +11,8 @@ class PengaduanController extends Controller
 {
     public function store(Request $request)
     {
+        $this->normalizeInput($request);
+
         $validator = Validator::make($request->all(), [
             'kategori_pengaduan_id' => 'required|exists:kategori_pengaduan,id',
             'nama_pelapor'          => 'required|string|max:255',
@@ -104,5 +106,28 @@ class PengaduanController extends Controller
                 })
             ]
         ]);
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        $titleFields = ['nama_pelapor', 'judul'];
+        foreach ($titleFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        $stringFields = ['nik_pelapor', 'no_telepon', 'email', 'alamat', 'isi_pengaduan'];
+        foreach ($stringFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $request->merge([$field => $cleaned]);
+            }
+        }
     }
 }

@@ -12,7 +12,7 @@ class SosialMediaController extends Controller
 {
     public function index(): View
     {
-        $socials = SosialMedia::orderBy('urutan', 'asc')->paginate(15);
+        $socials = SosialMedia::orderBy('id', 'asc')->paginate(15);
         return view('admin.sosial-media.index', compact('socials'));
     }
 
@@ -23,11 +23,12 @@ class SosialMediaController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'platform' => 'required|string|max:100',
             'url' => 'required|url|max:255',
             'icon' => 'required|string|max:100', // e.g. 'bx-facebook' or 'bxl-facebook' or fontawesome
-            'urutan' => 'required|integer|min:1',
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -46,11 +47,12 @@ class SosialMediaController extends Controller
 
     public function update(Request $request, SosialMedia $sosialMedia): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'platform' => 'required|string|max:100',
             'url' => 'required|url|max:255',
             'icon' => 'required|string|max:100',
-            'urutan' => 'required|integer|min:1',
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -66,5 +68,25 @@ class SosialMediaController extends Controller
     {
         $sosialMedia->delete();
         return redirect()->route('admin.sosial-media.index')->with('success', 'Sosial media berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        if ($request->has('platform') && is_string($request->input('platform')) && !empty($request->input('platform'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('platform')));
+            $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+            $request->merge(['platform' => $cleaned]);
+        }
+
+        $stringFields = ['url', 'icon'];
+        foreach ($stringFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $request->merge([$field => $cleaned]);
+            }
+        }
     }
 }

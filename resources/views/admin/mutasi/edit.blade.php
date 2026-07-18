@@ -33,6 +33,30 @@
                     @csrf
                     @method('PUT')
 
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="filter_dusun_id">Dusun <span class="text-danger">*</span></label>
+                            <select class="form-select" id="filter_dusun_id" name="filter_dusun_id" required>
+                                <option value="">-- Pilih Dusun --</option>
+                                @foreach($dusunList as $d)
+                                    <option value="{{ $d->id }}">{{ $d->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="filter_rt_rw_id">RT / RW <span class="text-danger">*</span></label>
+                            <select class="form-select" id="filter_rt_rw_id" name="filter_rt_rw_id" required disabled>
+                                <option value="">-- Pilih Dusun terlebih dahulu --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3" id="penduduk_id_wrapper">
+                            <label class="form-label" for="penduduk_id">Pilih Penduduk <span class="text-danger">*</span></label>
+                            <select class="form-select" id="penduduk_id" name="penduduk_id" required disabled>
+                                <option value="">-- Pilih RT/RW terlebih dahulu --</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label" for="jenis_mutasi">Jenis Mutasi <span class="text-danger">*</span></label>
                         <select class="form-select" id="jenis_mutasi" name="jenis_mutasi" required onchange="toggleAlamatField(this.value)">
@@ -42,39 +66,9 @@
                         </select>
                     </div>
 
-                    <div class="mb-3" id="penduduk_id_wrapper">
-                        <label class="form-label" for="penduduk_id">Pilih Penduduk <span class="text-danger">*</span></label>
-                        <select class="form-select" id="penduduk_id" name="penduduk_id" required>
-                            @foreach($pendudukList as $p)
-                                <option value="{{ $p->id }}" {{ old('penduduk_id', $mutasiPenduduk->penduduk_id) == $p->id ? 'selected' : '' }}>
-                                    {{ $p->nama_lengkap }} (NIK: {{ $p->nik }}) - status: [{{ $p->status }}]
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
 
 
                     <!-- Data Penduduk Masuk (Khusus Pindah Masuk) -->
-                    @php
-                        $pekerjaanList = [
-                            'Belum / Tidak Bekerja',
-                            'Mengurus Rumah Tangga',
-                            'Pelajar / Mahasiswa',
-                            'PNS / ASN',
-                            'TNI / POLRI',
-                            'Karyawan Swasta / BUMN / BUMD',
-                            'Petani / Pekebun / Peternak',
-                            'Nelayan',
-                            'Wiraswasta / Pedagang',
-                            'Buruh Harian Lepas',
-                            'Tenaga Pendidik (Guru / Dosen)',
-                            'Tenaga Medis (Dokter / Perawat / Bidan)',
-                            'Sopir / Pengemudi',
-                            'Pensiunan',
-                            'Lainnya'
-                        ];
-                    @endphp
                     <div id="data_masuk_wrapper" style="display: none;">
                         <hr class="my-4">
                         <h5 class="mb-3 text-primary"><i class="bx bx-user-plus me-1"></i> Data Penduduk Pindah Masuk</h5>
@@ -82,14 +76,8 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label" for="masuk_keluarga_id">Hubungkan ke Kartu Keluarga (KK) <span class="text-danger">*</span></label>
-                                <select class="form-select" id="masuk_keluarga_id" name="masuk_keluarga_id">
-                                    <option value="">-- Pilih Kartu Keluarga --</option>
-                                    @foreach($keluargaList as $k)
-                                        <option value="{{ $k->id }}" 
-                                            {{ old('masuk_keluarga_id', optional($mutasiPenduduk->penduduk)->keluarga_id) == $k->id ? 'selected' : '' }}>
-                                            KK: {{ $k->no_kk }} - Kepala: {{ $k->kepalaKeluarga ? $k->kepalaKeluarga->nama_lengkap : '–' }}
-                                        </option>
-                                    @endforeach
+                                <select class="form-select" id="masuk_keluarga_id" name="masuk_keluarga_id" disabled>
+                                    <option value="">-- Pilih Dusun/RT-RW terlebih dahulu --</option>
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -446,13 +434,241 @@ function toggleAlamatField(val) {
         masukJenisDisabilitas.disabled = true;
 
         // Enable resident select
-        selectPenduduk.disabled = false;
         selectPenduduk.required = true;
+    }
+
+    const filterD = document.getElementById('filter_dusun_id');
+    const filterR = document.getElementById('filter_rt_rw_id');
+    if (filterD && typeof updateTargetOptions === 'function') {
+        updateTargetOptions(filterD.value, filterR.value);
     }
 }
 
 // Trigger initial state
+@php
+    $rtRwArray = $rtRwList->map(function($r) {
+        return [
+            'id' => $r->id,
+            'dusun_id' => $r->dusun_id,
+            'label' => 'RT ' . $r->no_rt . ' / RW ' . $r->no_rw
+        ];
+    })->values();
+
+    $pendudukArray = $pendudukList->map(function($p) {
+        return [
+            'id' => $p->id,
+            'nik' => $p->nik,
+            'nama_lengkap' => $p->nama_lengkap,
+            'dusun_id' => $p->keluarga && $p->keluarga->rtRw ? $p->keluarga->rtRw->dusun_id : null,
+            'rt_rw_id' => $p->keluarga ? $p->keluarga->rt_rw_id : null,
+            'label' => $p->nama_lengkap . ' (NIK: ' . $p->nik . ')'
+        ];
+    })->values();
+
+    $keluargaArray = $keluargaList->map(function($k) {
+        $namaKepala = $k->kepalaKeluarga ? strtoupper($k->kepalaKeluarga->nama_lengkap) : 'Belum ada Kepala Keluarga';
+        return [
+            'id' => $k->id,
+            'no_kk' => $k->no_kk,
+            'dusun_id' => $k->rtRw ? $k->rtRw->dusun_id : null,
+            'rt_rw_id' => $k->rt_rw_id,
+            'label' => $k->no_kk . ' - Kepala Keluarga: ' . $namaKepala
+        ];
+    })->values();
+@endphp
+
+const rtRwData = @json($rtRwArray);
+const pendudukData = @json($pendudukArray);
+const keluargaData = @json($keluargaArray);
+
+const filterDusun = document.getElementById('filter_dusun_id');
+const filterRtRw = document.getElementById('filter_rt_rw_id');
+const pendudukSelect = document.getElementById('penduduk_id');
+const keluargaSelect = document.getElementById('masuk_keluarga_id');
+
+let initialPendudukId = "{{ old('penduduk_id', $mutasiPenduduk->penduduk_id ?? '') }}";
+let initialKeluargaId = "{{ old('masuk_keluarga_id', optional($mutasiPenduduk->penduduk)->keluarga_id ?? '') }}";
+let initialRtRwId = "";
+let initialDusunId = "";
+
+const jMutasi = document.getElementById('jenis_mutasi');
+if (initialPendudukId && jMutasi && jMutasi.value !== 'pindah_masuk') {
+    const foundP = pendudukData.find(p => String(p.id) === String(initialPendudukId));
+    if (foundP) {
+        initialRtRwId = foundP.rt_rw_id;
+        initialDusunId = foundP.dusun_id;
+    }
+} else if (initialKeluargaId && jMutasi && jMutasi.value === 'pindah_masuk') {
+    const foundK = keluargaData.find(k => String(k.id) === String(initialKeluargaId));
+    if (foundK) {
+        initialRtRwId = foundK.rt_rw_id;
+        initialDusunId = foundK.dusun_id;
+    }
+}
+
+function updateRtRwOptions(dusunId, selectedRtRwId = '') {
+    filterRtRw.innerHTML = '';
+    if (!dusunId) {
+        filterRtRw.innerHTML = '<option value="">-- Pilih Dusun terlebih dahulu --</option>';
+        filterRtRw.disabled = true;
+        return;
+    }
+
+    const filtered = rtRwData.filter(item => String(item.dusun_id) === String(dusunId));
+    if (filtered.length === 0) {
+        filterRtRw.innerHTML = '<option value="">-- Belum ada RT/RW di dusun ini --</option>';
+        filterRtRw.disabled = true;
+        return;
+    }
+
+    filterRtRw.disabled = false;
+    filterRtRw.innerHTML = '<option value="">-- Semua RT / RW --</option>';
+    filtered.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.id;
+        opt.textContent = item.label;
+        if (String(item.id) === String(selectedRtRwId)) {
+            opt.selected = true;
+        }
+        filterRtRw.appendChild(opt);
+    });
+}
+
+function updateTargetOptions(dusunId, rtRwId) {
+    const isMasuk = document.getElementById('jenis_mutasi').value === 'pindah_masuk';
+    const currentPendudukId = pendudukSelect ? (pendudukSelect.value || initialPendudukId) : initialPendudukId;
+    const currentKeluargaId = keluargaSelect ? (keluargaSelect.value || initialKeluargaId) : initialKeluargaId;
+
+    if (pendudukSelect) {
+        pendudukSelect.innerHTML = '';
+        if (!dusunId && !rtRwId) {
+            pendudukSelect.innerHTML = '<option value="">-- Pilih Dusun terlebih dahulu --</option>';
+            pendudukSelect.disabled = true;
+        } else {
+            let filtered = [];
+            if (rtRwId) {
+                filtered = pendudukData.filter(item => String(item.rt_rw_id) === String(rtRwId));
+            } else if (dusunId) {
+                filtered = pendudukData.filter(item => String(item.dusun_id) === String(dusunId));
+            }
+
+            if (filtered.length === 0) {
+                pendudukSelect.innerHTML = '<option value="">-- Tidak ada penduduk di wilayah ini --</option>';
+                pendudukSelect.disabled = true;
+            } else {
+                pendudukSelect.disabled = isMasuk;
+                pendudukSelect.innerHTML = '<option value="">-- Pilih Penduduk Aktif --</option>';
+                filtered.forEach(item => {
+                    const opt = document.createElement('option');
+                    opt.value = item.id;
+                    opt.textContent = item.label;
+                    if (String(item.id) === String(currentPendudukId)) {
+                        opt.selected = true;
+                    }
+                    pendudukSelect.appendChild(opt);
+                });
+            }
+        }
+    }
+
+    if (keluargaSelect) {
+        keluargaSelect.innerHTML = '';
+        if (!dusunId && !rtRwId) {
+            keluargaSelect.innerHTML = '<option value="">-- Pilih Dusun terlebih dahulu --</option>';
+            keluargaSelect.disabled = true;
+        } else {
+            let filtered = [];
+            if (rtRwId) {
+                filtered = keluargaData.filter(item => String(item.rt_rw_id) === String(rtRwId));
+            } else if (dusunId) {
+                filtered = keluargaData.filter(item => String(item.dusun_id) === String(dusunId));
+            }
+
+            if (filtered.length === 0) {
+                keluargaSelect.innerHTML = '<option value="">-- Tidak ada KK di wilayah ini --</option>';
+                keluargaSelect.disabled = true;
+            } else {
+                keluargaSelect.disabled = !isMasuk;
+                keluargaSelect.innerHTML = '<option value="">-- Pilih Kartu Keluarga --</option>';
+                filtered.forEach(item => {
+                    const opt = document.createElement('option');
+                    opt.value = item.id;
+                    opt.textContent = item.label;
+                    if (String(item.id) === String(currentKeluargaId)) {
+                        opt.selected = true;
+                    }
+                    keluargaSelect.appendChild(opt);
+                });
+            }
+        }
+    }
+    initialPendudukId = '';
+    initialKeluargaId = '';
+}
+
+if (filterDusun && filterRtRw) {
+    filterDusun.addEventListener('change', function() {
+        updateRtRwOptions(this.value, '');
+        updateTargetOptions(this.value, '');
+    });
+
+    filterRtRw.addEventListener('change', function() {
+        updateTargetOptions(filterDusun.value, this.value);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    function toCapitalEachWord(str) {
+        return str.toLowerCase().replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+    }
+
+    const numberFields = document.querySelectorAll('#masuk_nik, #masuk_no_telepon, #masuk_no_paspor, #masuk_no_kitas_kitap');
+    numberFields.forEach(input => {
+        ['input', 'blur'].forEach(evt => {
+            input.addEventListener(evt, function() {
+                if (!this.value) return;
+                this.value = this.value.replace(/\s+/g, '');
+            });
+        });
+    });
+
+    const titleFields = document.querySelectorAll('#masuk_nama_lengkap, #masuk_tempat_lahir, #masuk_nama_ayah, #masuk_nama_ibu, #masuk_jenis_disabilitas');
+    titleFields.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            let cleaned = this.value.replace(/\s+/g, ' ').trim();
+            this.value = toCapitalEachWord(cleaned);
+        });
+    });
+
+    const textFields = document.querySelectorAll('#keterangan, #alamat_tujuan, #alamat_asal');
+    textFields.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            let lines = this.value.split(/\r?\n/);
+            let cleanedLines = lines.map(line => line.trim().replace(/[^\S\r\n]+/g, ' '));
+            this.value = cleanedLines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+        });
+    });
+
+    const upperFields = document.querySelectorAll('#no_surat');
+    upperFields.forEach(input => {
+        ['input', 'blur'].forEach(evt => {
+            input.addEventListener(evt, function() {
+                if (!this.value) return;
+                let cleaned = this.value.replace(/\s+/g, ' ');
+                if (evt === 'blur') cleaned = cleaned.trim();
+                this.value = cleaned.toUpperCase();
+            });
+        });
+    });
+
+    if (initialDusunId) {
+        filterDusun.value = initialDusunId;
+    }
+    updateRtRwOptions(filterDusun.value, initialRtRwId);
     toggleAlamatField(document.getElementById('jenis_mutasi').value);
 });
 </script>

@@ -82,4 +82,36 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const name = document.getElementById('name');
+    if (name) {
+        name.addEventListener('blur', function() {
+            this.value = this.value.replace(/\s+/g, ' ').trim().replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        });
+    }
+
+    const email = document.getElementById('email');
+    if (email) {
+        email.addEventListener('blur', function() {
+            this.value = this.value.replace(/\s+/g, ' ').trim();
+        });
+    }
+
+    const pwFields = ['current_password', 'password', 'password_confirmation'];
+    pwFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('blur', function() {
+                this.value = this.value.trim();
+            });
+        }
+    });
+});
+</script>
+@endpush
 @endsection

@@ -16,15 +16,7 @@ class GaleriWisata extends Model
         'wisata_id',
         'gambar',
         'caption',
-        'urutan',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'urutan' => 'integer',
-        ];
-    }
 
     public function wisata(): BelongsTo
     {

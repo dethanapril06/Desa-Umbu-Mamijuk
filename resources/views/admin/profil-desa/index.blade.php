@@ -101,14 +101,6 @@
                                 <label class="form-label" for="ketinggian">Ketinggian Wilayah</label>
                                 <input type="text" class="form-control" id="ketinggian" name="ketinggian" value="{{ old('ketinggian', $profil->ketinggian) }}" placeholder="Contoh: 250 mdpl" />
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="koordinat_lat">Garis Lintang (Latitude)</label>
-                                <input type="text" class="form-control" id="koordinat_lat" name="koordinat_lat" value="{{ old('koordinat_lat', $profil->koordinat_lat) }}" placeholder="Contoh: -7.89201" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="koordinat_lng">Garis Bujur (Longitude)</label>
-                                <input type="text" class="form-control" id="koordinat_lng" name="koordinat_lng" value="{{ old('koordinat_lng', $profil->koordinat_lng) }}" placeholder="Contoh: 110.23122" />
-                            </div>
                             <div class="col-md-3">
                                 <label class="form-label" for="batas_utara">Batas Utara</label>
                                 <input type="text" class="form-control" id="batas_utara" name="batas_utara" value="{{ old('batas_utara', $profil->batas_utara) }}" />
@@ -190,3 +182,49 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const umumInputs = document.querySelectorAll('#navs-umum input[type="text"], #navs-umum input[type="email"], #navs-umum textarea, #navs-geografis input[type="text"]');
+    
+    function toCapitalEachWord(str) {
+        return str.toLowerCase().replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+    }
+
+    umumInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            
+            // 1. Bersihkan spasi berlebih (awal, akhir, dan spasi ganda di tengah)
+            let val = this.value.trim().replace(/\s+/g, ' ');
+            
+            // 2. Format Capital Each Word (kecuali email menjadi lowercase)
+            if (this.id === 'email' || this.name === 'email') {
+                val = val.toLowerCase();
+            } else {
+                val = toCapitalEachWord(val);
+            }
+            
+            this.value = val;
+        });
+    });
+
+    const visiMisiInputs = document.querySelectorAll('#navs-visi-misi textarea');
+    visiMisiInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            // Bersihkan spasi horizontal tiap baris tapi pertahankan enter/newline paragraf
+            let lines = this.value.split(/\r?\n/);
+            let cleanedLines = lines.map(line => line.trim().replace(/[^\S\r\n]+/g, ' '));
+            let text = cleanedLines.join('\n');
+            // Ringkas jika ada enter berlebih (lebih dari 2 baris kosong berurutan)
+            text = text.replace(/\n{3,}/g, '\n\n').trim();
+            this.value = text;
+        });
+    });
+});
+</script>
+@endpush

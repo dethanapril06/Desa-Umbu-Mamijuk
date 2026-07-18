@@ -24,9 +24,19 @@ class TagController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'nama' => 'required|string|max:255|unique:tags,nama',
-        ]);
+        ];
+
+        $messages = [
+            'nama.required' => 'Nama tag berita wajib diisi.',
+            'nama.unique' => 'Nama tag berita tersebut sudah terdaftar di sistem.',
+            'nama.max' => 'Nama tag berita maksimal 255 karakter.',
+        ];
+
+        $request->validate($rules, $messages);
 
         Tag::create([
             'nama' => $request->nama,
@@ -43,9 +53,19 @@ class TagController extends Controller
 
     public function update(Request $request, Tag $tag): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'nama' => 'required|string|max:255|unique:tags,nama,' . $tag->id,
-        ]);
+        ];
+
+        $messages = [
+            'nama.required' => 'Nama tag berita wajib diisi.',
+            'nama.unique' => 'Nama tag berita tersebut sudah terdaftar di sistem.',
+            'nama.max' => 'Nama tag berita maksimal 255 karakter.',
+        ];
+
+        $request->validate($rules, $messages);
 
         $tag->update([
             'nama' => $request->nama,
@@ -62,5 +82,17 @@ class TagController extends Controller
         $tag->delete();
 
         return redirect()->route('admin.tag.index')->with('success', 'Tag berita berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        if ($request->has('nama') && is_string($request->input('nama')) && !empty($request->input('nama'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('nama')));
+            $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+            $request->merge(['nama' => $cleaned]);
+        }
     }
 }

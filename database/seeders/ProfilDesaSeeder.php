@@ -35,8 +35,6 @@ class ProfilDesaSeeder extends Seeder
                 'batas_timur' => 'Desa Umbu Pabal',
                 'batas_selatan' => 'Desa Umbu Pabal Selatan',
                 'batas_barat' => 'Desa Soba',
-                'koordinat_lat' => '-9.570188',
-                'koordinat_lng' => '119.629533',
                 'gambar_struktur_organisasi' => 'images/profil/struktur-organisasi.svg',
                 'created_at' => $now,
                 'updated_at' => $now,

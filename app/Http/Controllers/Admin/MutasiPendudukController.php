@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\MutasiPenduduk;
 use App\Models\Penduduk;
 use App\Models\Keluarga;
+use App\Models\Dusun;
+use App\Models\RtRw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -38,17 +40,23 @@ class MutasiPendudukController extends Controller
 
     public function create(): View
     {
-        // Only fetch active residents for recording mutations
-        $pendudukList = Penduduk::where('status', 'aktif')->orderBy('nama_lengkap', 'asc')->get();
-        $keluargaList = Keluarga::with(['kepalaKeluarga', 'istri'])->orderBy('no_kk', 'asc')->get();
-        return view('admin.mutasi.create', compact('pendudukList', 'keluargaList'));
+        $dusunList = Dusun::where('is_active', true)->orderBy('id', 'asc')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw', 'asc')->orderBy('no_rt', 'asc')->get();
+        $pendudukList = Penduduk::with('keluarga.rtRw.dusun')->where('status', 'aktif')->orderBy('nama_lengkap', 'asc')->get();
+        $keluargaList = Keluarga::with(['kepalaKeluarga', 'rtRw.dusun'])->orderBy('no_kk', 'asc')->get();
+        $pekerjaanList = $this->getPekerjaanList();
+        return view('admin.mutasi.create', compact('dusunList', 'rtRwList', 'pendudukList', 'keluargaList', 'pekerjaanList'));
     }
 
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $isMasuk = $request->input('jenis_mutasi') === 'pindah_masuk';
 
         $rules = [
+            'filter_dusun_id' => 'required|exists:dusun,id',
+            'filter_rt_rw_id' => 'required|exists:rt_rw,id',
             'jenis_mutasi' => 'required|in:mati,pindah_masuk,pindah_keluar',
             'tanggal_mutasi' => 'required|date',
             'no_surat' => 'nullable|string|max:100',
@@ -84,9 +92,27 @@ class MutasiPendudukController extends Controller
             $rules['penduduk_id'] = 'required|exists:penduduk,id';
         }
 
-        $request->validate($rules);
+        $messages = [
+            'filter_dusun_id.required' => 'Dusun wajib dipilih terlebih dahulu.',
+            'filter_dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
+            'filter_rt_rw_id.required' => 'RT / RW wajib dipilih terlebih dahulu.',
+            'filter_rt_rw_id.exists' => 'RT / RW yang dipilih tidak valid.',
+            'penduduk_id.required' => 'Penduduk wajib dipilih terlebih dahulu.',
+            'penduduk_id.exists' => 'Penduduk yang dipilih tidak valid.',
+            'masuk_keluarga_id.required' => 'Kartu Keluarga (KK) tujuan wajib dipilih.',
+            'masuk_keluarga_id.exists' => 'Kartu Keluarga (KK) yang dipilih tidak valid.',
+            'jenis_mutasi.required' => 'Jenis mutasi wajib dipilih.',
+            'tanggal_mutasi.required' => 'Tanggal mutasi wajib diisi.',
+            'masuk_nik.required' => 'NIK wajib diisi.',
+            'masuk_nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'masuk_tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'masuk_jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'masuk_kewarganegaraan.required' => 'Kewarganegaraan wajib dipilih.',
+        ];
 
-        $data = $request->except(['lampiran']);
+        $request->validate($rules, $messages);
+
+        $data = $request->except(['lampiran', 'filter_dusun_id', 'filter_rt_rw_id']);
 
         if ($request->hasFile('lampiran')) {
             $path = $request->file('lampiran')->store('lampiran/mutasi', 'public');
@@ -180,16 +206,23 @@ class MutasiPendudukController extends Controller
 
     public function edit(MutasiPenduduk $mutasiPenduduk): View
     {
-        $pendudukList = Penduduk::orderBy('nama_lengkap', 'asc')->get();
-        $keluargaList = Keluarga::with(['kepalaKeluarga', 'istri'])->orderBy('no_kk', 'asc')->get();
-        return view('admin.mutasi.edit', compact('mutasiPenduduk', 'pendudukList', 'keluargaList'));
+        $dusunList = Dusun::where('is_active', true)->orderBy('id', 'asc')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw', 'asc')->orderBy('no_rt', 'asc')->get();
+        $pendudukList = Penduduk::with('keluarga.rtRw.dusun')->orderBy('nama_lengkap', 'asc')->get();
+        $keluargaList = Keluarga::with(['kepalaKeluarga', 'rtRw.dusun'])->orderBy('no_kk', 'asc')->get();
+        $pekerjaanList = $this->getPekerjaanList();
+        return view('admin.mutasi.edit', compact('mutasiPenduduk', 'dusunList', 'rtRwList', 'pendudukList', 'keluargaList', 'pekerjaanList'));
     }
 
     public function update(Request $request, MutasiPenduduk $mutasiPenduduk): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $isMasuk = $request->input('jenis_mutasi') === 'pindah_masuk';
 
         $rules = [
+            'filter_dusun_id' => 'required|exists:dusun,id',
+            'filter_rt_rw_id' => 'required|exists:rt_rw,id',
             'jenis_mutasi' => 'required|in:mati,pindah_masuk,pindah_keluar',
             'tanggal_mutasi' => 'required|date',
             'no_surat' => 'nullable|string|max:100',
@@ -225,9 +258,27 @@ class MutasiPendudukController extends Controller
             $rules['penduduk_id'] = 'required|exists:penduduk,id';
         }
 
-        $request->validate($rules);
+        $messages = [
+            'filter_dusun_id.required' => 'Dusun wajib dipilih terlebih dahulu.',
+            'filter_dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
+            'filter_rt_rw_id.required' => 'RT / RW wajib dipilih terlebih dahulu.',
+            'filter_rt_rw_id.exists' => 'RT / RW yang dipilih tidak valid.',
+            'penduduk_id.required' => 'Penduduk wajib dipilih terlebih dahulu.',
+            'penduduk_id.exists' => 'Penduduk yang dipilih tidak valid.',
+            'masuk_keluarga_id.required' => 'Kartu Keluarga (KK) tujuan wajib dipilih.',
+            'masuk_keluarga_id.exists' => 'Kartu Keluarga (KK) yang dipilih tidak valid.',
+            'jenis_mutasi.required' => 'Jenis mutasi wajib dipilih.',
+            'tanggal_mutasi.required' => 'Tanggal mutasi wajib diisi.',
+            'masuk_nik.required' => 'NIK wajib diisi.',
+            'masuk_nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'masuk_tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'masuk_jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'masuk_kewarganegaraan.required' => 'Kewarganegaraan wajib dipilih.',
+        ];
 
-        $data = $request->except(['lampiran']);
+        $request->validate($rules, $messages);
+
+        $data = $request->except(['lampiran', 'filter_dusun_id', 'filter_rt_rw_id']);
 
         if ($request->hasFile('lampiran')) {
             if ($mutasiPenduduk->lampiran && Storage::disk('public')->exists($mutasiPenduduk->lampiran)) {
@@ -355,5 +406,63 @@ class MutasiPendudukController extends Controller
         $mutasiPenduduk->delete();
 
         return redirect()->route('admin.mutasi-penduduk.index')->with('success', 'Catatan mutasi penduduk berhasil dihapus!');
+    }
+
+    private function getPekerjaanList(): array
+    {
+        $list = [
+            'Belum / Tidak Bekerja',
+            'Pelajar / Mahasiswa',
+            'PNS / ASN',
+            'PPPK',
+            'TNI / POLRI',
+            'Karyawan Swasta / BUMN / BUMD',
+            'Petani / Pekebun / Peternak',
+            'Nelayan',
+            'Wiraswasta / Pedagang',
+            'Buruh Harian Lepas',
+            'Sopir / Pengemudi',
+            'Pensiunan'
+        ];
+        sort($list);
+        return $list;
+    }
+
+    private function normalizeInput(Request $request): void
+    {
+        $noSpaceFields = ['masuk_nik', 'masuk_no_telepon', 'masuk_no_paspor', 'masuk_no_kitas_kitap'];
+        foreach ($noSpaceFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', '', $request->input($field));
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        $titleFields = ['masuk_nama_lengkap', 'masuk_tempat_lahir', 'masuk_nama_ayah', 'masuk_nama_ibu', 'masuk_jenis_disabilitas'];
+        foreach ($titleFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        if ($request->has('no_surat') && is_string($request->input('no_surat')) && !empty($request->input('no_surat'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('no_surat')));
+            $cleaned = mb_strtoupper($cleaned, 'UTF-8');
+            $request->merge(['no_surat' => $cleaned]);
+        }
+
+        $textFields = ['keterangan', 'alamat_tujuan', 'alamat_asal'];
+        foreach ($textFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $lines = preg_split('/\r\n|\r|\n/', $request->input($field));
+                $cleanedLines = array_map(function ($line) {
+                    return preg_replace('/[^\S\r\n]+/', ' ', trim($line));
+                }, $lines);
+                $cleaned = trim(implode("\n", $cleanedLines));
+                $request->merge([$field => $cleaned]);
+            }
+        }
     }
 }

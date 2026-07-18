@@ -44,6 +44,8 @@ class WisataController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'kategori_wisata_id' => 'required|exists:kategori_wisata,id',
@@ -60,12 +62,15 @@ class WisataController extends Controller
             'durasi_trek' => 'nullable|string|max:100',
             'cocok_untuk' => 'nullable|string|max:255',
             'telepon' => 'nullable|string|max:20',
-            'koordinat_lat' => 'nullable|string|max:50',
-            'koordinat_lng' => 'nullable|string|max:50',
             'google_maps_embed_url' => 'nullable|string',
             'is_unggulan' => 'nullable|boolean',
             'is_published' => 'nullable|boolean',
         ], [
+            'nama.required' => 'Nama destinasi wisata wajib diisi.',
+            'kategori_wisata_id.required' => 'Kategori wisata wajib dipilih.',
+            'kategori_wisata_id.exists' => 'Kategori wisata yang dipilih tidak valid.',
+            'harga_tiket.required' => 'Harga tiket masuk wajib diisi.',
+            'harga_tiket.numeric' => 'Harga tiket harus berupa angka.',
             'gambar_utama.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'gambar_utama.max' => 'Ukuran file gambar maksimal 2 MB.',
             'gambar_utama.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -89,14 +94,17 @@ class WisataController extends Controller
 
     public function edit(Wisata $wisata): View
     {
-        $wisata->load(['galeriWisata', 'fasilitasWisata', 'tipsWisata', 'ruteWisata', 'ulasanWisata', 'penginapanWisata']);
+        $wisata->load(['galeriWisata', 'fasilitasWisata', 'tipsWisata', 'ruteWisata', 'ulasanWisata', 'penginapan']);
         $categories = KategoriWisata::all();
+        $allPenginapan = \App\Models\Penginapan::all();
 
-        return view('admin.wisata.edit', compact('wisata', 'categories'));
+        return view('admin.wisata.edit', compact('wisata', 'categories', 'allPenginapan'));
     }
 
     public function update(Request $request, Wisata $wisata): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'kategori_wisata_id' => 'required|exists:kategori_wisata,id',
@@ -113,12 +121,15 @@ class WisataController extends Controller
             'durasi_trek' => 'nullable|string|max:100',
             'cocok_untuk' => 'nullable|string|max:255',
             'telepon' => 'nullable|string|max:20',
-            'koordinat_lat' => 'nullable|string|max:50',
-            'koordinat_lng' => 'nullable|string|max:50',
             'google_maps_embed_url' => 'nullable|string',
             'is_unggulan' => 'nullable|boolean',
             'is_published' => 'nullable|boolean',
         ], [
+            'nama.required' => 'Nama destinasi wisata wajib diisi.',
+            'kategori_wisata_id.required' => 'Kategori wisata wajib dipilih.',
+            'kategori_wisata_id.exists' => 'Kategori wisata yang dipilih tidak valid.',
+            'harga_tiket.required' => 'Harga tiket masuk wajib diisi.',
+            'harga_tiket.numeric' => 'Harga tiket harus berupa angka.',
             'gambar_utama.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'gambar_utama.max' => 'Ukuran file gambar maksimal 2 MB.',
             'gambar_utama.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -162,5 +173,38 @@ class WisataController extends Controller
         $wisata->delete();
 
         return redirect()->route('admin.wisata.index')->with('success', 'Destinasi wisata berhasil dihapus!');
+    }
+
+    /**
+     * Sinkronisasi penginapan / homestay yang terkait dengan destinasi wisata.
+     */
+    public function syncPenginapan(Request $request, Wisata $wisata): RedirectResponse
+    {
+        $wisata->penginapan()->sync($request->penginapan_ids ?? []);
+
+        return redirect()->to(route('admin.wisata.edit', $wisata->id) . '#tab-penginapan')->with('success', 'Relasi penginapan / homestay berhasil diperbarui!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        $titleFields = ['nama', 'cocok_untuk'];
+        foreach ($titleFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        $stringFields = ['deskripsi_singkat', 'highlight_quote', 'hari_buka', 'jam_operasional', 'jarak_dari_desa', 'durasi_trek', 'telepon', 'google_maps_embed_url', 'harga_parkir_motor', 'harga_parkir_mobil'];
+        foreach ($stringFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $request->merge([$field => $cleaned]);
+            }
+        }
     }
 }

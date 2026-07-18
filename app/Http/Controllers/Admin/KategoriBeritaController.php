@@ -24,10 +24,20 @@ class KategoriBeritaController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'nama' => 'required|string|max:255|unique:kategori_berita,nama',
             'icon' => 'nullable|string|max:100',
-        ]);
+        ];
+
+        $messages = [
+            'nama.required' => 'Nama kategori berita wajib diisi.',
+            'nama.unique' => 'Nama kategori berita tersebut sudah terdaftar di sistem.',
+            'nama.max' => 'Nama kategori berita maksimal 255 karakter.',
+        ];
+
+        $request->validate($rules, $messages);
 
         KategoriBerita::create([
             'nama' => $request->nama,
@@ -45,10 +55,20 @@ class KategoriBeritaController extends Controller
 
     public function update(Request $request, KategoriBerita $kategoriBerita): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'nama' => 'required|string|max:255|unique:kategori_berita,nama,' . $kategoriBerita->id,
             'icon' => 'nullable|string|max:100',
-        ]);
+        ];
+
+        $messages = [
+            'nama.required' => 'Nama kategori berita wajib diisi.',
+            'nama.unique' => 'Nama kategori berita tersebut sudah terdaftar di sistem.',
+            'nama.max' => 'Nama kategori berita maksimal 255 karakter.',
+        ];
+
+        $request->validate($rules, $messages);
 
         $kategoriBerita->update([
             'nama' => $request->nama,
@@ -68,5 +88,21 @@ class KategoriBeritaController extends Controller
 
         $kategoriBerita->delete();
         return redirect()->route('admin.kategori-berita.index')->with('success', 'Kategori berita berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        if ($request->has('nama') && is_string($request->input('nama')) && !empty($request->input('nama'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('nama')));
+            $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+            $request->merge(['nama' => $cleaned]);
+        }
+
+        if ($request->has('icon') && is_string($request->input('icon'))) {
+            $request->merge(['icon' => trim($request->input('icon'))]);
+        }
     }
 }

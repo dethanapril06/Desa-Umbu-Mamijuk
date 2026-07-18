@@ -13,7 +13,7 @@ class PerangkatDesaController extends Controller
 {
     public function index(): View
     {
-        $perangkatDesaList = PerangkatDesa::orderBy('urutan', 'asc')->paginate(15);
+        $perangkatDesaList = PerangkatDesa::orderBy('id', 'asc')->paginate(15);
         return view('admin.perangkat-desa.index', compact('perangkatDesaList'));
     }
 
@@ -24,14 +24,17 @@ class PerangkatDesaController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
             'nip' => 'nullable|string|max:50',
-            'urutan' => 'required|integer|min:1',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
             'is_active' => 'nullable|boolean',
         ], [
+            'nama.required' => 'Nama perangkat desa wajib diisi.',
+            'jabatan.required' => 'Jabatan perangkat desa wajib diisi.',
             'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
             'foto.max' => 'Ukuran file foto maksimal 2 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -57,14 +60,17 @@ class PerangkatDesaController extends Controller
 
     public function update(Request $request, PerangkatDesa $perangkatDesa): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
             'nip' => 'nullable|string|max:50',
-            'urutan' => 'required|integer|min:1',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
             'is_active' => 'nullable|boolean',
         ], [
+            'nama.required' => 'Nama perangkat desa wajib diisi.',
+            'jabatan.required' => 'Jabatan perangkat desa wajib diisi.',
             'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
             'foto.max' => 'Ukuran file foto maksimal 2 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -95,4 +101,22 @@ class PerangkatDesaController extends Controller
 
         return redirect()->route('admin.perangkat-desa.index')->with('success', 'Perangkat desa berhasil dihapus!');
     }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        $fields = ['nama', 'jabatan', 'nip'];
+        foreach ($fields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                if (in_array($field, ['nama', 'jabatan'], true)) {
+                    $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                }
+                $request->merge([$field => $cleaned]);
+            }
+        }
+    }
 }
+                                            

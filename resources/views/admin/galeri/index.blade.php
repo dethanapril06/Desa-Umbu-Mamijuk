@@ -44,7 +44,6 @@
                             <div class="card h-100 border shadow-none">
                                 <div class="position-relative">
                                     <img src="{{ asset('storage/' . $photo->gambar) }}" alt="{{ $photo->caption }}" class="card-img-top" style="height: 180px; object-fit: cover;" />
-                                    <span class="badge bg-primary position-absolute top-0 end-0 m-2">Urutan: {{ $photo->urutan }}</span>
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <div>

@@ -88,22 +88,27 @@
                                     {{ $ulasan->created_at ? $ulasan->created_at->format('d M Y') : '-' }}
                                 </td>
                                 <td>
-                                    <div class="d-flex gap-2">
-                                        <form action="{{ route('admin.ulasan-wisata.toggle-approve', $ulasan->id) }}" method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-xs {{ $ulasan->is_approved ? 'btn-outline-warning' : 'btn-outline-success' }}">
-                                                {{ $ulasan->is_approved ? 'Batalkan Setuju' : 'Setujui' }}
-                                            </button>
-                                        </form>
-
-                                        <form action="{{ route('admin.ulasan-wisata.destroy', $ulasan->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ulasan ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-xs btn-outline-danger">
-                                                Hapus
-                                            </button>
-                                        </form>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form action="{{ route('admin.ulasan-wisata.toggle-approve', $ulasan->id) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="dropdown-item">
+                                                    <i class="bx {{ $ulasan->is_approved ? 'bx-x-circle text-warning' : 'bx-check-circle text-success' }} me-1"></i>
+                                                    {{ $ulasan->is_approved ? 'Batalkan Setuju' : 'Setujui' }}
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('admin.ulasan-wisata.destroy', $ulasan->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ulasan ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="dropdown-item">
+                                                    <i class="bx bx-trash me-1 text-danger"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

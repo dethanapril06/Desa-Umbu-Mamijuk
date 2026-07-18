@@ -23,7 +23,6 @@
                         <tr>
                             <th>Nama Dusun</th>
                             <th>Kepala Dusun</th>
-                            <th>Urutan Tampil</th>
                             <th>Status Keaktifan</th>
                             <th>Aksi</th>
                         </tr>
@@ -33,7 +32,6 @@
                             <tr>
                                 <td><strong>{{ $dusun->nama }}</strong></td>
                                 <td>{{ $dusun->kepala_dusun ?? '-' }}</td>
-                                <td>{{ $dusun->urutan }}</td>
                                 <td>
                                     <span class="badge {{ $dusun->is_active ? 'bg-success' : 'bg-secondary' }}">
                                         {{ $dusun->is_active ? 'Aktif' : 'Non-Aktif' }}

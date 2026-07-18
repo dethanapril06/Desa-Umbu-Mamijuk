@@ -23,7 +23,6 @@
                         <tr>
                             <th>Platform</th>
                             <th>URL Link</th>
-                            <th>Urutan Tampil</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -36,9 +35,6 @@
                                 </td>
                                 <td>
                                     <a href="{{ $social->url }}" target="_blank" class="text-info"><i class="bx bx-link-external me-1"></i> {{ $social->url }}</a>
-                                </td>
-                                <td>
-                                    {{ $social->urutan }}
                                 </td>
                                 <td>
                                     <span class="badge {{ $social->is_active ? 'bg-success' : 'bg-secondary' }}">

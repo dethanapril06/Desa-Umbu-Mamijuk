@@ -53,12 +53,6 @@
                         <input type="text" class="form-control" id="caption" name="caption" value="{{ old('caption') }}" placeholder="Tuliskan keterangan pendek mengenai foto..." />
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="urutan">Urutan Tampil <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="urutan" name="urutan" value="{{ old('urutan', 0) }}" min="0" required />
-                        <div class="form-text">Angka terkecil tampil pertama di dalam album.</div>
-                    </div>
-
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="bx bx-upload me-1"></i> Unggah Foto
                     </button>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Keluarga;
 use App\Models\RtRw;
+use App\Models\Dusun;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -31,23 +32,42 @@ class KeluargaController extends Controller
 
     public function create(): View
     {
-        $rtRwList = RtRw::with('dusun')->get();
-        return view('admin.keluarga.create', compact('rtRwList'));
+        $dusunList = Dusun::where('is_active', true)->orderBy('id', 'asc')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw', 'asc')->orderBy('no_rt', 'asc')->get();
+        return view('admin.keluarga.create', compact('dusunList', 'rtRwList'));
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
+            'dusun_id' => 'required|exists:dusun,id',
             'no_kk' => 'required|string|size:16|unique:keluarga,no_kk',
             'rt_rw_id' => 'required|exists:rt_rw,id',
             'alamat' => 'required|string',
             'kode_pos' => 'nullable|string|max:10',
             'tanggal_terdaftar' => 'nullable|date',
-        ]);
+        ];
 
-        Keluarga::create($request->all());
+        $messages = [
+            'dusun_id.required' => 'Dusun wajib dipilih terlebih dahulu.',
+            'dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
+            'rt_rw_id.required' => 'RT / RW wajib dipilih terlebih dahulu.',
+            'rt_rw_id.exists' => 'RT / RW yang dipilih tidak valid.',
+            'no_kk.required' => 'Nomor Kartu Keluarga (KK) wajib diisi.',
+            'no_kk.size' => 'Nomor KK harus berjumlah 16 digit.',
+            'no_kk.unique' => 'Nomor KK sudah terdaftar di sistem.',
+            'alamat.required' => 'Alamat wajib diisi.',
+        ];
 
-        return redirect()->route('admin.keluarga.index')->with('success', 'Kartu Keluarga berhasil ditambahkan!');
+        $request->validate($rules, $messages);
+
+        $data = $request->except(['dusun_id']);
+        $keluarga = Keluarga::create($data);
+
+        return redirect()->route('admin.keluarga.show', $keluarga->id)
+                         ->with('success', 'Kartu Keluarga baru berhasil disimpan! Silakan klik tombol "Tambah Anggota" untuk menambahkan Kepala Keluarga atau anggota keluarga.');
     }
 
     public function show(Keluarga $keluarga): View
@@ -64,21 +84,39 @@ class KeluargaController extends Controller
 
     public function edit(Keluarga $keluarga): View
     {
-        $rtRwList = RtRw::with('dusun')->get();
-        return view('admin.keluarga.edit', compact('keluarga', 'rtRwList'));
+        $dusunList = Dusun::where('is_active', true)->orderBy('id', 'asc')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw', 'asc')->orderBy('no_rt', 'asc')->get();
+        return view('admin.keluarga.edit', compact('keluarga', 'dusunList', 'rtRwList'));
     }
 
     public function update(Request $request, Keluarga $keluarga): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
+            'dusun_id' => 'required|exists:dusun,id',
             'no_kk' => 'required|string|size:16|unique:keluarga,no_kk,' . $keluarga->id,
             'rt_rw_id' => 'required|exists:rt_rw,id',
             'alamat' => 'required|string',
             'kode_pos' => 'nullable|string|max:10',
             'tanggal_terdaftar' => 'nullable|date',
-        ]);
+        ];
 
-        $keluarga->update($request->all());
+        $messages = [
+            'dusun_id.required' => 'Dusun wajib dipilih terlebih dahulu.',
+            'dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
+            'rt_rw_id.required' => 'RT / RW wajib dipilih terlebih dahulu.',
+            'rt_rw_id.exists' => 'RT / RW yang dipilih tidak valid.',
+            'no_kk.required' => 'Nomor Kartu Keluarga (KK) wajib diisi.',
+            'no_kk.size' => 'Nomor KK harus berjumlah 16 digit.',
+            'no_kk.unique' => 'Nomor KK sudah terdaftar di sistem.',
+            'alamat.required' => 'Alamat wajib diisi.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        $data = $request->except(['dusun_id']);
+        $keluarga->update($data);
 
         return redirect()->route('admin.keluarga.index')->with('success', 'Kartu Keluarga berhasil diperbarui!');
     }
@@ -92,5 +130,33 @@ class KeluargaController extends Controller
 
         $keluarga->delete();
         return redirect()->route('admin.keluarga.index')->with('success', 'Kartu Keluarga berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        // 1. Hapus seluruh spasi pada no_kk dan kode_pos
+        foreach (['no_kk', 'kode_pos'] as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', '', $request->input($field));
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        // 2. Bersihkan spasi berlebih & Capital Each Word pada alamat (multiline safe)
+        if ($request->has('alamat') && is_string($request->input('alamat')) && !empty($request->input('alamat'))) {
+            $lines = preg_split('/\r\n|\r|\n/', $request->input('alamat'));
+            $cleanedLines = [];
+            foreach ($lines as $line) {
+                $cleanedLines[] = preg_replace('/[^\S\r\n]+/', ' ', trim($line));
+            }
+            $text = implode("\n", $cleanedLines);
+            $text = preg_replace('/\n{3,}/', "\n\n", trim($text));
+
+            $text = mb_convert_case(mb_strtolower($text, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+            $request->merge(['alamat' => $text]);
+        }
     }
 }

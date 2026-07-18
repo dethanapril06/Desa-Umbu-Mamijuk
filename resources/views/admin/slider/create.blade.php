@@ -48,16 +48,10 @@
                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Teks sub-judul atau penjelasan pendek di atas banner">{{ old('deskripsi') }}</textarea>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-8 mb-3">
-                            <label class="form-label" for="link">Link Tujuan / URL (Opsional)</label>
-                            <input type="url" class="form-control" id="link" name="link" value="{{ old('link') }}" placeholder="Contoh: https://example.com/berita/detail" />
-                            <div class="form-text">Tautan ketika banner di-klik. Harus diawali dengan http:// atau https://</div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label" for="urutan">Urutan Tampil <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="urutan" name="urutan" value="{{ old('urutan', 1) }}" min="1" required />
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="link">Link Tujuan / URL (Opsional)</label>
+                        <input type="url" class="form-control" id="link" name="link" value="{{ old('link') }}" placeholder="Contoh: https://example.com/berita/detail" />
+                        <div class="form-text">Tautan ketika banner di-klik. Harus diawali dengan http:// atau https://</div>
                     </div>
 
                     <div class="mb-3 form-check">
@@ -73,4 +67,29 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const judul = document.getElementById('judul');
+    if (judul) {
+        judul.addEventListener('blur', function() {
+            this.value = this.value.replace(/\s+/g, ' ').trim().replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        });
+    }
+
+    const spaceFields = ['deskripsi', 'link'];
+    spaceFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('blur', function() {
+                this.value = this.value.replace(/\s+/g, ' ').trim();
+            });
+        }
+    });
+});
+</script>
+@endpush
 @endsection

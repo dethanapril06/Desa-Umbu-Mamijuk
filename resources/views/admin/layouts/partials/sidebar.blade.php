@@ -171,21 +171,22 @@
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
-                    <a
-                        href="{{ route('admin.berita.index') }}"
-                        class="menu-link"
-                    >
-                        <div>Daftar Berita</div>
-                    </a>
-                </li>
 
                 <li class="menu-item {{ request()->routeIs('admin.kategori-berita.*') ? 'active' : '' }}">
                     <a
                         href="{{ route('admin.kategori-berita.index') }}"
                         class="menu-link"
                     >
-                        <div>Kategori</div>
+                        <div>Kategori Berita</div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
+                    <a
+                        href="{{ route('admin.berita.index') }}"
+                        class="menu-link"
+                    >
+                        <div>Daftar Berita</div>
                     </a>
                 </li>
 
@@ -249,14 +250,6 @@
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.wisata.*') ? 'active' : '' }}">
-                    <a
-                        href="{{ route('admin.wisata.index') }}"
-                        class="menu-link"
-                    >
-                        <div>Destinasi Wisata</div>
-                    </a>
-                </li>
 
                 <li class="menu-item {{ request()->routeIs('admin.kategori-wisata.*') ? 'active' : '' }}">
                     <a
@@ -264,6 +257,15 @@
                         class="menu-link"
                     >
                         <div>Kategori Wisata</div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ request()->routeIs('admin.wisata.*') ? 'active' : '' }}">
+                    <a
+                        href="{{ route('admin.wisata.index') }}"
+                        class="menu-link"
+                    >
+                        <div>Destinasi Wisata</div>
                     </a>
                 </li>
 
@@ -289,6 +291,17 @@
             </a>
         </li>
 
+        {{-- Penginapan --}}
+        <li class="menu-item {{ request()->routeIs('admin.penginapan.*') ? 'active' : '' }}">
+            <a
+                href="{{ route('admin.penginapan.index') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon tf-icons bx bx-home-heart"></i>
+                <div>Penginapan</div>
+            </a>
+        </li>
+
         {{-- Pengaduan --}}
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">
@@ -306,21 +319,20 @@
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('admin.pengaduan.*') ? 'active' : '' }}">
-                    <a
-                        href="{{ route('admin.pengaduan.index') }}"
-                        class="menu-link"
-                    >
-                        <div>Daftar Pengaduan</div>
-                    </a>
-                </li>
-
                 <li class="menu-item {{ request()->routeIs('admin.kategori-pengaduan.*') ? 'active' : '' }}">
                     <a
                         href="{{ route('admin.kategori-pengaduan.index') }}"
                         class="menu-link"
                     >
                         <div>Kategori Pengaduan</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('admin.pengaduan.*') ? 'active' : '' }}">
+                    <a
+                        href="{{ route('admin.pengaduan.index') }}"
+                        class="menu-link"
+                    >
+                        <div>Daftar Pengaduan</div>
                     </a>
                 </li>
             </ul>

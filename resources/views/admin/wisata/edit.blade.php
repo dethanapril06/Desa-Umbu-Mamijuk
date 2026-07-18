@@ -49,7 +49,7 @@
                 </li>
                 <li class="nav-item">
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-penginapan" aria-controls="navs-penginapan" aria-selected="false">
-                        <i class="tf-icons bx bx-home-heart me-1"></i> Info Penginapan ({{ $wisata->penginapanWisata->count() }})
+                        <i class="tf-icons bx bx-home-heart me-1"></i> Info Penginapan ({{ $wisata->penginapan->count() }})
                     </button>
                 </li>
                 <li class="nav-item">
@@ -150,19 +150,7 @@
                                     <input type="text" class="form-control" id="harga_parkir_mobil" name="harga_parkir_mobil" value="{{ old('harga_parkir_mobil', $wisata->harga_parkir_mobil) }}" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label class="form-label" for="koordinat_lat">Latitude</label>
-                                    <input type="text" class="form-control" id="koordinat_lat" name="koordinat_lat" value="{{ old('koordinat_lat', $wisata->koordinat_lat) }}" />
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label class="form-label" for="koordinat_lng">Longitude</label>
-                                    <input type="text" class="form-control" id="koordinat_lng" name="koordinat_lng" value="{{ old('koordinat_lng', $wisata->koordinat_lng) }}" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="mb-3">
                                     <label class="form-label" for="google_maps_embed_url">Google Maps Embed URL</label>
                                     <input type="text" class="form-control" id="google_maps_embed_url" name="google_maps_embed_url" value="{{ old('google_maps_embed_url', $wisata->google_maps_embed_url) }}" />
@@ -285,11 +273,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="tips_deskripsi">Deskripsi Tips</label>
-                                    <textarea class="form-control" id="tips_deskripsi" name="deskripsi" rows="3"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="tips_urutan">Urutan</label>
-                                    <input type="number" class="form-control" id="tips_urutan" name="urutan" value="1" min="0" required />
+                                    <textarea class="form-control" id="tips_deskripsi" name="deskripsi" rows="3" placeholder="Contoh: Udara di pagi hari lebih segar dan kabut belum menutupi pemandangan."></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm w-100">Tambah Tips</button>
                             </form>
@@ -302,7 +286,6 @@
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Urutan</th>
                                             <th>Judul</th>
                                             <th>Penjelasan</th>
                                             <th>Hapus</th>
@@ -311,7 +294,6 @@
                                     <tbody>
                                         @forelse($wisata->tipsWisata as $t)
                                             <tr>
-                                                <td>{{ $t->urutan }}</td>
                                                 <td><strong>{{ $t->judul }}</strong></td>
                                                 <td class="text-wrap" style="max-width: 300px;">{{ $t->deskripsi }}</td>
                                                 <td>
@@ -371,10 +353,6 @@
                                     <label class="form-label" for="rute_deskripsi">Deskripsi Petunjuk Jalan</label>
                                     <textarea class="form-control" id="rute_deskripsi" name="deskripsi" rows="3" placeholder="Tuliskan petunjuk jalan singkat..."></textarea>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="rute_urutan">Urutan</label>
-                                    <input type="number" class="form-control" id="rute_urutan" name="urutan" value="1" min="0" required />
-                                </div>
                                 <button type="submit" class="btn btn-primary btn-sm w-100">Tambah Rute</button>
                             </form>
                         </div>
@@ -386,7 +364,6 @@
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Urutan</th>
                                             <th>Jenis</th>
                                             <th>Badge</th>
                                             <th>Keterangan</th>
@@ -396,7 +373,6 @@
                                     <tbody>
                                         @forelse($wisata->ruteWisata as $r)
                                             <tr>
-                                                <td>{{ $r->urutan }}</td>
                                                 <td>
                                                     <i class="bx {{ $r->icon ?? 'bx-map-pin' }} me-1 text-primary"></i>
                                                     <strong>{{ $r->jenis_transportasi }}</strong>
@@ -413,7 +389,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="5" class="text-center py-3 text-muted">Belum ada rute terdaftar.</td>
+                                                <td colspan="4" class="text-center py-3 text-muted">Belum ada rute terdaftar.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -441,10 +417,6 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="galeri_caption">Caption Foto (Opsional)</label>
                                     <input type="text" class="form-control" id="galeri_caption" name="caption" placeholder="Teks keterangan foto..." />
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="galeri_urutan">Urutan</label>
-                                    <input type="number" class="form-control" id="galeri_urutan" name="urutan" value="1" min="0" required />
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm w-100">Unggah Foto</button>
                             </form>
@@ -482,69 +454,35 @@
                         <div class="col-md-5">
                             <div class="card bg-light border-0">
                                 <div class="card-body">
-                                    <h6 class="fw-bold mb-3"><i class="bx bx-plus-circle me-1 text-primary"></i> Tambah Info Penginapan / Homestay</h6>
-                                    <form action="{{ route('admin.penginapan-wisata.store') }}" method="POST" enctype="multipart/form-data">
+                                    <h6 class="fw-bold mb-3"><i class="bx bx-link me-1 text-primary"></i> Pilih Penginapan Terkait</h6>
+                                    <p class="text-muted small mb-3">Pilih penginapan/homestay yang sudah terdaftar di desa untuk dihubungkan dengan destinasi wisata <strong>{{ $wisata->nama }}</strong>.</p>
+                                    <form action="{{ route('admin.wisata.sync-penginapan', $wisata->id) }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="wisata_id" value="{{ $wisata->id }}">
-
                                         <div class="mb-3">
-                                            <label class="form-label" for="nama_penginapan">Nama Penginapan <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="nama_penginapan" name="nama_penginapan" placeholder="Contoh: Homestay Asri Ibu Adri" required />
+                                            <label class="form-label" for="penginapan_ids">Daftar Penginapan / Homestay</label>
+                                            <select class="form-select select2-penginapan" id="penginapan_ids" name="penginapan_ids[]" multiple="multiple" data-placeholder="Cari dan pilih penginapan...">
+                                                @foreach($allPenginapan as $p)
+                                                    <option value="{{ $p->id }}" {{ $wisata->penginapan->contains('id', $p->id) ? 'selected' : '' }}>
+                                                        {{ $p->nama_penginapan }} ({{ $p->jenis ?? 'Homestay' }}) - {{ $p->kisaran_harga ?? '-' }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
-
-                                        <div class="row g-2">
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label" for="jenis">Jenis Penginapan</label>
-                                                <select class="form-select" id="jenis" name="jenis">
-                                                    <option value="Homestay">Homestay</option>
-                                                    <option value="Villa">Villa</option>
-                                                    <option value="Hotel">Hotel</option>
-                                                    <option value="Guesthouse">Guesthouse</option>
-                                                    <option value="Pondok Wisata">Pondok Wisata</option>
-                                                    <option value="Camping Ground">Camping Ground</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label" for="urutan_penginapan">Urutan Tampil</label>
-                                                <input type="number" class="form-control" id="urutan_penginapan" name="urutan" value="0" min="0" />
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label" for="kisaran_harga">Kisaran Harga / Malam</label>
-                                            <input type="text" class="form-control" id="kisaran_harga" name="kisaran_harga" placeholder="Contoh: Rp 150.000 - Rp 300.000" />
-                                        </div>
-
-                                        <div class="row g-2">
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label" for="jarak">Jarak dari Wisata</label>
-                                                <input type="text" class="form-control" id="jarak" name="jarak" placeholder="Contoh: 200 meter" />
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label" for="no_telepon">No. WhatsApp</label>
-                                                <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="Contoh: 08123456789" />
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label" for="fasilitas_singkat">Fasilitas Singkat</label>
-                                            <input type="text" class="form-control" id="fasilitas_singkat" name="fasilitas_singkat" placeholder="Contoh: AC, Wi-Fi, Sarapan Pagi, Kamar Mandi Dalam" />
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label" for="foto_penginapan">Foto Penginapan</label>
-                                            <input type="file" class="form-control" id="foto_penginapan" name="foto" accept="image/*" />
-                                            <div class="form-text"><strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary w-100"><i class="bx bx-save me-1"></i> Simpan Penginapan</button>
+                                        <button type="submit" class="btn btn-primary w-100 mb-2"><i class="bx bx-save me-1"></i> Simpan Relasi Penginapan</button>
                                     </form>
+                                    <hr class="my-3">
+                                    <div class="text-center">
+                                        <span class="text-muted small d-block mb-2">Penginapan yang dicari belum ada di daftar?</span>
+                                        <a href="{{ route('admin.penginapan.create') }}" target="_blank" class="btn btn-outline-secondary btn-sm w-100">
+                                            <i class="bx bx-plus-circle me-1"></i> Tambah Penginapan Baru di Menu Penginapan
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-7">
-                            <h6 class="fw-bold mb-3"><i class="bx bx-home-heart me-1 text-primary"></i> Daftar Penginapan di Destinasi Ini</h6>
+                            <h6 class="fw-bold mb-3"><i class="bx bx-home-heart me-1 text-primary"></i> Penginapan Terhubung di Destinasi Ini</h6>
                             <div class="table-responsive">
                                 <table class="table table-sm table-hover align-middle">
                                     <thead>
@@ -557,48 +495,46 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($wisata->penginapanWisata->sortBy('urutan') as $p)
+                                        @forelse($wisata->penginapan as $p)
                                             <tr>
                                                 <td style="width: 80px;">
                                                     @if($p->foto)
                                                         <img src="{{ asset('storage/' . $p->foto) }}" alt="Foto" class="rounded" style="width: 70px; height: 45px; object-fit: cover;" />
                                                     @else
-                                                        <span class="badge bg-secondary">No Pic</span>
+                                                        <span class="text-muted small">-</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <div class="fw-bold">{{ $p->nama_penginapan }}</div>
-                                                    <span class="badge bg-label-primary">{{ $p->jenis ?? 'Homestay' }}</span>
+                                                    <div class="fw-bold text-dark">{{ $p->nama_penginapan }}</div>
+                                                    <div class="text-muted small">{{ $p->jenis ?? 'Homestay' }}</div>
                                                     @if($p->fasilitas_singkat)
-                                                        <div class="text-muted small mt-1"><i class="bx bx-check-circle text-success"></i> {{ $p->fasilitas_singkat }}</div>
+                                                        <div class="text-muted small mt-1">{{ $p->fasilitas_singkat }}</div>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <div class="text-success fw-semibold small">{{ $p->kisaran_harga ?? '-' }}</div>
+                                                    <div class="fw-semibold small text-dark">{{ $p->kisaran_harga ?? '-' }}</div>
                                                     @if($p->jarak)
-                                                        <div class="text-muted small"><i class="bx bx-map-pin"></i> {{ $p->jarak }}</div>
+                                                        <div class="text-muted small">{{ $p->jarak }}</div>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if($p->no_telepon)
-                                                        <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $p->no_telepon)) }}" target="_blank" class="btn btn-xs btn-outline-success">
-                                                            <i class="bx bxl-whatsapp me-1"></i> WA
+                                                        <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $p->no_telepon)) }}" target="_blank" class="btn btn-sm btn-icon btn-outline-success" title="Chat WhatsApp: {{ $p->no_telepon }}">
+                                                            <i class="bx bxl-whatsapp fs-5"></i>
                                                         </a>
                                                     @else
-                                                        -
+                                                        <span class="text-muted small">-</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <form action="{{ route('admin.penginapan-wisata.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Hapus info penginapan ini?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-xs btn-danger"><i class="bx bx-trash"></i></button>
-                                                    </form>
+                                                    <a href="{{ route('admin.penginapan.edit', $p->id) }}" target="_blank" class="btn btn-sm btn-icon btn-outline-primary" title="Edit Data Penginapan">
+                                                        <i class="bx bx-edit-alt fs-5"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="5" class="text-center py-3 text-muted">Belum ada data penginapan / homestay untuk destinasi wisata ini.</td>
+                                                <td colspan="5" class="text-center py-4 text-muted">Belum ada penginapan / homestay yang dihubungkan dengan destinasi wisata ini. Silakan pilih dari form di samping.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -639,9 +575,28 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.ulasan-wisata.index') }}" class="btn btn-xs btn-outline-primary">
-                                                Kelola di Menu Ulasan
-                                            </a>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <form action="{{ route('admin.ulasan-wisata.toggle-approve', $u->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bx {{ $u->is_approved ? 'bx-x-circle text-warning' : 'bx-check-circle text-success' }} me-1"></i>
+                                                            {{ $u->is_approved ? 'Batalkan Setuju' : 'Setujui' }}
+                                                        </button>
+                                                    </form>
+                                                    <form action="{{ route('admin.ulasan-wisata.destroy', $u->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ulasan ini?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bx bx-trash me-1 text-danger"></i> Hapus
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -659,6 +614,8 @@
 </div>
 
 @push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 <style>
 .ck-editor__editable_inline {
     min-height: 350px;
@@ -675,7 +632,7 @@
             console.error(error);
         });
 
-    // Handle tab activation on redirect
+    // Handle tab activation on redirect and input normalization
     document.addEventListener("DOMContentLoaded", function() {
         var hash = window.location.hash;
         if (hash) {
@@ -685,7 +642,38 @@
                 tab.show();
             }
         }
+
+        function toCapitalEachWord(str) {
+            return str.toLowerCase().replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+        }
+
+        const titleInputs = document.querySelectorAll('#nama, #cocok_untuk, #tips_judul, #fasilitas_nama, #rute_transport, #galeri_caption, #nama_penginapan');
+        titleInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (!this.value) return;
+                let cleaned = this.value.trim().replace(/\s+/g, ' ');
+                this.value = toCapitalEachWord(cleaned);
+            });
+        });
+
+        const stringInputs = document.querySelectorAll('#harga_parkir_motor, #harga_parkir_mobil, #jam_operasional, #hari_buka, #jarak_dari_desa, #durasi_trek, #telepon, #google_maps_embed_url, #deskripsi_singkat, #highlight_quote, #tips_deskripsi, #rute_deskripsi, #kisaran_harga, #jarak, #no_telepon, #fasilitas_singkat');
+        stringInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (!this.value) return;
+                this.value = this.value.trim().replace(/\s+/g, ' ');
+            });
+        });
+
+        // Inisialisasi Select2 Multiple untuk Penginapan
+        $('.select2-penginapan').select2({
+            theme: 'bootstrap-5',
+            width: '100%',
+            placeholder: $('#penginapan_ids').data('placeholder') || 'Cari dan pilih penginapan...'
+        });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endpush
 @endsection

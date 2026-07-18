@@ -1,0 +1,212 @@
+@extends('admin.layouts.app')
+
+@section('title', 'Edit Penginapan / Homestay')
+
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+@endpush
+
+@section('content')
+<div class="row">
+    <div class="col-12 col-md-10 offset-md-1">
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">Konten Website / Penginapan /</span> Edit Penginapan
+        </h4>
+
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Form Edit Penginapan / Homestay</h5>
+                <a href="{{ route('admin.penginapan.index') }}" class="btn btn-sm btn-secondary">
+                    <i class="bx bx-arrow-back me-1"></i> Kembali
+                </a>
+            </div>
+
+            <div class="card-body">
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                <form action="{{ route('admin.penginapan.update', $penginapan->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="nama_penginapan">Nama Penginapan / Homestay <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nama_penginapan" name="nama_penginapan" value="{{ old('nama_penginapan', $penginapan->nama_penginapan) }}" placeholder="Contoh: Homestay Asri Ibu Adri" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="jenis">Jenis Penginapan</label>
+                            <select class="form-select" id="jenis" name="jenis">
+                                <option value="Homestay" {{ old('jenis', $penginapan->jenis) == 'Homestay' ? 'selected' : '' }}>Homestay</option>
+                                <option value="Villa" {{ old('jenis', $penginapan->jenis) == 'Villa' ? 'selected' : '' }}>Villa</option>
+                                <option value="Hotel" {{ old('jenis', $penginapan->jenis) == 'Hotel' ? 'selected' : '' }}>Hotel</option>
+                                <option value="Guesthouse" {{ old('jenis', $penginapan->jenis) == 'Guesthouse' ? 'selected' : '' }}>Guesthouse</option>
+                                <option value="Pondok Wisata" {{ old('jenis', $penginapan->jenis) == 'Pondok Wisata' ? 'selected' : '' }}>Pondok Wisata</option>
+                                <option value="Camping Ground" {{ old('jenis', $penginapan->jenis) == 'Camping Ground' ? 'selected' : '' }}>Camping Ground</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="kisaran_harga">Kisaran Harga / Malam</label>
+                            <input type="text" class="form-control" id="kisaran_harga" name="kisaran_harga" value="{{ old('kisaran_harga', $penginapan->kisaran_harga) }}" placeholder="Contoh: Rp 150.000 - Rp 300.000" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="no_telepon">No. WhatsApp / Reservasi</label>
+                            <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $penginapan->no_telepon) }}" placeholder="Contoh: 08123456789" />
+                            <div class="form-text">Gunakan format angka tanpa spasi/simbol untuk tombol chat WhatsApp.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="jarak">Jarak / Keterangan Lokasi</label>
+                        <input type="text" class="form-control" id="jarak" name="jarak" value="{{ old('jarak', $penginapan->jarak) }}" placeholder="Contoh: 200 meter dari Bukit Kami / Pusat Desa" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="fasilitas_singkat">Fasilitas Singkat</label>
+                        <input type="text" class="form-control" id="fasilitas_singkat" name="fasilitas_singkat" value="{{ old('fasilitas_singkat', $penginapan->fasilitas_singkat) }}" placeholder="Contoh: AC, Wi-Fi, Sarapan Pagi, Kamar Mandi Dalam" />
+                    </div>
+
+                    @php
+                        $selectedWisataIds = old('wisata_ids', $penginapan->wisata->pluck('id')->toArray());
+                    @endphp
+                    <div class="mb-4">
+                        <label class="form-label" for="wisata_ids">Terletak di Dekat Destinasi Wisata Apa Saja? (Bisa pilih lebih dari satu)</label>
+                        <select class="form-select select2-multiple" id="wisata_ids" name="wisata_ids[]" multiple="multiple" data-placeholder="Cari & pilih destinasi wisata terkait...">
+                            @foreach($allWisata as $w)
+                                <option value="{{ $w->id }}" {{ in_array($w->id, $selectedWisataIds) ? 'selected' : '' }}>
+                                    {{ $w->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <div class="form-text">Pilih wisata yang berjarak dekat atau relevan dengan penginapan ini.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" for="foto">Foto Penginapan (Biarkan kosong jika tidak ingin mengganti)</label>
+                        <input type="file" class="form-control" id="foto" name="foto" accept="image/*" onchange="previewImage(this)" />
+                        <div class="form-text"><strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
+                        <div class="mt-3">
+                            @if($penginapan->foto)
+                                <div class="mb-2 text-muted small">Foto saat ini:</div>
+                                <img id="image-preview" src="{{ asset('storage/' . $penginapan->foto) }}" alt="Preview Foto" class="img-fluid rounded" style="max-height: 250px; display: block;" />
+                            @else
+                                <img id="image-preview" src="#" alt="Preview Foto" class="img-fluid rounded" style="max-height: 250px; display: none;" />
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="mb-4 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="is_published" name="is_published" value="1" {{ old('is_published', $penginapan->is_published) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_published">Tampilkan Penginapan di Website Publik</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bx bx-save me-1"></i> Perbarui Data Penginapan
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.select2-multiple').select2({
+        theme: 'bootstrap-5',
+        width: '100%',
+        placeholder: $('#wisata_ids').data('placeholder') || 'Pilih destinasi wisata...'
+    });
+
+    // Normalisasi input real-time saat blur
+    function toTitleCase(str) {
+        return str.replace(
+            /\w\S*/g,
+            function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+    }
+
+    function cleanSpaces(str) {
+        return str.replace(/\s+/g, ' ').trim();
+    }
+
+    function formatRupiahRange(str) {
+        if (!str) return '';
+        str = cleanSpaces(str.replace(/\s*-\s*/g, ' - '));
+        const parts = str.split(' - ');
+        const res = parts.map(part => {
+            part = part.trim();
+            const match = part.match(/^(?:[A-Za-z\.\s]*?)([\d\.,]+)(.*)$/);
+            if (match) {
+                let numStr = match[1].replace(/[^\d]/g, '');
+                let suffix = match[2].trim();
+                if (numStr && !isNaN(numStr) && parseInt(numStr) > 0) {
+                    let formatted = 'Rp ' + parseInt(numStr).toLocaleString('id-ID');
+                    return suffix ? formatted + ' ' + suffix : formatted;
+                }
+            }
+            return part;
+        });
+        return res.join(' - ');
+    }
+
+    $('#nama_penginapan').on('blur', function() {
+        let val = $(this).val();
+        if (val) {
+            val = cleanSpaces(val);
+            $(this).val(toTitleCase(val));
+        }
+    });
+
+    $('#kisaran_harga').on('blur', function() {
+        let val = $(this).val();
+        if (val) {
+            $(this).val(formatRupiahRange(val));
+        }
+    });
+
+    $('#jarak, #no_telepon, #fasilitas_singkat').on('blur', function() {
+        let val = $(this).val();
+        if (val) {
+            $(this).val(cleanSpaces(val));
+        }
+    });
+});
+
+function previewImage(input) {
+    var preview = document.getElementById('image-preview');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        @if($penginapan->foto)
+            preview.src = "{{ asset('storage/' . $penginapan->foto) }}";
+            preview.style.display = 'block';
+        @else
+            preview.src = '#';
+            preview.style.display = 'none';
+        @endif
+    }
+}
+</script>
+@endpush

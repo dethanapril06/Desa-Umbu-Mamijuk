@@ -125,20 +125,8 @@
                             </div>
                         </div>
 
-                        <!-- Koordinat Peta & Embed Maps -->
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label" for="koordinat_lat">Latitude</label>
-                                <input type="text" class="form-control" id="koordinat_lat" name="koordinat_lat" value="{{ old('koordinat_lat') }}" placeholder="Contoh: -9.567" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label" for="koordinat_lng">Longitude</label>
-                                <input type="text" class="form-control" id="koordinat_lng" name="koordinat_lng" value="{{ old('koordinat_lng') }}" placeholder="Contoh: 119.620" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+                        <!-- Google Maps Embed URL -->
+                        <div class="col-md-12">
                             <div class="mb-3">
                                 <label class="form-label" for="google_maps_embed_url">Google Maps Embed URL</label>
                                 <input type="text" class="form-control" id="google_maps_embed_url" name="google_maps_embed_url" value="{{ old('google_maps_embed_url') }}" placeholder="Link dari menu Share > Embed a map (src link saja)" />
@@ -207,6 +195,31 @@
         .catch(error => {
             console.error(error);
         });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        function toCapitalEachWord(str) {
+            return str.toLowerCase().replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+        }
+
+        const titleInputs = document.querySelectorAll('#nama, #cocok_untuk');
+        titleInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (!this.value) return;
+                let cleaned = this.value.trim().replace(/\s+/g, ' ');
+                this.value = toCapitalEachWord(cleaned);
+            });
+        });
+
+        const stringInputs = document.querySelectorAll('#harga_parkir_motor, #harga_parkir_mobil, #jam_operasional, #hari_buka, #jarak_dari_desa, #durasi_trek, #telepon, #google_maps_embed_url, #deskripsi_singkat, #highlight_quote');
+        stringInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (!this.value) return;
+                this.value = this.value.trim().replace(/\s+/g, ' ');
+            });
+        });
+    });
 </script>
 @endpush
 @endsection

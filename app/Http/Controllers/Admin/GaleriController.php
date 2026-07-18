@@ -22,7 +22,7 @@ class GaleriController extends Controller
             $query->where('album_galeri_id', $albumId);
         }
 
-        $photos = $query->orderBy('urutan', 'asc')->orderBy('id', 'desc')->paginate(15);
+        $photos = $query->orderBy('id', 'desc')->paginate(15);
         $albums = AlbumGaleri::all();
 
         return view('admin.galeri.index', compact('photos', 'albums', 'albumId'));
@@ -42,7 +42,6 @@ class GaleriController extends Controller
             'album_galeri_id' => 'required|exists:album_galeri,id',
             'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption' => 'nullable|string|max:255',
-            'urutan' => 'required|integer|min:0',
         ], [
             'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
@@ -73,7 +72,6 @@ class GaleriController extends Controller
             'album_galeri_id' => 'required|exists:album_galeri,id',
             'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption' => 'nullable|string|max:255',
-            'urutan' => 'required|integer|min:0',
         ], [
             'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',

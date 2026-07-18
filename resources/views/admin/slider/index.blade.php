@@ -24,7 +24,6 @@
                             <th>Gambar</th>
                             <th>Judul & Deskripsi</th>
                             <th>Link Tujuan</th>
-                            <th>Urutan Tampil</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -51,9 +50,6 @@
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
-                                </td>
-                                <td>
-                                    {{ $slider->urutan }}
                                 </td>
                                 <td>
                                     <span class="badge {{ $slider->is_active ? 'bg-success' : 'bg-secondary' }}">

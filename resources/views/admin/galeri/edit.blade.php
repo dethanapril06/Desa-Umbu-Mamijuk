@@ -60,11 +60,6 @@
                         <input type="text" class="form-control" id="caption" name="caption" value="{{ old('caption', $galeri->caption) }}" />
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="urutan">Urutan Tampil <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="urutan" name="urutan" value="{{ old('urutan', $galeri->urutan) }}" min="0" required />
-                    </div>
-
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="bx bx-save me-1"></i> Simpan Perubahan
                     </button>

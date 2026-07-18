@@ -19,19 +19,30 @@ class RtRwController extends Controller
 
     public function create(): View
     {
-        $dusunList = Dusun::where('is_active', true)->orderBy('urutan', 'asc')->get();
+        $dusunList = Dusun::where('is_active', true)->orderBy('id', 'asc')->get();
         return view('admin.rt-rw.create', compact('dusunList'));
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'dusun_id' => 'required|exists:dusun,id',
             'no_rt' => 'required|string|max:10',
             'no_rw' => 'required|string|max:10',
             'ketua_rt' => 'nullable|string|max:255',
             'ketua_rw' => 'nullable|string|max:255',
-        ]);
+        ];
+
+        $messages = [
+            'dusun_id.required' => 'Dusun wajib dipilih terlebih dahulu.',
+            'dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
+            'no_rt.required' => 'Nomor RT wajib diisi.',
+            'no_rw.required' => 'Nomor RW wajib diisi.',
+        ];
+
+        $request->validate($rules, $messages);
 
         // Validate uniqueness of RT in the same RW and Dusun
         $exists = RtRw::where('dusun_id', $request->dusun_id)
@@ -50,19 +61,30 @@ class RtRwController extends Controller
 
     public function edit(RtRw $rtRw): View
     {
-        $dusunList = Dusun::where('is_active', true)->orderBy('urutan', 'asc')->get();
+        $dusunList = Dusun::where('is_active', true)->orderBy('id', 'asc')->get();
         return view('admin.rt-rw.edit', compact('rtRw', 'dusunList'));
     }
 
     public function update(Request $request, RtRw $rtRw): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'dusun_id' => 'required|exists:dusun,id',
             'no_rt' => 'required|string|max:10',
             'no_rw' => 'required|string|max:10',
             'ketua_rt' => 'nullable|string|max:255',
             'ketua_rw' => 'nullable|string|max:255',
-        ]);
+        ];
+
+        $messages = [
+            'dusun_id.required' => 'Dusun wajib dipilih terlebih dahulu.',
+            'dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
+            'no_rt.required' => 'Nomor RT wajib diisi.',
+            'no_rw.required' => 'Nomor RW wajib diisi.',
+        ];
+
+        $request->validate($rules, $messages);
 
         // Validate uniqueness excluding current id
         $exists = RtRw::where('dusun_id', $request->dusun_id)
@@ -89,5 +111,25 @@ class RtRwController extends Controller
 
         $rtRw->delete();
         return redirect()->route('admin.rt-rw.index')->with('success', 'Data RT/RW berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        $fields = ['no_rt', 'no_rw', 'ketua_rt', 'ketua_rw'];
+        foreach ($fields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                if (in_array($field, ['no_rt', 'no_rw'], true)) {
+                    // Hapus seluruh spasi (tanpa sisa) untuk no_rt & no_rw
+                    $cleaned = preg_replace('/\s+/', '', $request->input($field));
+                } else {
+                    $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                    $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                }
+                $request->merge([$field => $cleaned]);
+            }
+        }
     }
 }

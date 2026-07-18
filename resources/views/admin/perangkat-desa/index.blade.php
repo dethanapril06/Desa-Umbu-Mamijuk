@@ -25,7 +25,6 @@
                             <th>Nama</th>
                             <th>Jabatan</th>
                             <th>NIP</th>
-                            <th>Urutan Tampil</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -52,9 +51,6 @@
                                 </td>
                                 <td>
                                     {{ $perangkat->nip ?? '-' }}
-                                </td>
-                                <td>
-                                    {{ $perangkat->urutan }}
                                 </td>
                                 <td>
                                     <span class="badge {{ $perangkat->is_active ? 'bg-success' : 'bg-secondary' }}">

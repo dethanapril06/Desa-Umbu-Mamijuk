@@ -16,15 +16,7 @@ class Galeri extends Model
         'album_galeri_id',
         'gambar',
         'caption',
-        'urutan',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'urutan' => 'integer',
-        ];
-    }
 
     public function albumGaleri(): BelongsTo
     {

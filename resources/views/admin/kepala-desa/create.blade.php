@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="sambutan">Kata Sambutan</label>
+                        <label class="form-label" for="sambutan">Sambutan</label>
                         <textarea class="form-control" id="sambutan" name="sambutan" rows="6" placeholder="Tuliskan kata sambutan kepala desa...">{{ old('sambutan') }}</textarea>
                     </div>
 
@@ -79,3 +79,46 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function toCapitalEachWord(str) {
+        return str.toLowerCase().replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+    }
+
+    function toSentenceCase(str) {
+        let lower = str.toLowerCase();
+        return lower.replace(/(^|[.!?]\s+|\r?\n+)([a-z\p{L}])/gu, function(match, p1, p2) {
+            return p1 + p2.toUpperCase();
+        });
+    }
+
+    const singleFields = document.querySelectorAll('#nama, #gelar, #periode_mulai, #periode_selesai');
+    singleFields.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            let val = this.value.trim().replace(/\s+/g, ' ');
+            if (this.id === 'nama') {
+                val = toCapitalEachWord(val);
+            }
+            this.value = val;
+        });
+    });
+
+    const sambutanInput = document.getElementById('sambutan');
+    if (sambutanInput) {
+        sambutanInput.addEventListener('blur', function() {
+            if (!this.value) return;
+            let lines = this.value.split(/\r?\n/);
+            let cleanedLines = lines.map(line => line.trim().replace(/[^\S\r\n]+/g, ' '));
+            let text = cleanedLines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+            text = toSentenceCase(text);
+            this.value = text;
+        });
+    }
+});
+</script>
+@endpush

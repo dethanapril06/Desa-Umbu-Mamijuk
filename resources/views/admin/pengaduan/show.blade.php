@@ -312,4 +312,17 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const el = document.getElementById('isi_tanggapan');
+    if (el) {
+        el.addEventListener('blur', function() {
+            this.value = this.value.replace(/\s+/g, ' ').trim();
+        });
+    }
+});
+</script>
+@endpush
 @endsection

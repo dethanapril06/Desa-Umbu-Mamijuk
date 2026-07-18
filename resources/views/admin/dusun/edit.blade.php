@@ -43,11 +43,6 @@
                         <input type="text" class="form-control" id="kepala_dusun" name="kepala_dusun" value="{{ old('kepala_dusun', $dusun->kepala_dusun) }}" />
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="urutan">Urutan Tampil <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="urutan" name="urutan" value="{{ old('urutan', $dusun->urutan) }}" min="0" required />
-                    </div>
-
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {{ old('is_active', $dusun->is_active) ? 'checked' : '' }}>
                         <label class="form-check-label" for="is_active">Aktif (Tampilkan di form kependudukan)</label>
@@ -62,3 +57,25 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function toCapitalEachWord(str) {
+        return str.toLowerCase().replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+    }
+
+    const fields = document.querySelectorAll('#nama, #kepala_dusun');
+    fields.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            let val = this.value.trim().replace(/\s+/g, ' ');
+            val = toCapitalEachWord(val);
+            this.value = val;
+        });
+    });
+});
+</script>
+@endpush

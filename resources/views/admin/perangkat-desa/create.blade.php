@@ -42,16 +42,9 @@
                         <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" placeholder="Contoh: Sekretaris Desa, Kaur Keuangan" required />
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" for="nip">NIP (Nomor Induk Pegawai)</label>
-                            <input type="text" class="form-control" id="nip" name="nip" value="{{ old('nip') }}" placeholder="Boleh dikosongkan jika tidak ada" />
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" for="urutan">Urutan Tampil <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="urutan" name="urutan" value="{{ old('urutan', 1) }}" min="1" required />
-                            <div class="form-text">Mengatur urutan tampilan di halaman depan. Angka terkecil tampil pertama.</div>
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="nip">NIP (Nomor Induk Pegawai)</label>
+                        <input type="text" class="form-control" id="nip" name="nip" value="{{ old('nip') }}" placeholder="Boleh dikosongkan jika tidak ada" />
                     </div>
 
                     <div class="mb-3">
@@ -74,3 +67,27 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function toCapitalEachWord(str) {
+        return str.toLowerCase().replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+    }
+
+    const fields = document.querySelectorAll('#nama, #jabatan, #nip');
+    fields.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            let val = this.value.trim().replace(/\s+/g, ' ');
+            if (this.id === 'nama' || this.id === 'jabatan') {
+                val = toCapitalEachWord(val);
+            }
+            this.value = val;
+        });
+    });
+});
+</script>
+@endpush

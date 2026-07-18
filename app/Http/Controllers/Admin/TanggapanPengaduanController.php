@@ -13,6 +13,8 @@ class TanggapanPengaduanController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'pengaduan_id'  => 'required|exists:pengaduan,id',
             'isi_tanggapan' => 'required|string',
@@ -58,5 +60,16 @@ class TanggapanPengaduanController extends Controller
 
         return redirect()->route('admin.pengaduan.show', $pengaduanId)
             ->with('success', 'Tanggapan berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        if ($request->has('isi_tanggapan') && is_string($request->input('isi_tanggapan')) && !empty($request->input('isi_tanggapan'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('isi_tanggapan')));
+            $request->merge(['isi_tanggapan' => $cleaned]);
+        }
     }
 }

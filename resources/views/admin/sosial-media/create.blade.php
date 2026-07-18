@@ -53,20 +53,14 @@
                         <input type="url" class="form-control" id="url" name="url" value="{{ old('url') }}" placeholder="Contoh: https://facebook.com/username" required />
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-8 mb-3">
-                            <label class="form-label" for="icon">Icon <span class="text-danger">*</span></label>
-                            @include('admin.layouts.partials.icon-picker', [
-                                'id' => 'icon',
-                                'name' => 'icon',
-                                'value' => old('icon'),
-                                'type' => 'sosial_media'
-                            ])
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label" for="urutan">Urutan Tampil <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="urutan" name="urutan" value="{{ old('urutan', 1) }}" min="1" required />
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="icon">Icon <span class="text-danger">*</span></label>
+                        @include('admin.layouts.partials.icon-picker', [
+                            'id' => 'icon',
+                            'name' => 'icon',
+                            'value' => old('icon'),
+                            'type' => 'sosial_media'
+                        ])
                     </div>
 
                     <div class="mb-3 form-check">
@@ -143,6 +137,21 @@
                     const targetIcon = platformIcons[selectedVal];
                     updateIconPicker(targetIcon);
                 }
+            });
+        }
+
+        if (platformInput) {
+            platformInput.addEventListener('blur', function() {
+                this.value = this.value.replace(/\s+/g, ' ').trim().replace(/\w\S*/g, function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                });
+            });
+        }
+
+        const urlInput = document.getElementById('url');
+        if (urlInput) {
+            urlInput.addEventListener('blur', function() {
+                this.value = this.value.replace(/\s+/g, ' ').trim();
             });
         }
     });

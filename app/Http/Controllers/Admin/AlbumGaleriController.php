@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Rules\LandscapeImage;
 
 class AlbumGaleriController extends Controller
 {
@@ -25,11 +26,24 @@ class AlbumGaleriController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'nama' => 'required|string|max:255|unique:album_galeri,nama',
             'deskripsi' => 'nullable|string',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-        ]);
+            'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+        ];
+
+        $messages = [
+            'nama.required' => 'Nama album wajib diisi.',
+            'nama.unique' => 'Nama album tersebut sudah terdaftar di sistem.',
+            'nama.max' => 'Nama album maksimal 255 karakter.',
+            'cover.dimensions' => 'Resolusi cover terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'cover.max' => 'Ukuran file cover maksimal 2 MB.',
+            'cover.mimes' => 'Format cover harus berupa JPEG, PNG, JPG, atau WEBP.',
+        ];
+
+        $request->validate($rules, $messages);
 
         $data = $request->except(['cover']);
         $data['slug'] = Str::slug($request->nama);
@@ -51,11 +65,24 @@ class AlbumGaleriController extends Controller
 
     public function update(Request $request, AlbumGaleri $albumGaleri): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'nama' => 'required|string|max:255|unique:album_galeri,nama,' . $albumGaleri->id,
             'deskripsi' => 'nullable|string',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-        ]);
+            'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+        ];
+
+        $messages = [
+            'nama.required' => 'Nama album wajib diisi.',
+            'nama.unique' => 'Nama album tersebut sudah terdaftar di sistem.',
+            'nama.max' => 'Nama album maksimal 255 karakter.',
+            'cover.dimensions' => 'Resolusi cover terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
+            'cover.max' => 'Ukuran file cover maksimal 2 MB.',
+            'cover.mimes' => 'Format cover harus berupa JPEG, PNG, JPG, atau WEBP.',
+        ];
+
+        $request->validate($rules, $messages);
 
         $data = $request->except(['cover']);
         $data['slug'] = Str::slug($request->nama);
@@ -89,5 +116,22 @@ class AlbumGaleriController extends Controller
 
         $albumGaleri->delete();
         return redirect()->route('admin.album-galeri.index')->with('success', 'Album galeri beserta semua fotonya berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        if ($request->has('nama') && is_string($request->input('nama')) && !empty($request->input('nama'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('nama')));
+            $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+            $request->merge(['nama' => $cleaned]);
+        }
+
+        if ($request->has('deskripsi') && is_string($request->input('deskripsi')) && !empty($request->input('deskripsi'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('deskripsi')));
+            $request->merge(['deskripsi' => $cleaned]);
+        }
     }
 }

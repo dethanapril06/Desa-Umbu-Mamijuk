@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -83,8 +84,8 @@ class Wisata extends Model
         return $this->hasMany(UlasanWisata::class);
     }
 
-    public function penginapanWisata(): HasMany
+    public function penginapan(): BelongsToMany
     {
-        return $this->hasMany(PenginapanWisata::class);
+        return $this->belongsToMany(Penginapan::class, 'penginapan_wisata', 'wisata_id', 'penginapan_id')->withTimestamps();
     }
 }

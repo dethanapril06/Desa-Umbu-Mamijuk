@@ -11,13 +11,18 @@ class RuteWisataController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'wisata_id' => 'required|exists:wisata,id',
             'jenis_transportasi' => 'required|string|max:100', // e.g. jalan kaki, mobil, motor
             'icon' => 'nullable|string|max:100', // e.g. bx-walk, bx-car
             'deskripsi' => 'nullable|string',
             'warna_badge' => 'nullable|string|max:50', // e.g. success, info, primary
-            'urutan' => 'required|integer|min:0',
+        ], [
+            'jenis_transportasi.required' => 'Jenis transportasi wajib diisi.',
+            'wisata_id.required' => 'Destinasi wisata wajib dipilih.',
+            'wisata_id.exists' => 'Destinasi wisata tidak valid.',
         ]);
 
         RuteWisata::create($request->all());
@@ -31,5 +36,22 @@ class RuteWisataController extends Controller
         $rute->delete();
 
         return redirect()->to(route('admin.wisata.edit', $wisataId) . '#tab-rute')->with('success', 'Rute wisata berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        if ($request->has('jenis_transportasi') && is_string($request->input('jenis_transportasi')) && !empty($request->input('jenis_transportasi'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('jenis_transportasi')));
+            $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+            $request->merge(['jenis_transportasi' => $cleaned]);
+        }
+
+        if ($request->has('deskripsi') && is_string($request->input('deskripsi')) && !empty($request->input('deskripsi'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('deskripsi')));
+            $request->merge(['deskripsi' => $cleaned]);
+        }
     }
 }

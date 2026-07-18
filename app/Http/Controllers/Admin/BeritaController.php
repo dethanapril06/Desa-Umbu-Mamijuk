@@ -46,6 +46,8 @@ class BeritaController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'judul' => 'required|string|max:255',
             'kategori_berita_id' => 'required|exists:kategori_berita,id',
@@ -57,6 +59,10 @@ class BeritaController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
         ], [
+            'judul.required' => 'Judul berita wajib diisi.',
+            'kategori_berita_id.required' => 'Kategori berita wajib dipilih.',
+            'kategori_berita_id.exists' => 'Kategori berita yang dipilih tidak valid.',
+            'konten.required' => 'Konten berita wajib diisi.',
             'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -94,6 +100,8 @@ class BeritaController extends Controller
 
     public function update(Request $request, Berita $berita): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'judul' => 'required|string|max:255',
             'kategori_berita_id' => 'required|exists:kategori_berita,id',
@@ -105,6 +113,10 @@ class BeritaController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
         ], [
+            'judul.required' => 'Judul berita wajib diisi.',
+            'kategori_berita_id.required' => 'Kategori berita wajib dipilih.',
+            'kategori_berita_id.exists' => 'Kategori berita yang dipilih tidak valid.',
+            'konten.required' => 'Konten berita wajib diisi.',
             'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -152,5 +164,25 @@ class BeritaController extends Controller
         $berita->delete();
 
         return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        $titleFields = ['judul', 'caption_gambar'];
+        foreach ($titleFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        if ($request->has('excerpt') && is_string($request->input('excerpt')) && !empty($request->input('excerpt'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('excerpt')));
+            $request->merge(['excerpt' => $cleaned]);
+        }
     }
 }

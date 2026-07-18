@@ -23,6 +23,38 @@
                 </div>
             @endif
 
+            <!-- Card Wilayah & Keluarga (Full 12 Col) -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0 text-white"><i class="bx bx-home-alt me-1"></i> Pilihan Wilayah & Kartu Keluarga</h5>
+                </div>
+                <div class="card-body pt-3">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="dusun_id">Dusun <span class="text-danger">*</span></label>
+                            <select class="form-select" id="dusun_id" name="dusun_id" required>
+                                <option value="">-- Pilih Dusun --</option>
+                                @foreach($dusunList as $d)
+                                    <option value="{{ $d->id }}">{{ $d->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="rt_rw_id">RT / RW <span class="text-danger">*</span></label>
+                            <select class="form-select" id="rt_rw_id" name="rt_rw_id" required disabled>
+                                <option value="">-- Pilih Dusun terlebih dahulu --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label" for="keluarga_id">Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+                            <select class="form-select" id="keluarga_id" name="keluarga_id" required disabled>
+                                <option value="">-- Pilih RT/RW terlebih dahulu --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row g-4">
                 <!-- Card 1: Identitas Utama -->
                 <div class="col-md-6">
@@ -31,22 +63,6 @@
                             <h5 class="mb-0 text-white"><i class="bx bx-user me-1"></i> Identitas Utama</h5>
                         </div>
                         <div class="card-body pt-3">
-                            <div class="mb-3">
-                                <label class="form-label" for="keluarga_id">Hubungkan dengan Kartu Keluarga (KK) <span class="text-danger">*</span></label>
-                                <select class="form-select" id="keluarga_id" name="keluarga_id" required>
-                                    <option value="">-- Pilih Kartu Keluarga --</option>
-                                    @foreach($keluargaList as $kk)
-                                        @php
-                                            $kepala = $kk->penduduk->where('status_hubungan_keluarga', 'kepala_keluarga')->first();
-                                            $labelKepala = $kepala ? ' (Kepala: ' . $kepala->nama_lengkap . ')' : ' (Belum ada Kepala)';
-                                        @endphp
-                                        <option value="{{ $kk->id }}" {{ (old('keluarga_id') == $kk->id || $selectedKeluargaId == $kk->id) ? 'selected' : '' }}>
-                                            {{ $kk->no_kk }} - {{ Str::limit($kk->alamat, 20) }}{{ $labelKepala }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
                             <div class="mb-3">
                                 <label class="form-label" for="nik">NIK (Nomor Induk Kependudukan) <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="nik" name="nik" value="{{ old('nik') }}" maxlength="16" placeholder="16 digit NIK" required />
@@ -144,25 +160,6 @@
                                 </div>
                             </div>
 
-                            @php
-                                $pekerjaanList = [
-                                    'Belum / Tidak Bekerja',
-                                    'Mengurus Rumah Tangga',
-                                    'Pelajar / Mahasiswa',
-                                    'PNS / ASN',
-                                    'TNI / POLRI',
-                                    'Karyawan Swasta / BUMN / BUMD',
-                                    'Petani / Pekebun / Peternak',
-                                    'Nelayan',
-                                    'Wiraswasta / Pedagang',
-                                    'Buruh Harian Lepas',
-                                    'Tenaga Pendidik (Guru / Dosen)',
-                                    'Tenaga Medis (Dokter / Perawat / Bidan)',
-                                    'Sopir / Pengemudi',
-                                    'Pensiunan',
-                                    'Lainnya'
-                                ];
-                            @endphp
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label" for="pekerjaan">Pekerjaan</label>
@@ -290,6 +287,29 @@
     </div>
 </div>
 
+@endsection
+
+@push('scripts')
+@php
+    $rtRwArray = $rtRwList->map(function($r) {
+        return [
+            'id' => $r->id,
+            'dusun_id' => $r->dusun_id,
+            'label' => 'RT ' . $r->no_rt . ' / RW ' . $r->no_rw
+        ];
+    })->values();
+
+    $keluargaArray = $keluargaList->map(function($kk) {
+        $kepala = $kk->penduduk->where('status_hubungan_keluarga', 'kepala_keluarga')->first();
+        $namaKepala = $kepala ? strtoupper($kepala->nama_lengkap) : 'Belum ada Kepala Keluarga';
+        return [
+            'id' => $kk->id,
+            'rt_rw_id' => $kk->rt_rw_id,
+            'dusun_id' => $kk->rtRw ? $kk->rtRw->dusun_id : null,
+            'label' => $kk->no_kk . ' - Kepala Keluarga: ' . $namaKepala
+        ];
+    })->values();
+@endphp
 <script>
 function toggleDisabilitas(checkbox) {
     var wrapper = document.getElementById('jenis_disabilitas_wrapper');
@@ -300,5 +320,140 @@ function toggleDisabilitas(checkbox) {
         document.getElementById('jenis_disabilitas').value = '';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    function toCapitalEachWord(str) {
+        return str.toLowerCase().replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+    }
+
+    const numberFields = document.querySelectorAll('#nik, #no_telepon, #no_paspor, #no_kitas_kitap');
+    numberFields.forEach(input => {
+        ['input', 'blur'].forEach(evt => {
+            input.addEventListener(evt, function() {
+                if (!this.value) return;
+                this.value = this.value.replace(/\s+/g, '');
+            });
+        });
+    });
+
+    const titleFields = document.querySelectorAll('#nama_lengkap, #tempat_lahir, #nama_ayah, #nama_ibu, #jenis_disabilitas');
+    titleFields.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            let cleaned = this.value.replace(/\s+/g, ' ').trim();
+            this.value = toCapitalEachWord(cleaned);
+        });
+    });
+
+    const ketInput = document.getElementById('keterangan');
+    if (ketInput) {
+        ketInput.addEventListener('blur', function() {
+            if (!this.value) return;
+            let lines = this.value.split(/\r?\n/);
+            let cleanedLines = lines.map(line => line.trim().replace(/[^\S\r\n]+/g, ' '));
+            this.value = cleanedLines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+        });
+    }
+
+    const rtRwData = @json($rtRwArray);
+    const keluargaData = @json($keluargaArray);
+
+    const dusunSelect = document.getElementById('dusun_id');
+    const rtRwSelect = document.getElementById('rt_rw_id');
+    const keluargaSelect = document.getElementById('keluarga_id');
+
+    let targetKeluargaId = "{{ old('keluarga_id', $selectedKeluargaId ?? '') }}";
+    let targetRtRwId = "{{ old('rt_rw_id', '') }}";
+    let targetDusunId = "{{ old('dusun_id', '') }}";
+
+    if (targetKeluargaId && !targetRtRwId) {
+        const found = keluargaData.find(k => String(k.id) === String(targetKeluargaId));
+        if (found) {
+            targetRtRwId = found.rt_rw_id;
+            targetDusunId = found.dusun_id;
+        }
+    }
+
+    function filterRtRw(selectedDusunId, selectedRtRwId = '') {
+        rtRwSelect.innerHTML = '';
+        if (!selectedDusunId) {
+            rtRwSelect.innerHTML = '<option value="">-- Pilih Dusun terlebih dahulu --</option>';
+            rtRwSelect.disabled = true;
+            return;
+        }
+
+        const filtered = rtRwData.filter(item => String(item.dusun_id) === String(selectedDusunId));
+        if (filtered.length === 0) {
+            rtRwSelect.innerHTML = '<option value="">-- Belum ada RT/RW di dusun ini --</option>';
+            rtRwSelect.disabled = true;
+            return;
+        }
+
+        rtRwSelect.disabled = false;
+        rtRwSelect.innerHTML = '<option value="">-- Pilih RT / RW --</option>';
+        filtered.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.id;
+            opt.textContent = item.label;
+            if (String(item.id) === String(selectedRtRwId)) {
+                opt.selected = true;
+            }
+            rtRwSelect.appendChild(opt);
+        });
+    }
+
+    function filterKeluarga(selectedDusunId, selectedRtRwId, selectedKkId = '') {
+        keluargaSelect.innerHTML = '';
+        if (!selectedDusunId && !selectedRtRwId) {
+            keluargaSelect.innerHTML = '<option value="">-- Pilih RT/RW terlebih dahulu --</option>';
+            keluargaSelect.disabled = true;
+            return;
+        }
+
+        let filtered = [];
+        if (selectedRtRwId) {
+            filtered = keluargaData.filter(item => String(item.rt_rw_id) === String(selectedRtRwId));
+        } else if (selectedDusunId) {
+            filtered = keluargaData.filter(item => String(item.dusun_id) === String(selectedDusunId));
+        }
+
+        if (filtered.length === 0) {
+            keluargaSelect.innerHTML = '<option value="">-- Belum ada KK di wilayah ini --</option>';
+            keluargaSelect.disabled = true;
+            return;
+        }
+
+        keluargaSelect.disabled = false;
+        keluargaSelect.innerHTML = '<option value="">-- Pilih Kartu Keluarga --</option>';
+        filtered.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.id;
+            opt.textContent = item.label;
+            if (String(item.id) === String(selectedKkId)) {
+                opt.selected = true;
+            }
+            keluargaSelect.appendChild(opt);
+        });
+    }
+
+    if (dusunSelect && rtRwSelect && keluargaSelect) {
+        dusunSelect.addEventListener('change', function() {
+            filterRtRw(this.value, '');
+            filterKeluarga(this.value, '', '');
+        });
+
+        rtRwSelect.addEventListener('change', function() {
+            filterKeluarga(dusunSelect.value, this.value, '');
+        });
+
+        if (targetDusunId) {
+            dusunSelect.value = targetDusunId;
+        }
+        filterRtRw(dusunSelect.value, targetRtRwId);
+        filterKeluarga(dusunSelect.value, targetRtRwId, targetKeluargaId);
+    }
+});
 </script>
-@endsection
+@endpush

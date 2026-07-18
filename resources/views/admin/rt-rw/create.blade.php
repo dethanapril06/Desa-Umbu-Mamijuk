@@ -72,3 +72,35 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function toCapitalEachWord(str) {
+        return str.toLowerCase().replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+    }
+
+    const numberFields = document.querySelectorAll('#no_rt, #no_rw');
+    numberFields.forEach(input => {
+        ['input', 'blur'].forEach(evt => {
+            input.addEventListener(evt, function() {
+                if (!this.value) return;
+                this.value = this.value.replace(/\s+/g, '');
+            });
+        });
+    });
+
+    const nameFields = document.querySelectorAll('#ketua_rt, #ketua_rw');
+    nameFields.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            let val = this.value.trim().replace(/\s+/g, ' ');
+            val = toCapitalEachWord(val);
+            this.value = val;
+        });
+    });
+});
+</script>
+@endpush

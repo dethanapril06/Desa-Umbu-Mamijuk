@@ -18,6 +18,8 @@ class ProfileController extends Controller
 
     public function update(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $user = $request->user();
 
         $request->validate([
@@ -38,6 +40,8 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'current_password' => ['required', function ($attribute, $value, $fail) use ($request) {
                 if (!Hash::check($value, $request->user()->password)) {
@@ -55,5 +59,30 @@ class ProfileController extends Controller
         ]);
 
         return redirect()->route('admin.profile.edit')->with('success', 'Password berhasil diperbarui.');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        if ($request->has('name') && is_string($request->input('name')) && !empty($request->input('name'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('name')));
+            $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+            $request->merge(['name' => $cleaned]);
+        }
+
+        if ($request->has('email') && is_string($request->input('email')) && !empty($request->input('email'))) {
+            $cleaned = preg_replace('/\s+/', ' ', trim($request->input('email')));
+            $request->merge(['email' => $cleaned]);
+        }
+
+        $passwordFields = ['current_password', 'password', 'password_confirmation'];
+        foreach ($passwordFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = trim($request->input($field));
+                $request->merge([$field => $cleaned]);
+            }
+        }
     }
 }

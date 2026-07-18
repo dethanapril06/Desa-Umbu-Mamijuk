@@ -110,6 +110,12 @@ Route::prefix('admin')
         // UMKM
         Route::resource('/umkm', \App\Http\Controllers\Admin\UmkmController::class);
 
+        // Penginapan / Homestay
+        Route::resource('/penginapan', \App\Http\Controllers\Admin\PenginapanController::class)->parameters([
+            'penginapan' => 'penginapan'
+        ]);
+        Route::post('/wisata/{wisata}/sync-penginapan', [\App\Http\Controllers\Admin\WisataController::class, 'syncPenginapan'])->name('wisata.sync-penginapan');
+
         // Sub-Wisata (Fasilitas, Tips, Rute, Galeri)
         Route::post('/fasilitas-wisata', [\App\Http\Controllers\Admin\FasilitasWisataController::class, 'store'])->name('fasilitas-wisata.store');
         Route::delete('/fasilitas-wisata/{fasilitas}', [\App\Http\Controllers\Admin\FasilitasWisataController::class, 'destroy'])->name('fasilitas-wisata.destroy');
@@ -122,9 +128,6 @@ Route::prefix('admin')
 
         Route::post('/galeri-wisata', [\App\Http\Controllers\Admin\GaleriWisataController::class, 'store'])->name('galeri-wisata.store');
         Route::delete('/galeri-wisata/{galeri}', [\App\Http\Controllers\Admin\GaleriWisataController::class, 'destroy'])->name('galeri-wisata.destroy');
-
-        Route::post('/penginapan-wisata', [\App\Http\Controllers\Admin\PenginapanWisataController::class, 'store'])->name('penginapan-wisata.store');
-        Route::delete('/penginapan-wisata/{penginapan}', [\App\Http\Controllers\Admin\PenginapanWisataController::class, 'destroy'])->name('penginapan-wisata.destroy');
 
         // Ulasan Wisata
         Route::patch('/ulasan-wisata/{ulasan}/toggle-approve', [\App\Http\Controllers\Admin\UlasanWisataController::class, 'toggleApprove'])->name('ulasan-wisata.toggle-approve');

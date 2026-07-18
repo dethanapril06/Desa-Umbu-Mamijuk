@@ -16,15 +16,7 @@ class TipsWisata extends Model
         'wisata_id',
         'judul',
         'deskripsi',
-        'urutan',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'urutan' => 'integer',
-        ];
-    }
 
     public function wisata(): BelongsTo
     {

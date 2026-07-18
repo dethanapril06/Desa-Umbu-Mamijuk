@@ -21,18 +21,20 @@ class PenginapanWisata extends Model
         'no_telepon',
         'fasilitas_singkat',
         'foto',
-        'urutan',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'urutan' => 'integer',
-        ];
-    }
 
     public function wisata(): BelongsTo
     {
         return $this->belongsTo(Wisata::class);
+    }
+
+    public function getKisaranHargaAttribute($value)
+    {
+        return Penginapan::formatHarga($value);
+    }
+
+    public function setKisaranHargaAttribute($value)
+    {
+        $this->attributes['kisaran_harga'] = Penginapan::formatHarga($value);
     }
 }

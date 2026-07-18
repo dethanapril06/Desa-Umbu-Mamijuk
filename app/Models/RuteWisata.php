@@ -18,15 +18,7 @@ class RuteWisata extends Model
         'icon',
         'deskripsi',
         'warna_badge',
-        'urutan',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'urutan' => 'integer',
-        ];
-    }
 
     public function wisata(): BelongsTo
     {

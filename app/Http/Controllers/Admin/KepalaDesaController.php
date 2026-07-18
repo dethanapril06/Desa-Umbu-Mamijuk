@@ -24,6 +24,8 @@ class KepalaDesaController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'gelar' => 'nullable|string|max:100',
@@ -33,6 +35,9 @@ class KepalaDesaController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
             'is_active' => 'nullable|boolean',
         ], [
+            'nama.required' => 'Nama Kepala Desa wajib diisi.',
+            'periode_mulai.required' => 'Tahun periode mulai wajib diisi.',
+            'periode_selesai.required' => 'Tahun periode selesai wajib diisi.',
             'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
             'foto.max' => 'Ukuran file foto maksimal 2 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -63,6 +68,8 @@ class KepalaDesaController extends Controller
 
     public function update(Request $request, KepalaDesa $kepalaDesa): RedirectResponse
     {
+        $this->normalizeInput($request);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'gelar' => 'nullable|string|max:100',
@@ -72,6 +79,9 @@ class KepalaDesaController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
             'is_active' => 'nullable|boolean',
         ], [
+            'nama.required' => 'Nama Kepala Desa wajib diisi.',
+            'periode_mulai.required' => 'Tahun periode mulai wajib diisi.',
+            'periode_selesai.required' => 'Tahun periode selesai wajib diisi.',
             'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
             'foto.max' => 'Ukuran file foto maksimal 2 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -122,5 +132,42 @@ class KepalaDesaController extends Controller
         $kepalaDesa->update(['is_active' => $newStatus]);
 
         return redirect()->route('admin.kepala-desa.index')->with('success', 'Status keaktifan kepala desa berhasil diubah!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        // 1. Bersihkan spasi berlebih pada field baris tunggal & Capital Each Word khusus untuk 'nama'
+        $singleFields = ['nama', 'gelar', 'periode_mulai', 'periode_selesai'];
+        foreach ($singleFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                if ($field === 'nama') {
+                    $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                }
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        // 2. Bersihkan spasi berlebih & format Sentence case pada sambutan (multiline safe)
+        if ($request->has('sambutan') && is_string($request->input('sambutan')) && !empty($request->input('sambutan'))) {
+            $lines = preg_split('/\r\n|\r|\n/', $request->input('sambutan'));
+            $cleanedLines = [];
+            foreach ($lines as $line) {
+                $cleanedLines[] = preg_replace('/[^\S\r\n]+/', ' ', trim($line));
+            }
+            $text = implode("\n", $cleanedLines);
+            $text = preg_replace('/\n{3,}/', "\n\n", trim($text));
+
+            // Format Sentence case (huruf pertama di setiap kalimat / paragraf menjadi kapital)
+            $text = mb_strtolower($text, 'UTF-8');
+            $text = preg_replace_callback('/(^|[.!?]\s+|\r?\n+)([a-z\p{L}])/u', function ($matches) {
+                return $matches[1] . mb_strtoupper($matches[2], 'UTF-8');
+            }, $text);
+
+            $request->merge(['sambutan' => $text]);
+        }
     }
 }

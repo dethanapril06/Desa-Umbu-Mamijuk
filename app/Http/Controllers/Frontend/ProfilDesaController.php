@@ -17,7 +17,7 @@ class ProfilDesaController extends Controller
         $profilDesa = ProfilDesa::first();
         $kepalaDesa = KepalaDesa::where('is_active', true)->first();
         $perangkatDesa = PerangkatDesa::where('is_active', true)
-            ->orderBy('urutan')
+            ->orderBy('id', 'asc')
             ->get();
 
         $totalPenduduk = Penduduk::where('status', 'aktif')->count();

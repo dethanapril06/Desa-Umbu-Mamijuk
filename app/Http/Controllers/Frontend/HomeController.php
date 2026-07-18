@@ -54,7 +54,6 @@ class HomeController extends Controller
 
         // Galeri (8 foto terbaru)
         $galeri = Galeri::with('albumGaleri')
-            ->orderBy('urutan')
             ->latest()
             ->take(8)
             ->get();
@@ -68,7 +67,7 @@ class HomeController extends Controller
 
         // Sliders banner
         $sliders = Slider::where('is_active', true)
-            ->orderBy('urutan', 'asc')
+            ->orderBy('id', 'desc')
             ->get();
 
         return view('frontend.home.index', compact(

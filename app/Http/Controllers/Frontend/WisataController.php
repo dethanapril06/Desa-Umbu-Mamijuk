@@ -61,11 +61,11 @@ class WisataController extends Controller
             ->where('is_published', true)
             ->with([
                 'kategoriWisata',
-                'galeriWisata' => fn ($q) => $q->orderBy('urutan'),
+                'galeriWisata' => fn ($q) => $q->latest(),
                 'fasilitasWisata',
-                'tipsWisata' => fn ($q) => $q->orderBy('urutan'),
-                'ruteWisata' => fn ($q) => $q->orderBy('urutan'),
-                'penginapanWisata' => fn ($q) => $q->orderBy('urutan'),
+                'tipsWisata' => fn ($q) => $q->orderBy('id'),
+                'ruteWisata' => fn ($q) => $q->orderBy('id'),
+                'penginapan' => fn ($q) => $q->latest(),
                 'ulasanWisata' => fn ($q) => $q->where('is_approved', true)->latest(),
             ])
             ->firstOrFail();

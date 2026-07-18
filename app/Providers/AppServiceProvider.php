@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // View Composer for footer social media
         View::composer('frontend.partials.footer', function ($view) {
-            $view->with('sosialMedias', SosialMedia::where('is_active', true)->orderBy('urutan', 'asc')->get());
+            $view->with('sosialMedias', SosialMedia::where('is_active', true)->orderBy('id', 'asc')->get());
         });
     }
 }

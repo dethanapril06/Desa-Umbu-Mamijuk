@@ -197,18 +197,9 @@
                     <div class="section-label">Lokasi & Rute</div>
                     <h2 class="section-title mb-4">Cara <em>Menuju</em> Lokasi</h2>
 
-                    @if ($wisata->google_maps_embed_url || ($wisata->koordinat_lat && $wisata->koordinat_lng))
-                        @php
-                            $mapUrl = $wisata->google_maps_embed_url;
-
-                            if (! $mapUrl) {
-                                $lat = (float) $wisata->koordinat_lat;
-                                $lng = (float) $wisata->koordinat_lng;
-                                $mapUrl = "https://www.google.com/maps?q={$lat},{$lng}&hl=id&z=15&output=embed";
-                            }
-                        @endphp
+                    @if ($wisata->google_maps_embed_url)
                         <div class="peta-desa-frame mb-4" style="border-radius:18px; min-height:360px;">
-                            <iframe src="{{ $mapUrl }}" title="Peta dan rute menuju {{ $wisata->nama }}"
+                            <iframe src="{{ $wisata->google_maps_embed_url }}" title="Peta dan rute menuju {{ $wisata->nama }}"
                                 style="width:100%; height:360px; border:none; display:block;" allowfullscreen
                                 loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
@@ -242,12 +233,12 @@
                 </section>
 
                 {{-- PENGINAPAN & HOMESTAY TERDEKAT --}}
-                @if ($wisata->penginapanWisata->count() > 0)
+                @if ($wisata->penginapan->count() > 0)
                     <section class="mb-5 reveal" id="penginapan">
                         <div class="section-label">Akomodasi & Homestay</div>
                         <h2 class="section-title mb-4">Penginapan Terdekat di <em>Destinasi</em></h2>
                         <div class="row g-4">
-                            @foreach ($wisata->penginapanWisata as $penginapan)
+                            @foreach ($wisata->penginapan as $penginapan)
                                 @php
                                     $waNumber = preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $penginapan->no_telepon ?? ''));
                                     $pesanWa = urlencode("Halo {$penginapan->nama_penginapan}, saya melihat informasi penginapan Anda di website Desa Ibu Adri (Destinasi {$wisata->nama}). Saya ingin menanyakan ketersediaan kamar.");

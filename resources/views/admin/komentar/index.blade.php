@@ -73,22 +73,31 @@
                                     {{ $komentar->created_at ? $komentar->created_at->format('d M Y H:i') : '-' }}
                                 </td>
                                 <td>
-                                    <div class="d-flex gap-2">
-                                        <form action="{{ route('admin.komentar-berita.toggle-approve', $komentar->id) }}" method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-xs {{ $komentar->is_approved ? 'btn-outline-warning' : 'btn-outline-success' }}">
-                                                {{ $komentar->is_approved ? 'Batalkan Setuju' : 'Setujui' }}
-                                            </button>
-                                        </form>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form action="{{ route('admin.komentar-berita.toggle-approve', $komentar->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="dropdown-item">
+                                                    @if($komentar->is_approved)
+                                                        <i class="bx bx-x-circle me-1 text-warning"></i> Batalkan Setuju
+                                                    @else
+                                                        <i class="bx bx-check-circle me-1 text-success"></i> Setujui
+                                                    @endif
+                                                </button>
+                                            </form>
 
-                                        <form action="{{ route('admin.komentar-berita.destroy', $komentar->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus komentar ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-xs btn-outline-danger">
-                                                Hapus
-                                            </button>
-                                        </form>
+                                            <form action="{{ route('admin.komentar-berita.destroy', $komentar->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus komentar ini?');" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="dropdown-item">
+                                                    <i class="bx bx-trash me-1 text-danger"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

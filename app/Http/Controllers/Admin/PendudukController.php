@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Penduduk;
 use App\Models\Keluarga;
+use App\Models\RtRw;
+use App\Models\Dusun;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -41,17 +43,24 @@ class PendudukController extends Controller
 
     public function create(Request $request): View
     {
-        $keluargaList = Keluarga::orderBy('no_kk', 'asc')->get();
-        
-        // Option to pre-select keluarga_id from the Keluarga details page
+        $dusunList = Dusun::where('is_active', true)->orderBy('id', 'asc')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw', 'asc')->orderBy('no_rt', 'asc')->get();
+        $keluargaList = Keluarga::with(['rtRw.dusun', 'penduduk' => function ($query) {
+            $query->where('status_hubungan_keluarga', 'kepala_keluarga');
+        }])->orderBy('no_kk', 'asc')->get();
         $selectedKeluargaId = $request->input('keluarga_id');
+        $pekerjaanList = $this->getPekerjaanList();
 
-        return view('admin.penduduk.create', compact('keluargaList', 'selectedKeluargaId'));
+        return view('admin.penduduk.create', compact('dusunList', 'rtRwList', 'keluargaList', 'selectedKeluargaId', 'pekerjaanList'));
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
+            'dusun_id' => 'required|exists:dusun,id',
+            'rt_rw_id' => 'required|exists:rt_rw,id',
             'keluarga_id' => 'required|exists:keluarga,id',
             'nik' => 'required|string|size:16|unique:penduduk,nik',
             'nama_lengkap' => 'required|string|max:255',
@@ -75,9 +84,26 @@ class PendudukController extends Controller
             'jenis_disabilitas' => 'nullable|string|max:255',
             'status' => 'required|in:aktif,pindah,meninggal',
             'keterangan' => 'nullable|string',
-        ]);
+        ];
 
-        $data = $request->all();
+        $messages = [
+            'dusun_id.required' => 'Dusun wajib dipilih terlebih dahulu.',
+            'dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
+            'rt_rw_id.required' => 'RT / RW wajib dipilih terlebih dahulu.',
+            'rt_rw_id.exists' => 'RT / RW yang dipilih tidak valid.',
+            'keluarga_id.required' => 'Kartu Keluarga (KK) wajib dipilih terlebih dahulu.',
+            'keluarga_id.exists' => 'Kartu Keluarga (KK) yang dipilih tidak valid.',
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.size' => 'NIK harus berjumlah 16 digit.',
+            'nik.unique' => 'NIK sudah terdaftar di sistem.',
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'status.required' => 'Status penduduk wajib dipilih.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        $data = $request->except(['dusun_id', 'rt_rw_id']);
         $data['is_asuransi_kesehatan'] = $request->has('is_asuransi_kesehatan') ? (bool) $request->is_asuransi_kesehatan : false;
         $data['is_disabilitas'] = $request->has('is_disabilitas') ? (bool) $request->is_disabilitas : false;
 
@@ -101,13 +127,22 @@ class PendudukController extends Controller
 
     public function edit(Penduduk $penduduk): View
     {
-        $keluargaList = Keluarga::orderBy('no_kk', 'asc')->get();
-        return view('admin.penduduk.edit', compact('penduduk', 'keluargaList'));
+        $dusunList = Dusun::where('is_active', true)->orderBy('id', 'asc')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw', 'asc')->orderBy('no_rt', 'asc')->get();
+        $keluargaList = Keluarga::with(['rtRw.dusun', 'penduduk' => function ($query) {
+            $query->where('status_hubungan_keluarga', 'kepala_keluarga');
+        }])->orderBy('no_kk', 'asc')->get();
+        $pekerjaanList = $this->getPekerjaanList();
+        return view('admin.penduduk.edit', compact('penduduk', 'dusunList', 'rtRwList', 'keluargaList', 'pekerjaanList'));
     }
 
     public function update(Request $request, Penduduk $penduduk): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
+            'dusun_id' => 'required|exists:dusun,id',
+            'rt_rw_id' => 'required|exists:rt_rw,id',
             'keluarga_id' => 'required|exists:keluarga,id',
             'nik' => 'required|string|size:16|unique:penduduk,nik,' . $penduduk->id,
             'nama_lengkap' => 'required|string|max:255',
@@ -131,9 +166,26 @@ class PendudukController extends Controller
             'jenis_disabilitas' => 'nullable|string|max:255',
             'status' => 'required|in:aktif,pindah,meninggal',
             'keterangan' => 'nullable|string',
-        ]);
+        ];
 
-        $data = $request->all();
+        $messages = [
+            'dusun_id.required' => 'Dusun wajib dipilih terlebih dahulu.',
+            'dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
+            'rt_rw_id.required' => 'RT / RW wajib dipilih terlebih dahulu.',
+            'rt_rw_id.exists' => 'RT / RW yang dipilih tidak valid.',
+            'keluarga_id.required' => 'Kartu Keluarga (KK) wajib dipilih terlebih dahulu.',
+            'keluarga_id.exists' => 'Kartu Keluarga (KK) yang dipilih tidak valid.',
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.size' => 'NIK harus berjumlah 16 digit.',
+            'nik.unique' => 'NIK sudah terdaftar di sistem.',
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'status.required' => 'Status penduduk wajib dipilih.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        $data = $request->except(['dusun_id', 'rt_rw_id']);
         $data['is_asuransi_kesehatan'] = $request->has('is_asuransi_kesehatan') ? (bool) $request->is_asuransi_kesehatan : false;
         $data['is_disabilitas'] = $request->has('is_disabilitas') ? (bool) $request->is_disabilitas : false;
 
@@ -156,5 +208,57 @@ class PendudukController extends Controller
         $penduduk->delete();
 
         return redirect()->route('admin.keluarga.show', $keluargaId)->with('success', 'Data penduduk berhasil dihapus!');
+    }
+
+    private function getPekerjaanList(): array
+    {
+        $list = [
+            'Belum / Tidak Bekerja',
+            'Pelajar / Mahasiswa',
+            'PNS / ASN',
+            'PPPK',
+            'TNI / POLRI',
+            'Karyawan Swasta / BUMN / BUMD',
+            'Petani / Pekebun / Peternak',
+            'Nelayan',
+            'Wiraswasta / Pedagang',
+            'Buruh Harian Lepas',
+            'Sopir / Pengemudi',
+            'Pensiunan'
+        ];
+        sort($list);
+        return $list;
+    }
+
+    private function normalizeInput(Request $request): void
+    {
+        $noSpaceFields = ['nik', 'no_telepon', 'no_paspor', 'no_kitas_kitap'];
+        foreach ($noSpaceFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', '', $request->input($field));
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        $titleFields = ['nama_lengkap', 'tempat_lahir', 'nama_ayah', 'nama_ibu', 'jenis_disabilitas'];
+        foreach ($titleFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        $textFields = ['keterangan'];
+        foreach ($textFields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $lines = preg_split('/\r\n|\r|\n/', $request->input($field));
+                $cleanedLines = array_map(function ($line) {
+                    return preg_replace('/[^\S\r\n]+/', ' ', trim($line));
+                }, $lines);
+                $cleaned = trim(implode("\n", $cleanedLines));
+                $request->merge([$field => $cleaned]);
+            }
+        }
     }
 }

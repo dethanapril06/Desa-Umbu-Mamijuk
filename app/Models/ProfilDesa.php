@@ -31,8 +31,6 @@ class ProfilDesa extends Model
         'batas_timur',
         'batas_selatan',
         'batas_barat',
-        'koordinat_lat',
-        'koordinat_lng',
         'gambar_struktur_organisasi',
     ];
 }

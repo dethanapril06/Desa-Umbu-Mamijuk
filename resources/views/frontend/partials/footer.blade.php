@@ -1,7 +1,48 @@
 @php
     $profil = $profilDesa ?? \App\Models\ProfilDesa::first();
     $categories = \App\Models\KategoriPengaduan::all();
+    $publicPengaduans = \App\Models\Pengaduan::where('is_publik', true)
+        ->where('created_at', '>=', now()->subMonth())
+        ->orderBy('created_at', 'desc')
+        ->get();
 @endphp
+
+<!-- TV News Ticker Bar (Pengaduan Warga Publik 1 Bulan Terakhir) -->
+<div class="pengaduan-news-ticker-bar" style="background: #0f172a; border-top: 2px solid var(--gold, #e8c97a); border-bottom: 1px solid rgba(255, 255, 255, 0.1); position: relative; z-index: 20; overflow: hidden; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);">
+    <div class="d-flex align-items-center">
+        <!-- Badge / Label Berita -->
+        <div class="ticker-badge d-flex align-items-center px-3 px-md-4 py-2.5 flex-shrink-0" style="background: linear-gradient(135deg, #c53030, #e53e3e); color: #fff; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px; box-shadow: 4px 0 12px rgba(0,0,0,0.3); z-index: 2;">
+            <span class="pulsing-live-dot me-2" style="width: 8px; height: 8px; background: #fff; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #fff; animation: pulseDot 1.2s infinite;"></span>
+            <i class="fas fa-bullhorn me-2 d-none d-sm-inline"></i>
+            <span>Aspirasi dan Aduan</span>
+        </div>
+
+        <!-- Marquee Track Wrapper -->
+        <div class="ticker-wrapper flex-grow-1 overflow-hidden py-2" id="pengaduanTickerWrapper" style="white-space: nowrap; position: relative;">
+            <div class="ticker-track d-inline-block" id="pengaduanTickerTrack">
+                @if($publicPengaduans->isNotEmpty())
+                    @foreach($publicPengaduans as $item)
+                        <span class="ticker-item mx-4 d-inline-flex align-items-center" onclick="openAndTrackComplaint('{{ $item->no_tiket }}')" style="cursor: pointer; transition: color 0.2s;" title="Klik untuk melihat detail & tanggapan laporan ({{ $item->no_tiket }})">
+                            <span class="text-white fw-semibold hover-gold" style="font-size: 0.92rem;">
+                                {{ $item->judul }}
+                            </span>
+                            <span class="text-muted ms-2" style="font-size: 0.82rem;">
+                                ({{ $item->created_at->translatedFormat('d M Y') }})
+                            </span>
+                        </span>
+                        @if(!$loop->last)
+                            <span class="ticker-separator text-warning mx-2" style="opacity: 0.6;">★</span>
+                        @endif
+                    @endforeach
+                @else
+                    <span class="ticker-item mx-4 text-light" style="font-size: 0.9rem;">
+                        Belum ada laporan pengaduan publik yang masuk dalam 1 bulan terakhir. Warga dapat menyampaikan aspirasi dan pengaduan layanan desa melalui tombol <strong>Pengaduan Warga</strong> di pojok kanan bawah.
+                    </span>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer class="footer-desa">
     <div class="container">
@@ -392,6 +433,26 @@
     color: #e8c97a !important;
     opacity: 1;
 }
+
+@keyframes pulseDot {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #fff; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+@keyframes tickerScroll {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.hover-gold:hover {
+    color: var(--gold, #e8c97a) !important;
+    text-decoration: underline;
+}
+
+#pengaduanTickerWrapper:hover #pengaduanTickerTrack {
+    animation-play-state: paused !important;
+}
 </style>
 
 <script>
@@ -573,11 +634,93 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(err => {
-            console.error('Error tracking report:', err);
             btnTrack.disabled = false;
             btnTrack.innerHTML = '<i class="fas fa-search"></i> Lacak';
             alert('Terjadi kesalahan koneksi.');
         });
     });
+
+    // Auto normalize input on blur (Capital Each Word & Clean Spaces)
+    function toTitleCaseClean(str) {
+        return str.replace(/\s+/g, ' ').trim().replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
+
+    function toCleanSpaces(str) {
+        return str.replace(/\s+/g, ' ').trim();
+    }
+
+    const titleInputs = ['nama_pelapor', 'judul'];
+    titleInputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('blur', function() {
+                this.value = toTitleCaseClean(this.value);
+            });
+        }
+    });
+
+    const spaceInputs = ['nik_pelapor', 'no_telepon', 'email', 'alamat', 'isi_pengaduan', 'track_ticket_num'];
+    spaceInputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('blur', function() {
+                this.value = toCleanSpaces(this.value);
+            });
+        }
+    });
+
+    // Inisialisasi TV News Ticker Marquee dengan kecepatan konstan seperti siaran TV berita
+    function initNewsTicker() {
+        const track = document.getElementById('pengaduanTickerTrack');
+        const wrapper = document.getElementById('pengaduanTickerWrapper');
+        if (!track || !wrapper) return;
+
+        // Duplikasi konten agar animasi looping sempurna tanpa putus
+        const originalContent = track.innerHTML;
+        track.innerHTML = originalContent + '<span class="ticker-separator text-warning mx-2" style="opacity: 0.6;">★</span>' + originalContent;
+
+        // Hitung lebar separuh track setelah diduplikasi
+        const trackWidth = track.scrollWidth / 2;
+        // Kecepatan standar siaran berita TV: 80 piksel per detik
+        const speedPxPerSec = 80;
+        const duration = Math.max(12, trackWidth / speedPxPerSec);
+
+        track.style.animation = `tickerScroll ${duration}s linear infinite`;
+    }
+
+    initNewsTicker();
 });
+
+// Fungsi global saat warga mengklik salah satu judul pengaduan di TV News Ticker
+window.openAndTrackComplaint = function(ticketNum) {
+    if (!ticketNum) return;
+
+    // Buka offcanvas pengaduan
+    const offcanvasEl = document.getElementById('offcanvasPengaduan');
+    if (offcanvasEl) {
+        let bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl) || new bootstrap.Offcanvas(offcanvasEl);
+        bsOffcanvas.show();
+    }
+
+    // Pindah ke tab Lacak Status
+    const tabEl = document.querySelector('#pengaduanTabs button[data-bs-target="#nav-lacak"]');
+    if (tabEl && typeof bootstrap !== 'undefined' && bootstrap.Tab) {
+        const tab = bootstrap.Tab.getInstance(tabEl) || new bootstrap.Tab(tabEl);
+        tab.show();
+    } else if (tabEl) {
+        tabEl.click();
+    }
+
+    // Isi nomor tiket dan picu pelacakan detail & tanggapan
+    setTimeout(() => {
+        const inputTicket = document.getElementById('track_ticket_num');
+        const btnTrack = document.getElementById('btnTrackReport');
+        if (inputTicket && btnTrack) {
+            inputTicket.value = ticketNum;
+            btnTrack.click();
+        }
+    }, 350);
+};
 </script>

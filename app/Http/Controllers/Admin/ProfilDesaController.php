@@ -38,6 +38,44 @@ class ProfilDesaController extends Controller
             $profil = new ProfilDesa();
         }
 
+        // Normalisasi & pembersihan input untuk Tab Informasi Umum & Geografis (spasi berlebih & Capital Each Word)
+        $fieldsToNormalize = [
+            'nama_desa', 'kecamatan', 'kabupaten', 'provinsi',
+            'kode_pos', 'telepon', 'email', 'jam_pelayanan', 'alamat_lengkap',
+            'luas_wilayah', 'ketinggian', 'batas_utara', 'batas_timur', 'batas_selatan', 'batas_barat'
+        ];
+
+        foreach ($fieldsToNormalize as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                // 1. Bersihkan spasi berlebih (awal, tengah berlipat, akhir)
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+
+                // 2. Format style menjadi Capital Each Word (kecuali email menjadi lowercase)
+                if ($field === 'email') {
+                    $cleaned = strtolower($cleaned);
+                } else {
+                    $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                }
+
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        // Normalisasi & pembersihan spasi berlebih untuk Tab Visi, Misi & Sejarah (tetap mempertahankan baris baru/paragraf)
+        $fieldsMultiline = ['visi', 'misi', 'sejarah_desa'];
+        foreach ($fieldsMultiline as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $lines = preg_split('/\r\n|\r|\n/', $request->input($field));
+                $cleanedLines = [];
+                foreach ($lines as $line) {
+                    $cleanedLines[] = preg_replace('/[^\S\r\n]+/', ' ', trim($line));
+                }
+                $text = implode("\n", $cleanedLines);
+                $text = preg_replace('/\n{3,}/', "\n\n", $text);
+                $request->merge([$field => trim($text)]);
+            }
+        }
+
         $request->validate([
             'nama_desa' => 'required|string|max:255',
             'kecamatan' => 'required|string|max:255',
@@ -58,8 +96,6 @@ class ProfilDesaController extends Controller
             'batas_timur' => 'nullable|string|max:255',
             'batas_selatan' => 'nullable|string|max:255',
             'batas_barat' => 'nullable|string|max:255',
-            'koordinat_lat' => 'nullable|string|max:50',
-            'koordinat_lng' => 'nullable|string|max:50',
             'gambar_struktur_organisasi' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 

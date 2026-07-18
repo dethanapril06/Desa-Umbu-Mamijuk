@@ -56,4 +56,19 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const el = document.getElementById('nama');
+    if (el) {
+        el.addEventListener('blur', function() {
+            this.value = this.value.replace(/\s+/g, ' ').trim().replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        });
+    }
+});
+</script>
+@endpush
 @endsection

@@ -113,7 +113,7 @@ class KependudukanController extends Controller
             ->whereNull('penduduk.deleted_at')
             ->select('dusun.nama', DB::raw('COUNT(*) as jumlah'))
             ->groupBy('dusun.id', 'dusun.nama')
-            ->orderBy('dusun.urutan')
+            ->orderBy('dusun.id')
             ->get();
 
         return [

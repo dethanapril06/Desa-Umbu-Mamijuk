@@ -12,7 +12,7 @@ class DusunController extends Controller
 {
     public function index(): View
     {
-        $dusunList = Dusun::orderBy('urutan', 'asc')->paginate(10);
+        $dusunList = Dusun::orderBy('id', 'asc')->paginate(10);
         return view('admin.dusun.index', compact('dusunList'));
     }
 
@@ -23,12 +23,20 @@ class DusunController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'nama' => 'required|string|max:255|unique:dusun,nama',
             'kepala_dusun' => 'nullable|string|max:255',
-            'urutan' => 'required|integer|min:0',
             'is_active' => 'nullable|boolean',
-        ]);
+        ];
+
+        $messages = [
+            'nama.required' => 'Nama dusun wajib diisi.',
+            'nama.unique' => 'Nama dusun tersebut sudah terdaftar di sistem.',
+        ];
+
+        $request->validate($rules, $messages);
 
         $data = $request->all();
         $data['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
@@ -45,12 +53,20 @@ class DusunController extends Controller
 
     public function update(Request $request, Dusun $dusun): RedirectResponse
     {
-        $request->validate([
+        $this->normalizeInput($request);
+
+        $rules = [
             'nama' => 'required|string|max:255|unique:dusun,nama,' . $dusun->id,
             'kepala_dusun' => 'nullable|string|max:255',
-            'urutan' => 'required|integer|min:0',
             'is_active' => 'nullable|boolean',
-        ]);
+        ];
+
+        $messages = [
+            'nama.required' => 'Nama dusun wajib diisi.',
+            'nama.unique' => 'Nama dusun tersebut sudah terdaftar di sistem.',
+        ];
+
+        $request->validate($rules, $messages);
 
         $data = $request->all();
         $data['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
@@ -69,5 +85,20 @@ class DusunController extends Controller
 
         $dusun->delete();
         return redirect()->route('admin.dusun.index')->with('success', 'Data dusun berhasil dihapus!');
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        $fields = ['nama', 'kepala_dusun'];
+        foreach ($fields as $field) {
+            if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
+                $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $request->merge([$field => $cleaned]);
+            }
+        }
     }
 }

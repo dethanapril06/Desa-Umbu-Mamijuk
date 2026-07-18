@@ -37,16 +37,24 @@
                         <input type="text" class="form-control" id="no_kk" name="no_kk" value="{{ old('no_kk') }}" placeholder="16 digit nomor KK" maxlength="16" required />
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="rt_rw_id">Pilih RT / RW / Dusun <span class="text-danger">*</span></label>
-                        <select class="form-select" id="rt_rw_id" name="rt_rw_id" required>
-                            <option value="">-- Pilih Wilayah --</option>
-                            @foreach($rtRwList as $r)
-                                <option value="{{ $r->id }}" {{ old('rt_rw_id') == $r->id ? 'selected' : '' }}>
-                                    RT {{ $r->no_rt }} / RW {{ $r->no_rw }} - {{ $r->dusun->nama }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="dusun_id">Pilih Dusun <span class="text-danger">*</span></label>
+                            <select class="form-select" id="dusun_id" name="dusun_id" required>
+                                <option value="">-- Pilih Dusun --</option>
+                                @foreach($dusunList as $d)
+                                    <option value="{{ $d->id }}" {{ old('dusun_id') == $d->id ? 'selected' : '' }}>
+                                        {{ $d->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="rt_rw_id">Pilih RT / RW <span class="text-danger">*</span></label>
+                            <select class="form-select" id="rt_rw_id" name="rt_rw_id" required disabled>
+                                <option value="">-- Pilih Dusun terlebih dahulu --</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -74,3 +82,82 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function toCapitalEachWord(str) {
+        return str.toLowerCase().replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+    }
+
+    const numberFields = document.querySelectorAll('#no_kk, #kode_pos');
+    numberFields.forEach(input => {
+        ['input', 'blur'].forEach(evt => {
+            input.addEventListener(evt, function() {
+                if (!this.value) return;
+                this.value = this.value.replace(/\s+/g, '');
+            });
+        });
+    });
+
+    const alamatInput = document.getElementById('alamat');
+    if (alamatInput) {
+        alamatInput.addEventListener('blur', function() {
+            if (!this.value) return;
+            let lines = this.value.split(/\r?\n/);
+            let cleanedLines = lines.map(line => line.trim().replace(/[^\S\r\n]+/g, ' '));
+            let text = cleanedLines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+            text = toCapitalEachWord(text);
+            this.value = text;
+        });
+    }
+
+    const rtRwData = @json($rtRwList->map(function($r) {
+        return [
+            'id' => $r->id,
+            'dusun_id' => $r->dusun_id,
+            'label' => 'RT ' . $r->no_rt . ' / RW ' . $r->no_rw
+        ];
+    }));
+    const dusunSelect = document.getElementById('dusun_id');
+    const rtRwSelect = document.getElementById('rt_rw_id');
+    const oldRtRwId = "{{ old('rt_rw_id') }}";
+
+    function filterRtRw() {
+        const dusunId = dusunSelect.value;
+        rtRwSelect.innerHTML = '';
+        if (!dusunId) {
+            rtRwSelect.innerHTML = '<option value="">-- Pilih Dusun terlebih dahulu --</option>';
+            rtRwSelect.disabled = true;
+            return;
+        }
+
+        const filtered = rtRwData.filter(item => String(item.dusun_id) === String(dusunId));
+        if (filtered.length === 0) {
+            rtRwSelect.innerHTML = '<option value="">-- Belum ada RT/RW di dusun ini --</option>';
+            rtRwSelect.disabled = true;
+            return;
+        }
+
+        rtRwSelect.disabled = false;
+        rtRwSelect.innerHTML = '<option value="">-- Pilih RT / RW --</option>';
+        filtered.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.label;
+            if (String(item.id) === String(oldRtRwId)) {
+                option.selected = true;
+            }
+            rtRwSelect.appendChild(option);
+        });
+    }
+
+    if (dusunSelect && rtRwSelect) {
+        dusunSelect.addEventListener('change', filterRtRw);
+        filterRtRw();
+    }
+});
+</script>
+@endpush

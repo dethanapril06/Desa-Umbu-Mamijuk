@@ -37,7 +37,6 @@ class GaleriController extends Controller
                         });
                 });
             })
-            ->orderBy('urutan')
             ->latest();
 
         $galeri = $query->paginate(12)->withQueryString();
