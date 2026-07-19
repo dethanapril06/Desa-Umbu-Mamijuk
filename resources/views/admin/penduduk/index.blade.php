@@ -10,34 +10,71 @@
         </h4>
 
         <!-- Filter & Search -->
+        <!-- Filter & Search -->
         <div class="card mb-4">
             <div class="card-body">
-                <form action="{{ route('admin.penduduk.index') }}" method="GET" class="row g-3">
+                <form action="{{ route('admin.penduduk.index') }}" method="GET" id="filter-form" class="row g-3">
                     <div class="col-md-4">
-                        <label class="form-label" for="search">Cari Nama / NIK</label>
-                        <input type="text" name="search" id="search" class="form-control" placeholder="Ketik nama atau NIK..." value="{{ $search }}" />
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="status">Status Penduduk</label>
-                        <select name="status" id="status" class="form-select">
-                            <option value="">-- Semua Status --</option>
-                            <option value="aktif" {{ $status == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="pindah" {{ $status == 'pindah' ? 'selected' : '' }}>Pindah</option>
-                            <option value="meninggal" {{ $status == 'meninggal' ? 'selected' : '' }}>Meninggal</option>
+                        <label class="form-label" for="search_field">Pilih Field Pencarian</label>
+                        <select name="search_field" id="search_field" class="form-select">
+                            <option value="nama_lengkap" {{ ($searchField ?? 'nama_lengkap') == 'nama_lengkap' ? 'selected' : '' }}>Nama Lengkap</option>
+                            <option value="nik" {{ ($searchField ?? '') == 'nik' ? 'selected' : '' }}>NIK</option>
+                            <option value="tempat_lahir" {{ ($searchField ?? '') == 'tempat_lahir' ? 'selected' : '' }}>Tempat Lahir</option>
+                            <option value="pekerjaan" {{ ($searchField ?? '') == 'pekerjaan' ? 'selected' : '' }}>Pekerjaan</option>
+                            <option value="agama" {{ ($searchField ?? '') == 'agama' ? 'selected' : '' }}>Agama</option>
+                            <option value="status_hubungan_keluarga" {{ ($searchField ?? '') == 'status_hubungan_keluarga' ? 'selected' : '' }}>Status Hubungan KK</option>
+                            <option value="nama_ayah" {{ ($searchField ?? '') == 'nama_ayah' ? 'selected' : '' }}>Nama Ayah</option>
+                            <option value="nama_ibu" {{ ($searchField ?? '') == 'nama_ibu' ? 'selected' : '' }}>Nama Ibu</option>
+                            <option value="no_telepon" {{ ($searchField ?? '') == 'no_telepon' ? 'selected' : '' }}>No. Telepon</option>
+                            <option value="jenis_kelamin" {{ ($searchField ?? '') == 'jenis_kelamin' ? 'selected' : '' }}>Jenis Kelamin</option>
+                            <option value="status" {{ ($searchField ?? '') == 'status' ? 'selected' : '' }}>Status Penduduk</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
-                        <select name="jenis_kelamin" id="jenis_kelamin" class="form-select">
-                            <option value="">-- Semua Gender --</option>
-                            <option value="laki-laki" {{ $jk == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                            <option value="perempuan" {{ $jk == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
-                        </select>
+
+                    <div class="col-md-5" id="search_container">
+                        <label class="form-label" for="search_input">Kata Kunci / Pilihan</label>
+                        <!-- Container akan dinamis diisi text/select oleh JavaScript di bawah -->
+                        <input type="text" name="search" id="search_input" class="form-control" placeholder="Ketik kata kunci pencarian..." value="{{ $search ?? '' }}" />
                     </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100"><i class="bx bx-filter-alt me-1"></i> Filter</button>
+
+                    <div class="col-md-3 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1"><i class="bx bx-search me-1"></i> Cari</button>
+                        @if(!empty($search))
+                            <a href="{{ route('admin.penduduk.index') }}" class="btn btn-secondary" title="Reset Filter"><i class="bx bx-refresh"></i> Reset</a>
+                        @endif
                     </div>
                 </form>
+
+                @if(!empty($search))
+                    @php
+                        $fieldLabels = [
+                            'nama_lengkap' => 'Nama Lengkap',
+                            'nik' => 'NIK',
+                            'tempat_lahir' => 'Tempat Lahir',
+                            'pekerjaan' => 'Pekerjaan',
+                            'agama' => 'Agama',
+                            'status_hubungan_keluarga' => 'Status Hubungan KK',
+                            'nama_ayah' => 'Nama Ayah',
+                            'nama_ibu' => 'Nama Ibu',
+                            'no_telepon' => 'No. Telepon',
+                            'jenis_kelamin' => 'Jenis Kelamin',
+                            'status' => 'Status Penduduk',
+                        ];
+                        $displayLabel = $fieldLabels[$searchField ?? 'nama_lengkap'] ?? ($searchField ?? 'Nama Lengkap');
+                        $displayValue = $search;
+                        if (($searchField ?? '') === 'jenis_kelamin') {
+                            $displayValue = $search === 'laki-laki' ? 'Laki-laki' : ($search === 'perempuan' ? 'Perempuan' : $search);
+                        } elseif (($searchField ?? '') === 'status') {
+                            $displayValue = ucfirst($search);
+                        }
+                    @endphp
+                    <div class="alert alert-info d-flex align-items-center justify-content-between mb-0 mt-3 py-2 px-3" role="alert">
+                        <div>
+                            <i class="bx bx-info-circle me-1"></i> Filter aktif pada <strong>{{ $displayLabel }}</strong> : <span class="badge bg-primary">{{ $displayValue }}</span>
+                        </div>
+                        <a href="{{ route('admin.penduduk.index') }}" class="text-decoration-none text-info fw-bold small">Hapus Filter ×</a>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -136,10 +173,56 @@
 
             @if($pendudukList->hasPages())
                 <div class="card-footer bg-light p-3">
-                    {{ $pendudukList->appends(['search' => $search, 'status' => $status, 'jenis_kelamin' => $jk])->links() }}
+                    {{ $pendudukList->appends(['search_field' => $searchField ?? 'nama_lengkap', 'search' => $search ?? ''])->links() }}
                 </div>
             @endif
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchField = document.getElementById('search_field');
+    const searchContainer = document.getElementById('search_container');
+    const currentValue = @json($search ?? '');
+
+    function renderSearchInput(field, initialVal = '') {
+        let html = '<label class="form-label" for="search_input">Kata Kunci / Pilihan</label>';
+        if (field === 'jenis_kelamin') {
+            html += `
+                <select name="search" id="search_input" class="form-select">
+                    <option value="laki-laki" ${initialVal === 'laki-laki' ? 'selected' : ''}>Laki-laki</option>
+                    <option value="perempuan" ${initialVal === 'perempuan' ? 'selected' : ''}>Perempuan</option>
+                </select>
+            `;
+        } else if (field === 'status') {
+            html += `
+                <select name="search" id="search_input" class="form-select">
+                    <option value="aktif" ${initialVal === 'aktif' || initialVal === '' ? 'selected' : ''}>Aktif</option>
+                    <option value="pindah" ${initialVal === 'pindah' ? 'selected' : ''}>Pindah</option>
+                    <option value="meninggal" ${initialVal === 'meninggal' ? 'selected' : ''}>Meninggal</option>
+                </select>
+            `;
+        } else {
+            let placeholder = 'Ketik kata kunci pencarian...';
+            if (field === 'nik') placeholder = 'Ketik 16 digit NIK atau sebagian...';
+            if (field === 'no_telepon') placeholder = 'Ketik nomor telepon...';
+            html += `<input type="text" name="search" id="search_input" class="form-control" placeholder="${placeholder}" value="${initialVal}" />`;
+        }
+        searchContainer.innerHTML = html;
+    }
+
+    // Render awal saat load jika current field adalah select
+    if (searchField.value === 'jenis_kelamin' || searchField.value === 'status') {
+        renderSearchInput(searchField.value, currentValue);
+    }
+
+    // Ganti saat dropdown field diubah
+    searchField.addEventListener('change', function() {
+        renderSearchInput(this.value, '');
+    });
+});
+</script>
+@endpush

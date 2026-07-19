@@ -45,11 +45,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="periode_mulai">Tahun Periode Mulai <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="periode_mulai" name="periode_mulai" value="{{ old('periode_mulai') }}" placeholder="Contoh: 2020" required />
+                            <input type="text" class="form-control" id="periode_mulai" name="periode_mulai" value="{{ old('periode_mulai') }}" placeholder="Contoh: 2020" inputmode="numeric" maxlength="4" autocomplete="off" required />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="periode_selesai">Tahun Periode Selesai <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="periode_selesai" name="periode_selesai" value="{{ old('periode_selesai') }}" placeholder="Contoh: 2026" required />
+                            <input type="text" class="form-control" id="periode_selesai" name="periode_selesai" value="{{ old('periode_selesai') }}" placeholder="Contoh: 2026" inputmode="numeric" maxlength="4" autocomplete="off" required />
                         </div>
                     </div>
 
@@ -83,10 +83,15 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+    // ── Capital Each Word ─────────────────────────────────────────────────────
     function toCapitalEachWord(str) {
-        return str.toLowerCase().replace(/\b\w/g, function(char) {
-            return char.toUpperCase();
-        });
+        if (!str) return str;
+        // Lowercase semua, lalu kapital huruf pertama setelah non-alphanumeric
+        return str.toLowerCase().replace(
+            /(^|[^a-zA-Z0-9\u00C0-\u024F\u1E00-\u1EFF]+)([a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])/gu,
+            function(match, p1, p2) { return p1 + p2.toUpperCase(); }
+        );
     }
 
     function toSentenceCase(str) {
@@ -96,18 +101,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const singleFields = document.querySelectorAll('#nama, #gelar, #periode_mulai, #periode_selesai');
-    singleFields.forEach(input => {
+    // ── Field: nama & gelar → Capital Each Word (hanya saat blur) ────────────
+    const capitalFields = document.querySelectorAll('#nama, #gelar');
+    capitalFields.forEach(function(input) {
         input.addEventListener('blur', function() {
             if (!this.value) return;
-            let val = this.value.trim().replace(/\s+/g, ' ');
-            if (this.id === 'nama') {
-                val = toCapitalEachWord(val);
-            }
-            this.value = val;
+            this.value = toCapitalEachWord(this.value.trim().replace(/\s+/g, ' '));
         });
     });
 
+    // ── Field: tahun (periode_mulai & periode_selesai) → digit only, no space ─
+    function sanitizeYear(input) {
+        // Simpan posisi kursor
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        // Strip semua non-digit, max 4 karakter
+        let newVal = oldVal.replace(/[^0-9]/g, '').slice(0, 4);
+        if (oldVal !== newVal) {
+            // Hitung berapa karakter non-digit dihapus sebelum kursor
+            let removed = 0;
+            for (let i = 0; i < pos && i < oldVal.length; i++) {
+                if (!/[0-9]/.test(oldVal[i])) removed++;
+            }
+            input.value = newVal;
+            let newPos = Math.max(0, pos - removed);
+            if (input.setSelectionRange) input.setSelectionRange(newPos, newPos);
+        }
+    }
+
+    const yearFields = document.querySelectorAll('#periode_mulai, #periode_selesai');
+    yearFields.forEach(function(input) {
+        // 1. Blokir keydown: tolak semua kecuali digit & tombol kontrol
+        input.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            // Izinkan: Ctrl+A/C/V/X, tombol navigasi
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            // Tolak semua selain digit
+            if (!/^[0-9]$/.test(e.key)) {
+                e.preventDefault();
+            }
+        });
+
+        // 2. Intercept paste: ambil digit saja
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            // Sisipkan digit ke posisi kursor, max total 4
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            let merged = (cur.slice(0, sel_start) + digits + cur.slice(sel_end)).slice(0, 4);
+            this.value = merged;
+        });
+
+        // 3. oninput fallback: strip semua non-digit (tangani IME, autocomplete, dll)
+        input.addEventListener('input', function() {
+            sanitizeYear(this);
+        });
+
+        // 4. blur: sanitasi terakhir
+        input.addEventListener('blur', function() {
+            sanitizeYear(this);
+        });
+    });
+
+    // ── Field: sambutan → Sentence case ──────────────────────────────────────
     const sambutanInput = document.getElementById('sambutan');
     if (sambutanInput) {
         sambutanInput.addEventListener('blur', function() {

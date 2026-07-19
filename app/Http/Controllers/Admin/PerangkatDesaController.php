@@ -103,19 +103,37 @@ class PerangkatDesaController extends Controller
     }
 
     /**
+     * Kapital huruf pertama setelah setiap karakter non-alphanumeric.
+     * Contoh: "sekretaris desa" → "Sekretaris Desa"
+     */
+    private function toCapitalEachWord(string $str): string
+    {
+        $str = mb_strtolower($str, 'UTF-8');
+        return preg_replace_callback(
+            '/(^|[^a-zA-Z0-9\x{00C0}-\x{024F}\x{1E00}-\x{1EFF}]+)([a-zA-Z\x{00C0}-\x{024F}\x{1E00}-\x{1EFF}])/u',
+            fn($m) => $m[1] . mb_strtoupper($m[2], 'UTF-8'),
+            $str
+        );
+    }
+
+    /**
      * Normalisasi & pembersihan input sebelum validasi.
      */
     private function normalizeInput(Request $request): void
     {
-        $fields = ['nama', 'jabatan', 'nip'];
-        foreach ($fields as $field) {
+        // nama & jabatan: trim + collapse spasi + Capital Each Word
+        foreach (['nama', 'jabatan'] as $field) {
             if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
                 $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
-                if (in_array($field, ['nama', 'jabatan'], true)) {
-                    $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
-                }
+                $cleaned = $this->toCapitalEachWord($cleaned);
                 $request->merge([$field => $cleaned]);
             }
+        }
+
+        // nip: strip semua non-digit (tidak boleh ada spasi)
+        if ($request->has('nip') && !empty($request->input('nip'))) {
+            $cleaned = preg_replace('/\D+/', '', (string) $request->input('nip'));
+            $request->merge(['nip' => $cleaned]);
         }
     }
 }

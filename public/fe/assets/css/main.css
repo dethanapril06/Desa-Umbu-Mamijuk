@@ -335,6 +335,24 @@ footer {
     box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4) !important;
 }
 
+.navbar-desa .btn-login-nav {
+    border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 50px !important;
+    padding: 0.35rem 1.1rem !important;
+    font-weight: 600 !important;
+    transition: all 0.25s ease !important;
+    background: transparent !important;
+}
+
+.navbar-desa .btn-login-nav:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light)) !important;
+    color: white !important;
+    border-color: transparent !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(201, 168, 76, 0.45) !important;
+}
+
 /* --- FOOTER --- */
 footer {
     background: var(--green-deep);

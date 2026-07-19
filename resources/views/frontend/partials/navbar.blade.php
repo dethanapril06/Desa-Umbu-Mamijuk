@@ -105,7 +105,17 @@
                         class="nav-link btn-wisata-nav {{ request()->is('wisata*') ? 'active' : '' }}"
                         href="{{ url('/wisata') }}"
                     >
-                        🌿 Tempat Wisata
+                        Wisata
+                    </a>
+                </li>
+
+                <li class="nav-item ms-lg-2">
+                    <a
+                        class="nav-link btn-login-nav"
+                        href="{{ route('login') }}"
+                        id="navbar-login-btn"
+                    >
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
                     </a>
                 </li>
             </ul>

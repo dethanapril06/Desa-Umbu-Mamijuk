@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Keluarga;
+use App\Models\Penduduk;
 use App\Models\RtRw;
 use App\Models\Dusun;
 use Illuminate\Http\Request;
@@ -123,10 +124,17 @@ class KeluargaController extends Controller
 
     public function destroy(Keluarga $keluarga): RedirectResponse
     {
-        // Check if there are members in this keluarga
+        // Cek penduduk aktif (non-soft-deleted) yang masih terdaftar
         if ($keluarga->penduduk()->count() > 0) {
-            return redirect()->route('admin.keluarga.index')->with('error', 'Tidak dapat menghapus KK ini karena memiliki anggota keluarga terdaftar! Silakan hapus atau pindahkan anggota keluarga terlebih dahulu.');
+            return redirect()->route('admin.keluarga.index')
+                ->with('error', 'Tidak dapat menghapus KK ini karena memiliki anggota keluarga terdaftar! Silakan hapus atau pindahkan anggota keluarga terlebih dahulu.');
         }
+
+        // Force-delete penduduk yang sudah soft-deleted agar FK constraint tidak gagal
+        // (MySQL melihat semua baris fisik, termasuk soft-deleted)
+        Penduduk::withTrashed()
+            ->where('keluarga_id', $keluarga->id)
+            ->forceDelete();
 
         $keluarga->delete();
         return redirect()->route('admin.keluarga.index')->with('success', 'Kartu Keluarga berhasil dihapus!');

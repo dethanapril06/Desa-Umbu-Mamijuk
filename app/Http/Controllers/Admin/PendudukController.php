@@ -15,30 +15,34 @@ class PendudukController extends Controller
 {
     public function index(Request $request): View
     {
-        $search = $request->input('search');
-        $status = $request->input('status');
-        $jk     = $request->input('jenis_kelamin');
+        $searchField = $request->input('search_field', 'nama_lengkap');
+        $search      = trim((string) $request->input('search', ''));
 
         $query = Penduduk::with(['keluarga.rtRw.dusun']);
 
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('nama_lengkap', 'like', "%{$search}%")
-                  ->orWhere('nik', 'like', "%{$search}%")
-                  ->orWhere('pekerjaan', 'like', "%{$search}%");
-            });
+        $fulltextFields = ['nama_lengkap', 'tempat_lahir', 'pekerjaan', 'nama_ayah', 'nama_ibu'];
+        $likeFields     = ['nik', 'no_telepon', 'agama', 'status_hubungan_keluarga'];
+        $exactFields    = ['jenis_kelamin', 'status'];
+
+        if ($search !== '') {
+            if (in_array($searchField, $fulltextFields, true)) {
+                if (mb_strlen($search) >= 3) {
+                    $query->where(function ($q) use ($searchField, $search) {
+                        $q->whereFullText($searchField, $search)
+                          ->orWhere($searchField, 'like', "%{$search}%");
+                    });
+                } else {
+                    $query->where($searchField, 'like', "%{$search}%");
+                }
+            } elseif (in_array($searchField, $likeFields, true)) {
+                $query->where($searchField, 'like', "%{$search}%");
+            } elseif (in_array($searchField, $exactFields, true)) {
+                $query->where($searchField, $search);
+            }
         }
 
-        if ($status) {
-            $query->where('status', $status);
-        }
-
-        if ($jk) {
-            $query->where('jenis_kelamin', $jk);
-        }
-
-        $pendudukList = $query->orderBy('id', 'desc')->paginate(15);
-        return view('admin.penduduk.index', compact('pendudukList', 'search', 'status', 'jk'));
+        $pendudukList = $query->orderBy('id', 'desc')->paginate(15)->withQueryString();
+        return view('admin.penduduk.index', compact('pendudukList', 'search', 'searchField'));
     }
 
     public function create(Request $request): View

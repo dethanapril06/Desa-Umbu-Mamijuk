@@ -44,7 +44,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="nip">NIP (Nomor Induk Pegawai)</label>
-                        <input type="text" class="form-control" id="nip" name="nip" value="{{ old('nip') }}" placeholder="Boleh dikosongkan jika tidak ada" />
+                        <input type="text" class="form-control" id="nip" name="nip" value="{{ old('nip') }}" placeholder="Boleh dikosongkan jika tidak ada" inputmode="numeric" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
@@ -71,23 +71,64 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+    // ── Capital Each Word ─────────────────────────────────────────────────────
     function toCapitalEachWord(str) {
-        return str.toLowerCase().replace(/\b\w/g, function(char) {
-            return char.toUpperCase();
-        });
+        if (!str) return str;
+        return str.toLowerCase().replace(
+            /(^|[^a-zA-Z0-9\u00C0-\u024F\u1E00-\u1EFF]+)([a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])/gu,
+            function(match, p1, p2) { return p1 + p2.toUpperCase(); }
+        );
     }
 
-    const fields = document.querySelectorAll('#nama, #jabatan, #nip');
-    fields.forEach(input => {
+    // ── Field: nama & jabatan → Capital Each Word (hanya saat blur) ─────────
+    const capitalFields = document.querySelectorAll('#nama, #jabatan');
+    capitalFields.forEach(function(input) {
         input.addEventListener('blur', function() {
             if (!this.value) return;
-            let val = this.value.trim().replace(/\s+/g, ' ');
-            if (this.id === 'nama' || this.id === 'jabatan') {
-                val = toCapitalEachWord(val);
-            }
-            this.value = val;
+            this.value = toCapitalEachWord(this.value.trim().replace(/\s+/g, ' '));
         });
     });
+
+    // ── Field: nip → digit only, no space ─────────────────────────────────
+    function sanitizeNip(input) {
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        let newVal = oldVal.replace(/[^0-9]/g, '');
+        if (oldVal !== newVal) {
+            let removed = 0;
+            for (let i = 0; i < pos && i < oldVal.length; i++) {
+                if (!/[0-9]/.test(oldVal[i])) removed++;
+            }
+            input.value = newVal;
+            let newPos = Math.max(0, pos - removed);
+            if (input.setSelectionRange) input.setSelectionRange(newPos, newPos);
+        }
+    }
+
+    const nipField = document.getElementById('nip');
+    if (nipField) {
+        nipField.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        });
+
+        nipField.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            this.value = (cur.slice(0, sel_start) + digits + cur.slice(sel_end));
+        });
+
+        nipField.addEventListener('input', function() { sanitizeNip(this); });
+        nipField.addEventListener('blur',  function() { sanitizeNip(this); });
+    }
 });
 </script>
 @endpush

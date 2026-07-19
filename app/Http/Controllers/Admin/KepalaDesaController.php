@@ -135,17 +135,39 @@ class KepalaDesaController extends Controller
     }
 
     /**
-     * Normalisasi & pembersihan input sebelum validasi.
+     * Kapital huruf pertama setelah setiap karakter non-alphanumeric
+     * (bukan hanya setelah whitespace seperti MB_CASE_TITLE).
+     * Contoh: "s.sos, m.si" → "S.Sos, M.Si"
      */
+    private function toCapitalEachWord(string $str): string
+    {
+        $str = mb_strtolower($str, 'UTF-8');
+        return preg_replace_callback(
+            '/(^|[^a-zA-Z0-9\x{00C0}-\x{024F}\x{1E00}-\x{1EFF}]+)([a-zA-Z\x{00C0}-\x{024F}\x{1E00}-\x{1EFF}])/u',
+            fn($m) => $m[1] . mb_strtoupper($m[2], 'UTF-8'),
+            $str
+        );
+    }
+
     private function normalizeInput(Request $request): void
     {
-        // 1. Bersihkan spasi berlebih pada field baris tunggal & Capital Each Word khusus untuk 'nama'
-        $singleFields = ['nama', 'gelar', 'periode_mulai', 'periode_selesai'];
-        foreach ($singleFields as $field) {
+        // 1. Bersihkan spasi berlebih pada field baris tunggal & Capital Each Word untuk 'nama' dan 'gelar'
+        $titleFields = ['nama', 'gelar'];
+        foreach ($titleFields as $field) {
             if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
                 $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
-                if ($field === 'nama') {
-                    $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $cleaned = $this->toCapitalEachWord($cleaned);
+                $request->merge([$field => $cleaned]);
+            }
+        }
+
+        // 2. Bersihkan total semua spasi/karakter non-angka pada tahun (periode_mulai & periode_selesai) dan pas 4 digit
+        $yearFields = ['periode_mulai', 'periode_selesai'];
+        foreach ($yearFields as $field) {
+            if ($request->has($field) && !empty($request->input($field))) {
+                $cleaned = preg_replace('/\D+/', '', (string) $request->input($field));
+                if (strlen($cleaned) > 4) {
+                    $cleaned = substr($cleaned, 0, 4);
                 }
                 $request->merge([$field => $cleaned]);
             }
