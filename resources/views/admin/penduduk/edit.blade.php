@@ -66,7 +66,7 @@
                         <div class="card-body pt-3">
                             <div class="mb-3">
                                 <label class="form-label" for="nik">NIK (Nomor Induk Kependudukan) <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nik" name="nik" value="{{ old('nik', $penduduk->nik) }}" maxlength="16" required />
+                                <input type="text" class="form-control" id="nik" name="nik" value="{{ old('nik', $penduduk->nik) }}" maxlength="16" inputmode="numeric" autocomplete="off" required />
                             </div>
 
                             <div class="mb-3">
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label" for="no_telepon">No. Telepon / HP</label>
-                                    <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $penduduk->no_telepon) }}" />
+                                    <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $penduduk->no_telepon) }}" inputmode="numeric" autocomplete="off" />
                                 </div>
                             </div>
 
@@ -331,8 +331,52 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const numberFields = document.querySelectorAll('#nik, #no_telepon, #no_paspor, #no_kitas_kitap');
-    numberFields.forEach(input => {
+    // ── Field: nik & no_telepon → digit only, no space ─────────────────────
+    function sanitizeDigits(input) {
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        let newVal = oldVal.replace(/[^0-9]/g, '');
+        if (oldVal !== newVal) {
+            let removed = 0;
+            for (let i = 0; i < pos && i < oldVal.length; i++) {
+                if (!/[0-9]/.test(oldVal[i])) removed++;
+            }
+            input.value = newVal;
+            let newPos = Math.max(0, pos - removed);
+            if (input.setSelectionRange) input.setSelectionRange(newPos, newPos);
+        }
+    }
+
+    const digitFields = document.querySelectorAll('#nik, #no_telepon');
+    digitFields.forEach(function(input) {
+        if (!input) return;
+        input.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        });
+
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            let maxLen = this.getAttribute('maxlength') ? parseInt(this.getAttribute('maxlength')) : null;
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            let merged = (cur.slice(0, sel_start) + digits + cur.slice(sel_end));
+            if (maxLen && merged.length > maxLen) merged = merged.slice(0, maxLen);
+            this.value = merged;
+        });
+
+        input.addEventListener('input', function() { sanitizeDigits(this); });
+        input.addEventListener('blur',  function() { sanitizeDigits(this); });
+    });
+
+    const noSpaceFields = document.querySelectorAll('#no_paspor, #no_kitas_kitap');
+    noSpaceFields.forEach(input => {
         ['input', 'blur'].forEach(evt => {
             input.addEventListener(evt, function() {
                 if (!this.value) return;

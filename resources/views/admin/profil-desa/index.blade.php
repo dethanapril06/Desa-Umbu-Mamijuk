@@ -69,11 +69,11 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="kode_pos">Kode Pos</label>
-                                <input type="text" class="form-control" id="kode_pos" name="kode_pos" value="{{ old('kode_pos', $profil->kode_pos) }}" />
+                                <input type="text" class="form-control" id="kode_pos" name="kode_pos" value="{{ old('kode_pos', $profil->kode_pos) }}" inputmode="numeric" autocomplete="off" />
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="telepon">No. Telepon / HP</label>
-                                <input type="text" class="form-control" id="telepon" name="telepon" value="{{ old('telepon', $profil->telepon) }}" />
+                                <input type="text" class="form-control" id="telepon" name="telepon" value="{{ old('telepon', $profil->telepon) }}" inputmode="numeric" autocomplete="off" />
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="email">E-mail Resmi</label>
@@ -186,7 +186,7 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const umumInputs = document.querySelectorAll('#navs-umum input[type="text"], #navs-umum input[type="email"], #navs-umum textarea, #navs-geografis input[type="text"]');
+    const umumInputs = document.querySelectorAll('#navs-umum input[type="text"]:not(#kode_pos):not(#telepon), #navs-umum input[type="email"], #navs-umum textarea, #navs-geografis input[type="text"]');
     
     function toCapitalEachWord(str) {
         return str.toLowerCase().replace(/\b\w/g, function(char) {
@@ -224,6 +224,54 @@ document.addEventListener('DOMContentLoaded', function() {
             text = text.replace(/\n{3,}/g, '\n\n').trim();
             this.value = text;
         });
+    });
+
+    // ── Field: kode_pos & telepon → digit only, no space ───────────────────
+    function sanitizeDigits(input) {
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        let newVal = oldVal.replace(/[^0-9]/g, '');
+        if (oldVal !== newVal) {
+            let removed = 0;
+            if (pos !== null) {
+                for (let i = 0; i < pos && i < oldVal.length; i++) {
+                    if (!/[0-9]/.test(oldVal[i])) removed++;
+                }
+            }
+            input.value = newVal;
+            if (pos !== null && input.setSelectionRange) {
+                let newPos = Math.max(0, pos - removed);
+                try { input.setSelectionRange(newPos, newPos); } catch(e) {}
+            }
+        }
+    }
+
+    const digitFields = document.querySelectorAll('#kode_pos, #telepon');
+    digitFields.forEach(function(input) {
+        if (!input) return;
+        input.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        });
+
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            let maxLen = this.getAttribute('maxlength') ? parseInt(this.getAttribute('maxlength')) : null;
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            let merged = (sel_start !== null && sel_end !== null) ? (cur.slice(0, sel_start) + digits + cur.slice(sel_end)) : (cur + digits);
+            if (maxLen && merged.length > maxLen) merged = merged.slice(0, maxLen);
+            this.value = merged;
+        });
+
+        input.addEventListener('input', function() { sanitizeDigits(this); });
+        input.addEventListener('blur',  function() { sanitizeDigits(this); });
     });
 });
 </script>

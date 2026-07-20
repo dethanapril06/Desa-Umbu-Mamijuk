@@ -318,14 +318,14 @@
                     <!-- NIK Pelapor -->
                     <div class="mb-3">
                         <label for="nik_pelapor" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">NIK (16 Digit) *</label>
-                        <input type="text" name="nik_pelapor" id="nik_pelapor" maxlength="16" class="form-control bg-dark text-white border-secondary font-monospace" style="font-size: 0.9rem;" placeholder="16 digit NIK sesuai KTP" required>
+                        <input type="text" name="nik_pelapor" id="nik_pelapor" maxlength="16" class="form-control bg-dark text-white border-secondary font-monospace" style="font-size: 0.9rem;" placeholder="16 digit NIK sesuai KTP" inputmode="numeric" autocomplete="off" required>
                         <div class="invalid-feedback text-danger" id="err-nik_pelapor"></div>
                     </div>
 
                     <!-- No Telepon -->
                     <div class="mb-3">
                         <label for="no_telepon" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">No. Telepon / WhatsApp *</label>
-                        <input type="text" name="no_telepon" id="no_telepon" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="08xxxxxxxxxx" required>
+                        <input type="text" name="no_telepon" id="no_telepon" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="08xxxxxxxxxx" inputmode="numeric" autocomplete="off" required>
                         <div class="invalid-feedback text-danger" id="err-no_telepon"></div>
                     </div>
 
@@ -661,7 +661,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    const spaceInputs = ['nik_pelapor', 'no_telepon', 'email', 'alamat', 'isi_pengaduan', 'track_ticket_num'];
+    const spaceInputs = ['email', 'alamat', 'isi_pengaduan', 'track_ticket_num'];
     spaceInputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
@@ -669,6 +669,54 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.value = toCleanSpaces(this.value);
             });
         }
+    });
+
+    // ── Field: nik_pelapor & no_telepon → digit only, no space ─────────────
+    function sanitizeDigits(input) {
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        let newVal = oldVal.replace(/[^0-9]/g, '');
+        if (oldVal !== newVal) {
+            let removed = 0;
+            if (pos !== null) {
+                for (let i = 0; i < pos && i < oldVal.length; i++) {
+                    if (!/[0-9]/.test(oldVal[i])) removed++;
+                }
+            }
+            input.value = newVal;
+            if (pos !== null && input.setSelectionRange) {
+                let newPos = Math.max(0, pos - removed);
+                try { input.setSelectionRange(newPos, newPos); } catch(e) {}
+            }
+        }
+    }
+
+    const digitFields = document.querySelectorAll('#nik_pelapor, #no_telepon');
+    digitFields.forEach(function(input) {
+        if (!input) return;
+        input.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        });
+
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            let maxLen = this.getAttribute('maxlength') ? parseInt(this.getAttribute('maxlength')) : null;
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            let merged = (sel_start !== null && sel_end !== null) ? (cur.slice(0, sel_start) + digits + cur.slice(sel_end)) : (cur + digits);
+            if (maxLen && merged.length > maxLen) merged = merged.slice(0, maxLen);
+            this.value = merged;
+        });
+
+        input.addEventListener('input', function() { sanitizeDigits(this); });
+        input.addEventListener('blur',  function() { sanitizeDigits(this); });
     });
 
     // Inisialisasi TV News Ticker Marquee dengan kecepatan konstan seperti siaran TV berita

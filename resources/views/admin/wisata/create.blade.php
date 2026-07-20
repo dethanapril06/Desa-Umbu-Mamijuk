@@ -67,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="telepon">No. Telepon / Pengelola</label>
-                                <input type="text" class="form-control" id="telepon" name="telepon" value="{{ old('telepon') }}" placeholder="Contoh: 08xxxxxxxxxx" />
+                                <input type="text" class="form-control" id="telepon" name="telepon" value="{{ old('telepon') }}" placeholder="Contoh: 08xxxxxxxxxx" inputmode="numeric" autocomplete="off" />
                             </div>
                         </div>
 
@@ -109,7 +109,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label" for="harga_tiket">Harga Tiket Masuk (IDR) <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="harga_tiket" name="harga_tiket" value="{{ old('harga_tiket', 0) }}" min="0" required />
+                                <input type="text" class="form-control" id="harga_tiket" name="harga_tiket" value="{{ old('harga_tiket', 0) }}" inputmode="numeric" autocomplete="off" required />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -212,12 +212,60 @@
             });
         });
 
-        const stringInputs = document.querySelectorAll('#harga_parkir_motor, #harga_parkir_mobil, #jam_operasional, #hari_buka, #jarak_dari_desa, #durasi_trek, #telepon, #google_maps_embed_url, #deskripsi_singkat, #highlight_quote');
+        const stringInputs = document.querySelectorAll('#harga_parkir_motor, #harga_parkir_mobil, #jam_operasional, #hari_buka, #jarak_dari_desa, #durasi_trek, #google_maps_embed_url, #deskripsi_singkat, #highlight_quote');
         stringInputs.forEach(input => {
             input.addEventListener('blur', function() {
                 if (!this.value) return;
                 this.value = this.value.trim().replace(/\s+/g, ' ');
             });
+        });
+
+        // ── Field: telepon & harga_tiket → digit only, no space ────────────
+        function sanitizeDigits(input) {
+            let pos = input.selectionStart;
+            let oldVal = input.value;
+            let newVal = oldVal.replace(/[^0-9]/g, '');
+            if (oldVal !== newVal) {
+                let removed = 0;
+                if (pos !== null) {
+                    for (let i = 0; i < pos && i < oldVal.length; i++) {
+                        if (!/[0-9]/.test(oldVal[i])) removed++;
+                    }
+                }
+                input.value = newVal;
+                if (pos !== null && input.setSelectionRange) {
+                    let newPos = Math.max(0, pos - removed);
+                    try { input.setSelectionRange(newPos, newPos); } catch(e) {}
+                }
+            }
+        }
+
+        const digitFields = document.querySelectorAll('#telepon, #harga_tiket');
+        digitFields.forEach(function(input) {
+            if (!input) return;
+            input.addEventListener('keydown', function(e) {
+                const ctrl = e.ctrlKey || e.metaKey;
+                if (ctrl) return;
+                const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+                if (nav.includes(e.key)) return;
+                if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+            });
+
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                let pasted = (e.clipboardData || window.clipboardData).getData('text');
+                let digits = pasted.replace(/[^0-9]/g, '');
+                let maxLen = this.getAttribute('maxlength') ? parseInt(this.getAttribute('maxlength')) : null;
+                let sel_start = this.selectionStart;
+                let sel_end   = this.selectionEnd;
+                let cur = this.value.replace(/[^0-9]/g, '');
+                let merged = (sel_start !== null && sel_end !== null) ? (cur.slice(0, sel_start) + digits + cur.slice(sel_end)) : (cur + digits);
+                if (maxLen && merged.length > maxLen) merged = merged.slice(0, maxLen);
+                this.value = merged;
+            });
+
+            input.addEventListener('input', function() { sanitizeDigits(this); });
+            input.addEventListener('blur',  function() { sanitizeDigits(this); });
         });
     });
 </script>

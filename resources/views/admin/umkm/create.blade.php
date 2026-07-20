@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="no_telepon">No. Telepon / WhatsApp</label>
-                            <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 08123456789" />
+                            <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 08123456789" inputmode="numeric" autocomplete="off" />
                             <div class="form-text">Gunakan format angka tanpa spasi/simbol untuk integrasi chat instan WhatsApp.</div>
                         </div>
                         <div class="col-md-4 mb-3">
@@ -115,6 +115,7 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
 function previewImage(input) {
     var preview = document.getElementById('image-preview');
@@ -130,5 +131,51 @@ function previewImage(input) {
         preview.style.display = 'none';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ── Field: no_telepon → digit only, no space ───────────────────────────
+    function sanitizeDigits(input) {
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        let newVal = oldVal.replace(/[^0-9]/g, '');
+        if (oldVal !== newVal) {
+            let removed = 0;
+            for (let i = 0; i < pos && i < oldVal.length; i++) {
+                if (!/[0-9]/.test(oldVal[i])) removed++;
+            }
+            input.value = newVal;
+            let newPos = Math.max(0, pos - removed);
+            if (input.setSelectionRange) input.setSelectionRange(newPos, newPos);
+        }
+    }
+
+    const telpField = document.getElementById('no_telepon');
+    if (telpField) {
+        telpField.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        });
+
+        telpField.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            let maxLen = this.getAttribute('maxlength') ? parseInt(this.getAttribute('maxlength')) : null;
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            let merged = (cur.slice(0, sel_start) + digits + cur.slice(sel_end));
+            if (maxLen && merged.length > maxLen) merged = merged.slice(0, maxLen);
+            this.value = merged;
+        });
+
+        telpField.addEventListener('input', function() { sanitizeDigits(this); });
+        telpField.addEventListener('blur',  function() { sanitizeDigits(this); });
+    }
+});
 </script>
+@endpush
 @endsection

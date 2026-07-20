@@ -45,11 +45,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="no_rt">No. RT <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="no_rt" name="no_rt" value="{{ old('no_rt') }}" placeholder="Contoh: 001 atau 01" required />
+                            <input type="text" class="form-control" id="no_rt" name="no_rt" value="{{ old('no_rt') }}" placeholder="Contoh: 001 atau 01" inputmode="numeric" autocomplete="off" required />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="no_rw">No. RW <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="no_rw" name="no_rw" value="{{ old('no_rw') }}" placeholder="Contoh: 002 atau 02" required />
+                            <input type="text" class="form-control" id="no_rw" name="no_rw" value="{{ old('no_rw') }}" placeholder="Contoh: 002 atau 02" inputmode="numeric" autocomplete="off" required />
                         </div>
                     </div>
 
@@ -82,14 +82,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const numberFields = document.querySelectorAll('#no_rt, #no_rw');
-    numberFields.forEach(input => {
-        ['input', 'blur'].forEach(evt => {
-            input.addEventListener(evt, function() {
-                if (!this.value) return;
-                this.value = this.value.replace(/\s+/g, '');
-            });
+    // ── Field: no_rt & no_rw → digit only, no space ────────────────────────
+    function sanitizeDigits(input) {
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        let newVal = oldVal.replace(/[^0-9]/g, '');
+        if (oldVal !== newVal) {
+            let removed = 0;
+            for (let i = 0; i < pos && i < oldVal.length; i++) {
+                if (!/[0-9]/.test(oldVal[i])) removed++;
+            }
+            input.value = newVal;
+            let newPos = Math.max(0, pos - removed);
+            if (input.setSelectionRange) input.setSelectionRange(newPos, newPos);
+        }
+    }
+
+    const digitFields = document.querySelectorAll('#no_rt, #no_rw');
+    digitFields.forEach(function(input) {
+        if (!input) return;
+        input.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            if (!/^[0-9]$/.test(e.key)) e.preventDefault();
         });
+
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            let maxLen = this.getAttribute('maxlength') ? parseInt(this.getAttribute('maxlength')) : null;
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            let merged = (cur.slice(0, sel_start) + digits + cur.slice(sel_end));
+            if (maxLen && merged.length > maxLen) merged = merged.slice(0, maxLen);
+            this.value = merged;
+        });
+
+        input.addEventListener('input', function() { sanitizeDigits(this); });
+        input.addEventListener('blur',  function() { sanitizeDigits(this); });
     });
 
     const nameFields = document.querySelectorAll('#ketua_rt, #ketua_rw');
