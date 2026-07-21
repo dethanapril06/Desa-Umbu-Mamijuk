@@ -34,11 +34,16 @@
         </div>
 
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                 <h5 class="mb-0">Catatan Mutasi Penduduk</h5>
-                <a href="{{ route('admin.mutasi-penduduk.create') }}" class="btn btn-primary">
-                    <i class="bx bx-plus me-1"></i> Catat Mutasi
-                </a>
+                <div class="d-flex flex-column flex-sm-row gap-2">
+                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#reportMutasiModal">
+                        <i class="bx bx-spreadsheet me-1"></i> Report Excel
+                    </button>
+                    <a href="{{ route('admin.mutasi-penduduk.create') }}" class="btn btn-primary">
+                        <i class="bx bx-plus me-1"></i> Catat Mutasi
+                    </a>
+                </div>
             </div>
             
             <div class="table-responsive text-nowrap">
@@ -137,6 +142,68 @@
                     {{ $mutasiList->appends(['search' => $search, 'jenis_mutasi' => $jenis])->links() }}
                 </div>
             @endif
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reportMutasiModal" tabindex="-1" aria-labelledby="reportMutasiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('admin.mutasi-penduduk.report') }}" method="GET">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportMutasiModalLabel">Report Excel Mutasi Penduduk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_mutasi_search">Nama / NIK / No. Surat</label>
+                            <input type="text" name="search" id="report_mutasi_search" class="form-control" placeholder="Ketik pencarian...">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_mutasi_jenis">Jenis Mutasi</label>
+                            <select name="jenis_mutasi" id="report_mutasi_jenis" class="form-select">
+                                <option value="">Semua Jenis Mutasi</option>
+                                <option value="mati">Meninggal</option>
+                                <option value="pindah_masuk">Pindah Masuk</option>
+                                <option value="pindah_keluar">Pindah Keluar</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_mutasi_dusun">Dusun</label>
+                            <select name="dusun_id" id="report_mutasi_dusun" class="form-select">
+                                <option value="">Semua Dusun</option>
+                                @foreach($dusunList as $dusun)
+                                    <option value="{{ $dusun->id }}">{{ $dusun->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_mutasi_rt_rw">RT / RW</label>
+                            <select name="rt_rw_id" id="report_mutasi_rt_rw" class="form-select">
+                                <option value="">Semua RT / RW</option>
+                                @foreach($rtRwList as $rtRw)
+                                    <option value="{{ $rtRw->id }}">RT {{ $rtRw->no_rt }} / RW {{ $rtRw->no_rw }} - {{ $rtRw->dusun->nama ?? '-' }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_mutasi_tanggal_mulai">Tanggal Mutasi Mulai</label>
+                            <input type="date" name="tanggal_mutasi_mulai" id="report_mutasi_tanggal_mulai" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_mutasi_tanggal_selesai">Tanggal Mutasi Selesai</label>
+                            <input type="date" name="tanggal_mutasi_selesai" id="report_mutasi_tanggal_selesai" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bx bx-download me-1"></i> Download Excel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

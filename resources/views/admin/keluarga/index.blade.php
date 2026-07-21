@@ -17,6 +17,9 @@
                         <input type="text" name="search" class="form-control me-2" placeholder="Cari KK atau Kepala..." value="{{ $search }}" />
                         <button type="submit" class="btn btn-outline-primary">Cari</button>
                     </form>
+                    <button type="button" class="btn btn-outline-success text-nowrap" data-bs-toggle="modal" data-bs-target="#reportKeluargaModal">
+                        <i class="bx bx-spreadsheet me-1"></i> Report Excel
+                    </button>
                     <a href="{{ route('admin.keluarga.create') }}" class="btn btn-primary text-nowrap">
                         <i class="bx bx-plus me-1"></i> Tambah KK
                     </a>
@@ -97,6 +100,63 @@
                     {{ $keluargaList->appends(['search' => $search])->links() }}
                 </div>
             @endif
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reportKeluargaModal" tabindex="-1" aria-labelledby="reportKeluargaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('admin.keluarga.report') }}" method="GET">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportKeluargaModalLabel">Report Excel Keluarga</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_keluarga_dusun">Dusun</label>
+                            <select name="dusun_id" id="report_keluarga_dusun" class="form-select">
+                                <option value="">Semua Dusun</option>
+                                @foreach($dusunList as $dusun)
+                                    <option value="{{ $dusun->id }}">{{ $dusun->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_keluarga_rt_rw">RT / RW</label>
+                            <select name="rt_rw_id" id="report_keluarga_rt_rw" class="form-select">
+                                <option value="">Semua RT / RW</option>
+                                @foreach($rtRwList as $rtRw)
+                                    <option value="{{ $rtRw->id }}">RT {{ $rtRw->no_rt }} / RW {{ $rtRw->no_rw }} - {{ $rtRw->dusun->nama ?? '-' }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_keluarga_tanggal_mulai">Tanggal Terdaftar Mulai</label>
+                            <input type="date" name="tanggal_terdaftar_mulai" id="report_keluarga_tanggal_mulai" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_keluarga_tanggal_selesai">Tanggal Terdaftar Selesai</label>
+                            <input type="date" name="tanggal_terdaftar_selesai" id="report_keluarga_tanggal_selesai" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="report_keluarga_status_kepala">Status Kepala Keluarga</label>
+                            <select name="status_kepala_keluarga" id="report_keluarga_status_kepala" class="form-select">
+                                <option value="">Semua</option>
+                                <option value="ada">Sudah Ada Kepala Keluarga</option>
+                                <option value="belum_ada">Belum Ada Kepala Keluarga</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bx bx-download me-1"></i> Download Excel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

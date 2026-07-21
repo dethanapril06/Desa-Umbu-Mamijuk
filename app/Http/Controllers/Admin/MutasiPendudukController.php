@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\MutasiPendudukExport;
 use App\Http\Controllers\Controller;
 use App\Models\MutasiPenduduk;
 use App\Models\Penduduk;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MutasiPendudukController extends Controller
 {
@@ -35,7 +37,24 @@ class MutasiPendudukController extends Controller
         }
 
         $mutasiList = $query->orderBy('tanggal_mutasi', 'desc')->paginate(15);
-        return view('admin.mutasi.index', compact('mutasiList', 'search', 'jenis'));
+        $dusunList = Dusun::where('is_active', true)->orderBy('nama')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw')->orderBy('no_rt')->get();
+
+        return view('admin.mutasi.index', compact('mutasiList', 'search', 'jenis', 'dusunList', 'rtRwList'));
+    }
+
+    public function report(Request $request)
+    {
+        $filters = $request->validate([
+            'search' => 'nullable|string|max:255',
+            'jenis_mutasi' => 'nullable|in:mati,pindah_masuk,pindah_keluar',
+            'dusun_id' => 'nullable|exists:dusun,id',
+            'rt_rw_id' => 'nullable|exists:rt_rw,id',
+            'tanggal_mutasi_mulai' => 'nullable|date',
+            'tanggal_mutasi_selesai' => 'nullable|date|after_or_equal:tanggal_mutasi_mulai',
+        ]);
+
+        return Excel::download(new MutasiPendudukExport($filters), 'report-mutasi-penduduk-' . now()->format('Ymd') . '.xlsx');
     }
 
     public function create(): View

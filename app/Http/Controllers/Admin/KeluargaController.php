@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\KeluargaExport;
 use App\Http\Controllers\Controller;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
@@ -10,6 +11,7 @@ use App\Models\Dusun;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KeluargaController extends Controller
 {
@@ -28,7 +30,23 @@ class KeluargaController extends Controller
         }
 
         $keluargaList = $query->orderBy('id', 'desc')->paginate(15);
-        return view('admin.keluarga.index', compact('keluargaList', 'search'));
+        $dusunList = Dusun::where('is_active', true)->orderBy('nama')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw')->orderBy('no_rt')->get();
+
+        return view('admin.keluarga.index', compact('keluargaList', 'search', 'dusunList', 'rtRwList'));
+    }
+
+    public function report(Request $request)
+    {
+        $filters = $request->validate([
+            'dusun_id' => 'nullable|exists:dusun,id',
+            'rt_rw_id' => 'nullable|exists:rt_rw,id',
+            'tanggal_terdaftar_mulai' => 'nullable|date',
+            'tanggal_terdaftar_selesai' => 'nullable|date|after_or_equal:tanggal_terdaftar_mulai',
+            'status_kepala_keluarga' => 'nullable|in:ada,belum_ada',
+        ]);
+
+        return Excel::download(new KeluargaExport($filters), 'report-keluarga-' . now()->format('Ymd') . '.xlsx');
     }
 
     public function create(): View

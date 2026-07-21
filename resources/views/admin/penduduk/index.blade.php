@@ -99,11 +99,16 @@
         </div>
 
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                 <h5 class="mb-0">Daftar Biodata Penduduk</h5>
-                <a href="{{ route('admin.penduduk.create') }}" class="btn btn-primary">
-                    <i class="bx bx-plus me-1"></i> Tambah Penduduk
-                </a>
+                <div class="d-flex flex-column flex-sm-row gap-2">
+                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#reportPendudukModal">
+                        <i class="bx bx-spreadsheet me-1"></i> Report Excel
+                    </button>
+                    <a href="{{ route('admin.penduduk.create') }}" class="btn btn-primary">
+                        <i class="bx bx-plus me-1"></i> Tambah Penduduk
+                    </a>
+                </div>
             </div>
             
             <div class="table-responsive text-nowrap">
@@ -215,6 +220,113 @@
                     {{ $pendudukList->appends(['search_field' => $searchField ?? 'nama_lengkap', 'search' => $search ?? ''])->links() }}
                 </div>
             @endif
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reportPendudukModal" tabindex="-1" aria-labelledby="reportPendudukModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('admin.penduduk.report') }}" method="GET">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportPendudukModalLabel">Report Excel Penduduk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_status">Status Penduduk</label>
+                            <select name="status" id="report_penduduk_status" class="form-select">
+                                <option value="">Semua Status</option>
+                                <option value="aktif">Aktif</option>
+                                <option value="pindah">Pindah</option>
+                                <option value="meninggal">Meninggal</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_jenis_kelamin">Jenis Kelamin</label>
+                            <select name="jenis_kelamin" id="report_penduduk_jenis_kelamin" class="form-select">
+                                <option value="">Semua</option>
+                                <option value="laki-laki">Laki-laki</option>
+                                <option value="perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_dusun">Dusun</label>
+                            <select name="dusun_id" id="report_penduduk_dusun" class="form-select">
+                                <option value="">Semua Dusun</option>
+                                @foreach($dusunList as $dusun)
+                                    <option value="{{ $dusun->id }}">{{ $dusun->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_rt_rw">RT / RW</label>
+                            <select name="rt_rw_id" id="report_penduduk_rt_rw" class="form-select">
+                                <option value="">Semua RT / RW</option>
+                                @foreach($rtRwList as $rtRw)
+                                    <option value="{{ $rtRw->id }}">RT {{ $rtRw->no_rt }} / RW {{ $rtRw->no_rw }} - {{ $rtRw->dusun->nama ?? '-' }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_pendidikan">Pendidikan</label>
+                            <select name="pendidikan_terakhir" id="report_penduduk_pendidikan" class="form-select">
+                                <option value="">Semua Pendidikan</option>
+                                <option value="tidak_sekolah">Tidak / Belum Sekolah</option>
+                                <option value="sd">SD / Sederajat</option>
+                                <option value="smp">SMP / Sederajat</option>
+                                <option value="sma">SMA / Sederajat</option>
+                                <option value="d1">D1</option>
+                                <option value="d2">D2</option>
+                                <option value="d3">D3</option>
+                                <option value="s1">S1 / D4</option>
+                                <option value="s2">S2</option>
+                                <option value="s3">S3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_perkawinan">Status Perkawinan</label>
+                            <select name="status_perkawinan" id="report_penduduk_perkawinan" class="form-select">
+                                <option value="">Semua</option>
+                                <option value="belum_kawin">Belum Kawin</option>
+                                <option value="kawin">Kawin</option>
+                                <option value="cerai_hidup">Cerai Hidup</option>
+                                <option value="cerai_mati">Cerai Mati</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_hubungan">Hubungan Keluarga</label>
+                            <select name="status_hubungan_keluarga" id="report_penduduk_hubungan" class="form-select">
+                                <option value="">Semua Hubungan</option>
+                                <option value="kepala_keluarga">Kepala Keluarga</option>
+                                <option value="istri">Istri</option>
+                                <option value="anak">Anak</option>
+                                <option value="menantu">Menantu</option>
+                                <option value="cucu">Cucu</option>
+                                <option value="orang_tua">Orang Tua</option>
+                                <option value="mertua">Mertua</option>
+                                <option value="famili_lain">Famili Lain</option>
+                                <option value="lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_lahir_mulai">Tanggal Lahir Mulai</label>
+                            <input type="date" name="tanggal_lahir_mulai" id="report_penduduk_lahir_mulai" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="report_penduduk_lahir_selesai">Tanggal Lahir Selesai</label>
+                            <input type="date" name="tanggal_lahir_selesai" id="report_penduduk_lahir_selesai" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bx bx-download me-1"></i> Download Excel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

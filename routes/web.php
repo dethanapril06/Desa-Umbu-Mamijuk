@@ -64,12 +64,15 @@ Route::prefix('admin')
         Route::resource('/rt-rw', \App\Http\Controllers\Admin\RtRwController::class);
 
         // Keluarga
+        Route::get('/keluarga/report', [\App\Http\Controllers\Admin\KeluargaController::class, 'report'])->name('keluarga.report');
         Route::resource('/keluarga', \App\Http\Controllers\Admin\KeluargaController::class);
 
         // Penduduk
+        Route::get('/penduduk/report', [\App\Http\Controllers\Admin\PendudukController::class, 'report'])->name('penduduk.report');
         Route::resource('/penduduk', \App\Http\Controllers\Admin\PendudukController::class);
 
         // Mutasi Penduduk
+        Route::get('/mutasi-penduduk/report', [\App\Http\Controllers\Admin\MutasiPendudukController::class, 'report'])->name('mutasi-penduduk.report');
         Route::resource('/mutasi-penduduk', \App\Http\Controllers\Admin\MutasiPendudukController::class);
 
         // Kategori Berita

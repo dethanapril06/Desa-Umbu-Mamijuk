@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PendudukExport;
 use App\Http\Controllers\Controller;
 use App\Models\Penduduk;
 use App\Models\Keluarga;
@@ -10,6 +11,7 @@ use App\Models\Dusun;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PendudukController extends Controller
 {
@@ -42,7 +44,27 @@ class PendudukController extends Controller
         }
 
         $pendudukList = $query->orderBy('id', 'desc')->paginate(15)->withQueryString();
-        return view('admin.penduduk.index', compact('pendudukList', 'search', 'searchField'));
+        $dusunList = Dusun::where('is_active', true)->orderBy('nama')->get();
+        $rtRwList = RtRw::with('dusun')->orderBy('no_rw')->orderBy('no_rt')->get();
+
+        return view('admin.penduduk.index', compact('pendudukList', 'search', 'searchField', 'dusunList', 'rtRwList'));
+    }
+
+    public function report(Request $request)
+    {
+        $filters = $request->validate([
+            'status' => 'nullable|in:aktif,pindah,meninggal',
+            'jenis_kelamin' => 'nullable|in:laki-laki,perempuan',
+            'dusun_id' => 'nullable|exists:dusun,id',
+            'rt_rw_id' => 'nullable|exists:rt_rw,id',
+            'pendidikan_terakhir' => 'nullable|in:tidak_sekolah,sd,smp,sma,d1,d2,d3,s1,s2,s3',
+            'status_perkawinan' => 'nullable|in:belum_kawin,kawin,cerai_hidup,cerai_mati',
+            'status_hubungan_keluarga' => 'nullable|in:kepala_keluarga,istri,anak,menantu,cucu,orang_tua,mertua,famili_lain,lainnya',
+            'tanggal_lahir_mulai' => 'nullable|date',
+            'tanggal_lahir_selesai' => 'nullable|date|after_or_equal:tanggal_lahir_mulai',
+        ]);
+
+        return Excel::download(new PendudukExport($filters), 'report-penduduk-' . now()->format('Ymd') . '.xlsx');
     }
 
     public function create(Request $request): View
