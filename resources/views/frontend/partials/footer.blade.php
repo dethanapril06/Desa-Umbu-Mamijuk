@@ -299,7 +299,7 @@
                     <!-- Kategori -->
                     <div class="mb-3">
                         <label for="kategori_pengaduan_id" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Kategori Pengaduan *</label>
-                        <select name="kategori_pengaduan_id" id="kategori_pengaduan_id" class="form-select bg-dark text-white border-secondary" style="font-size: 0.9rem;" required>
+                        <select name="kategori_pengaduan_id" id="kategori_pengaduan_id" class="form-select bg-dark text-white border-secondary" style="font-size: 0.9rem;">
                             <option value="" disabled selected>Pilih Kategori...</option>
                             @foreach($categories as $cat)
                                 <option value="{{ $cat->id }}">{{ $cat->nama }}</option>
@@ -311,21 +311,21 @@
                     <!-- Nama Pelapor -->
                     <div class="mb-3">
                         <label for="nama_pelapor" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Nama Lengkap Pelapor *</label>
-                        <input type="text" name="nama_pelapor" id="nama_pelapor" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Masukkan nama lengkap Anda" required>
+                        <input type="text" name="nama_pelapor" id="nama_pelapor" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Masukkan nama lengkap Anda">
                         <div class="invalid-feedback text-danger" id="err-nama_pelapor"></div>
                     </div>
 
                     <!-- NIK Pelapor -->
                     <div class="mb-3">
                         <label for="nik_pelapor" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">NIK (16 Digit) *</label>
-                        <input type="text" name="nik_pelapor" id="nik_pelapor" maxlength="16" class="form-control bg-dark text-white border-secondary font-monospace" style="font-size: 0.9rem;" placeholder="16 digit NIK sesuai KTP" inputmode="numeric" autocomplete="off" required>
+                        <input type="text" name="nik_pelapor" id="nik_pelapor" maxlength="16" class="form-control bg-dark text-white border-secondary font-monospace" style="font-size: 0.9rem;" placeholder="16 digit NIK sesuai KTP" inputmode="numeric" autocomplete="off">
                         <div class="invalid-feedback text-danger" id="err-nik_pelapor"></div>
                     </div>
 
                     <!-- No Telepon -->
                     <div class="mb-3">
                         <label for="no_telepon" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">No. Telepon / WhatsApp *</label>
-                        <input type="text" name="no_telepon" id="no_telepon" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="08xxxxxxxxxx" inputmode="numeric" autocomplete="off" required>
+                        <input type="text" name="no_telepon" id="no_telepon" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="08xxxxxxxxxx" inputmode="numeric" autocomplete="off">
                         <div class="invalid-feedback text-danger" id="err-no_telepon"></div>
                     </div>
 
@@ -339,21 +339,21 @@
                     <!-- Alamat -->
                     <div class="mb-3">
                         <label for="alamat" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Alamat Lengkap *</label>
-                        <textarea name="alamat" id="alamat" rows="2" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Alamat rumah / lokasi kejadian" required></textarea>
+                        <textarea name="alamat" id="alamat" rows="2" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Alamat rumah / lokasi kejadian"></textarea>
                         <div class="invalid-feedback text-danger" id="err-alamat"></div>
                     </div>
 
                     <!-- Judul Pengaduan -->
                     <div class="mb-3">
                         <label for="judul" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Judul Pengaduan *</label>
-                        <input type="text" name="judul" id="judul" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Ringkasan singkat keluhan" required>
+                        <input type="text" name="judul" id="judul" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Ringkasan singkat keluhan">
                         <div class="invalid-feedback text-danger" id="err-judul"></div>
                     </div>
 
                     <!-- Isi Laporan -->
                     <div class="mb-3">
                         <label for="isi_pengaduan" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Detail Laporan Pengaduan *</label>
-                        <textarea name="isi_pengaduan" id="isi_pengaduan" rows="4" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Ceritakan kronologi atau keluhan Anda secara jelas" required></textarea>
+                        <textarea name="isi_pengaduan" id="isi_pengaduan" rows="4" class="form-control bg-dark text-white border-secondary" style="font-size: 0.9rem;" placeholder="Ceritakan kronologi atau keluhan Anda secara jelas"></textarea>
                         <div class="invalid-feedback text-danger" id="err-isi_pengaduan"></div>
                     </div>
 
@@ -380,7 +380,7 @@
                 <div class="mb-4">
                     <label for="track_ticket_num" class="form-label" style="font-size: 0.82rem; color: #8dd4a0; font-weight: 600;">Nomor Tiket Laporan</label>
                     <div class="input-group">
-                        <input type="text" id="track_ticket_num" class="form-control bg-dark text-white border-secondary font-monospace" placeholder="Contoh: ADU-2026-0001" style="font-size: 0.9rem;" required>
+                        <input type="text" id="track_ticket_num" class="form-control bg-dark text-white border-secondary font-monospace" placeholder="Contoh: ADU-2026-0001" style="font-size: 0.9rem;">
                         <button class="btn btn-outline-success" type="button" id="btnTrackReport" style="border-color: #8dd4a0; color: #8dd4a0; background: transparent;">
                             <i class="fas fa-search"></i> Lacak
                         </button>

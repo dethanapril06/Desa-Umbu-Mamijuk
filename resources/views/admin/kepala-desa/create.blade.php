@@ -34,7 +34,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="nama">Nama Lengkap <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" required />
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" />
                     </div>
 
                     <div class="mb-3">
@@ -45,11 +45,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="periode_mulai">Tahun Periode Mulai <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="periode_mulai" name="periode_mulai" value="{{ old('periode_mulai') }}" placeholder="Contoh: 2020" inputmode="numeric" maxlength="4" autocomplete="off" required />
+                            <input type="text" class="form-control" id="periode_mulai" name="periode_mulai" value="{{ old('periode_mulai') }}" placeholder="Contoh: 2020" inputmode="numeric" maxlength="4" autocomplete="off" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="periode_selesai">Tahun Periode Selesai <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="periode_selesai" name="periode_selesai" value="{{ old('periode_selesai') }}" placeholder="Contoh: 2026" inputmode="numeric" maxlength="4" autocomplete="off" required />
+                            <input type="text" class="form-control" id="periode_selesai" name="periode_selesai" value="{{ old('periode_selesai') }}" placeholder="Contoh: 2026" inputmode="numeric" maxlength="4" autocomplete="off" />
                         </div>
                     </div>
 

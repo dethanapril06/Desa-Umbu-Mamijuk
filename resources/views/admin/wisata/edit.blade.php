@@ -69,13 +69,13 @@
                             <div class="col-md-8">
                                 <div class="mb-3">
                                     <label class="form-label" for="nama">Nama Destinasi Wisata <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $wisata->nama) }}" required />
+                                    <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $wisata->nama) }}" />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="kategori_wisata_id">Kategori Wisata <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="kategori_wisata_id" name="kategori_wisata_id" required>
+                                    <select class="form-select" id="kategori_wisata_id" name="kategori_wisata_id">
                                         @foreach($categories as $cat)
                                             <option value="{{ $cat->id }}" {{ old('kategori_wisata_id', $wisata->kategori_wisata_id) == $cat->id ? 'selected' : '' }}>{{ $cat->nama }}</option>
                                         @endforeach
@@ -135,7 +135,7 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label" for="harga_tiket">Harga Tiket Masuk (IDR)</label>
-                                    <input type="text" class="form-control" id="harga_tiket" name="harga_tiket" value="{{ old('harga_tiket', $wisata->harga_tiket) }}" inputmode="numeric" autocomplete="off" required />
+                                    <input type="text" class="form-control" id="harga_tiket" name="harga_tiket" value="{{ old('harga_tiket', $wisata->harga_tiket) }}" inputmode="numeric" autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -205,7 +205,7 @@
                                 
                                 <div class="mb-3">
                                     <label class="form-label" for="fasilitas_nama">Nama Fasilitas <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="fasilitas_nama" name="nama" placeholder="Contoh: Toilet Umum, Tempat Parkir" required />
+                                    <input type="text" class="form-control" id="fasilitas_nama" name="nama" placeholder="Contoh: Toilet Umum, Tempat Parkir" />
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="fasilitas_icon">Icon (Opsional)</label>
@@ -269,7 +269,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label" for="tips_judul">Judul Tips <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="tips_judul" name="judul" placeholder="Contoh: Datang Pagi Hari" required />
+                                    <input type="text" class="form-control" id="tips_judul" name="judul" placeholder="Contoh: Datang Pagi Hari" />
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="tips_deskripsi">Deskripsi Tips</label>
@@ -328,7 +328,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label" for="rute_transport">Jenis Transportasi <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="rute_transport" name="jenis_transportasi" placeholder="Contoh: Rute Motor, Rute Mobil" required />
+                                    <input type="text" class="form-control" id="rute_transport" name="jenis_transportasi" placeholder="Contoh: Rute Motor, Rute Mobil" />
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="rute_icon">Icon (Opsional)</label>
@@ -411,7 +411,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label" for="galeri_gambar">Pilih Foto <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" id="galeri_gambar" name="gambar" accept="image/*" required />
+                                    <input type="file" class="form-control" id="galeri_gambar" name="gambar" accept="image/*" />
                                     <div class="form-text">Maksimal 2MB.</div>
                                 </div>
                                 <div class="mb-3">

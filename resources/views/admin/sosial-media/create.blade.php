@@ -34,7 +34,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="platform_select">Nama Platform <span class="text-danger">*</span></label>
-                        <select class="form-select mb-2" id="platform_select" required>
+                        <select class="form-select mb-2" id="platform_select">
                             <option value="" disabled selected>Pilih Platform</option>
                             <option value="Facebook" {{ old('platform') == 'Facebook' ? 'selected' : '' }}>Facebook</option>
                             <option value="Instagram" {{ old('platform') == 'Instagram' ? 'selected' : '' }}>Instagram</option>
@@ -45,12 +45,12 @@
                             <option value="Telegram" {{ old('platform') == 'Telegram' ? 'selected' : '' }}>Telegram</option>
                             <option value="Lainnya" {{ (old('platform') && !in_array(old('platform'), ['Facebook', 'Instagram', 'YouTube', 'TikTok', 'Twitter / X', 'WhatsApp', 'Telegram'])) ? 'selected' : '' }}>Lainnya (Website / Lain-lain)</option>
                         </select>
-                        <input type="text" class="form-control {{ (old('platform') && !in_array(old('platform'), ['Facebook', 'Instagram', 'YouTube', 'TikTok', 'Twitter / X', 'WhatsApp', 'Telegram'])) ? '' : 'd-none' }}" id="platform" name="platform" value="{{ old('platform') }}" placeholder="Masukkan nama platform..." required />
+                        <input type="text" class="form-control {{ (old('platform') && !in_array(old('platform'), ['Facebook', 'Instagram', 'YouTube', 'TikTok', 'Twitter / X', 'WhatsApp', 'Telegram'])) ? '' : 'd-none' }}" id="platform" name="platform" value="{{ old('platform') }}" placeholder="Masukkan nama platform..." />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="url">Link / URL Profil <span class="text-danger">*</span></label>
-                        <input type="url" class="form-control" id="url" name="url" value="{{ old('url') }}" placeholder="Contoh: https://facebook.com/username" required />
+                        <input type="url" class="form-control" id="url" name="url" value="{{ old('url') }}" placeholder="Contoh: https://facebook.com/username" />
                     </div>
 
                     <div class="mb-3">

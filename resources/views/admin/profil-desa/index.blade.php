@@ -53,19 +53,19 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="nama_desa">Nama Desa <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nama_desa" name="nama_desa" value="{{ old('nama_desa', $profil->nama_desa) }}" required />
+                                <input type="text" class="form-control" id="nama_desa" name="nama_desa" value="{{ old('nama_desa', $profil->nama_desa) }}" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="kecamatan">Kecamatan <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="kecamatan" name="kecamatan" value="{{ old('kecamatan', $profil->kecamatan) }}" required />
+                                <input type="text" class="form-control" id="kecamatan" name="kecamatan" value="{{ old('kecamatan', $profil->kecamatan) }}" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="kabupaten">Kabupaten <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="kabupaten" name="kabupaten" value="{{ old('kabupaten', $profil->kabupaten) }}" required />
+                                <input type="text" class="form-control" id="kabupaten" name="kabupaten" value="{{ old('kabupaten', $profil->kabupaten) }}" />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="provinsi">Provinsi <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="provinsi" name="provinsi" value="{{ old('provinsi', $profil->provinsi) }}" required />
+                                <input type="text" class="form-control" id="provinsi" name="provinsi" value="{{ old('provinsi', $profil->provinsi) }}" />
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label" for="kode_pos">Kode Pos</label>

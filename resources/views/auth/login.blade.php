@@ -172,7 +172,6 @@
                                     value="{{ old('email') }}"
                                     placeholder="Masukkan email admin"
                                     autocomplete="email"
-                                    required
                                     autofocus
                                 />
                             </div>
@@ -195,7 +194,6 @@
                                         name="password"
                                         placeholder="············"
                                         autocomplete="current-password"
-                                        required
                                     />
 
                                     <span class="input-group-text cursor-pointer">

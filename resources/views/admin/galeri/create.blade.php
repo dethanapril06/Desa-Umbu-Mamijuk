@@ -34,7 +34,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="album_galeri_id">Pilih Album Galeri <span class="text-danger">*</span></label>
-                        <select class="form-select" id="album_galeri_id" name="album_galeri_id" required>
+                        <select class="form-select" id="album_galeri_id" name="album_galeri_id">
                             <option value="">-- Pilih Album --</option>
                             @foreach($albums as $alb)
                                 <option value="{{ $alb->id }}" {{ (old('album_galeri_id') == $alb->id || $selectedAlbumId == $alb->id) ? 'selected' : '' }}>{{ $alb->nama }}</option>
@@ -44,7 +44,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="gambar">Pilih Foto <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" required />
+                        <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" />
                         <div class="form-text"><strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                     </div>
 

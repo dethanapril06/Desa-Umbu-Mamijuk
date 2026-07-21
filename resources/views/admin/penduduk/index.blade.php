@@ -3,13 +3,35 @@
 @section('title', 'Daftar Penduduk')
 
 @section('content')
+@php
+    $fieldLabels = [
+        'nama_lengkap' => 'Nama Lengkap',
+        'nik' => 'NIK',
+        'tempat_lahir' => 'Tempat Lahir',
+        'tanggal_lahir' => 'Tanggal Lahir',
+        'pekerjaan' => 'Pekerjaan',
+        'agama' => 'Agama',
+        'pendidikan_terakhir' => 'Pendidikan Terakhir',
+        'status_perkawinan' => 'Status Perkawinan',
+        'status_hubungan_keluarga' => 'Status Hubungan KK',
+        'kewarganegaraan' => 'Kewarganegaraan',
+        'golongan_darah' => 'Golongan Darah',
+        'nama_ayah' => 'Nama Ayah',
+        'nama_ibu' => 'Nama Ibu',
+        'no_telepon' => 'No. Telepon',
+        'no_paspor' => 'No. Paspor',
+        'no_kitas_kitap' => 'No. KITAS / KITAP',
+        'jenis_kelamin' => 'Jenis Kelamin',
+        'status' => 'Status Penduduk',
+    ];
+    $showDynamicColumn = !in_array($searchField ?? 'nama_lengkap', ['nik', 'nama_lengkap', 'pekerjaan', 'status', 'jenis_kelamin']);
+@endphp
 <div class="row">
     <div class="col-12">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Kependudukan /</span> Data Penduduk
         </h4>
 
-        <!-- Filter & Search -->
         <!-- Filter & Search -->
         <div class="card mb-4">
             <div class="card-body">
@@ -20,12 +42,19 @@
                             <option value="nama_lengkap" {{ ($searchField ?? 'nama_lengkap') == 'nama_lengkap' ? 'selected' : '' }}>Nama Lengkap</option>
                             <option value="nik" {{ ($searchField ?? '') == 'nik' ? 'selected' : '' }}>NIK</option>
                             <option value="tempat_lahir" {{ ($searchField ?? '') == 'tempat_lahir' ? 'selected' : '' }}>Tempat Lahir</option>
+                            <option value="tanggal_lahir" {{ ($searchField ?? '') == 'tanggal_lahir' ? 'selected' : '' }}>Tanggal Lahir</option>
                             <option value="pekerjaan" {{ ($searchField ?? '') == 'pekerjaan' ? 'selected' : '' }}>Pekerjaan</option>
                             <option value="agama" {{ ($searchField ?? '') == 'agama' ? 'selected' : '' }}>Agama</option>
+                            <option value="pendidikan_terakhir" {{ ($searchField ?? '') == 'pendidikan_terakhir' ? 'selected' : '' }}>Pendidikan Terakhir</option>
+                            <option value="status_perkawinan" {{ ($searchField ?? '') == 'status_perkawinan' ? 'selected' : '' }}>Status Perkawinan</option>
                             <option value="status_hubungan_keluarga" {{ ($searchField ?? '') == 'status_hubungan_keluarga' ? 'selected' : '' }}>Status Hubungan KK</option>
+                            <option value="kewarganegaraan" {{ ($searchField ?? '') == 'kewarganegaraan' ? 'selected' : '' }}>Kewarganegaraan</option>
+                            <option value="golongan_darah" {{ ($searchField ?? '') == 'golongan_darah' ? 'selected' : '' }}>Golongan Darah</option>
                             <option value="nama_ayah" {{ ($searchField ?? '') == 'nama_ayah' ? 'selected' : '' }}>Nama Ayah</option>
                             <option value="nama_ibu" {{ ($searchField ?? '') == 'nama_ibu' ? 'selected' : '' }}>Nama Ibu</option>
                             <option value="no_telepon" {{ ($searchField ?? '') == 'no_telepon' ? 'selected' : '' }}>No. Telepon</option>
+                            <option value="no_paspor" {{ ($searchField ?? '') == 'no_paspor' ? 'selected' : '' }}>No. Paspor</option>
+                            <option value="no_kitas_kitap" {{ ($searchField ?? '') == 'no_kitas_kitap' ? 'selected' : '' }}>No. KITAS / KITAP</option>
                             <option value="jenis_kelamin" {{ ($searchField ?? '') == 'jenis_kelamin' ? 'selected' : '' }}>Jenis Kelamin</option>
                             <option value="status" {{ ($searchField ?? '') == 'status' ? 'selected' : '' }}>Status Penduduk</option>
                         </select>
@@ -47,25 +76,16 @@
 
                 @if(!empty($search))
                     @php
-                        $fieldLabels = [
-                            'nama_lengkap' => 'Nama Lengkap',
-                            'nik' => 'NIK',
-                            'tempat_lahir' => 'Tempat Lahir',
-                            'pekerjaan' => 'Pekerjaan',
-                            'agama' => 'Agama',
-                            'status_hubungan_keluarga' => 'Status Hubungan KK',
-                            'nama_ayah' => 'Nama Ayah',
-                            'nama_ibu' => 'Nama Ibu',
-                            'no_telepon' => 'No. Telepon',
-                            'jenis_kelamin' => 'Jenis Kelamin',
-                            'status' => 'Status Penduduk',
-                        ];
                         $displayLabel = $fieldLabels[$searchField ?? 'nama_lengkap'] ?? ($searchField ?? 'Nama Lengkap');
                         $displayValue = $search;
                         if (($searchField ?? '') === 'jenis_kelamin') {
-                            $displayValue = $search === 'laki-laki' ? 'Laki-laki' : ($search === 'perempuan' ? 'Perempuan' : $search);
-                        } elseif (($searchField ?? '') === 'status') {
+                            $displayValue = $search === 'laki-laki' ? 'Laki-laki' : ($search === 'perempuan' ? 'Perempuan' : ucfirst($search));
+                        } elseif (in_array(($searchField ?? ''), ['status', 'agama', 'kewarganegaraan'])) {
                             $displayValue = ucfirst($search);
+                        } elseif (in_array(($searchField ?? ''), ['pendidikan_terakhir', 'status_perkawinan', 'status_hubungan_keluarga'])) {
+                            $displayValue = ucwords(str_replace('_', ' ', $search));
+                        } elseif (($searchField ?? '') === 'tanggal_lahir') {
+                            $displayValue = \Carbon\Carbon::parse($search)->format('d/m/Y');
                         }
                     @endphp
                     <div class="alert alert-info d-flex align-items-center justify-content-between mb-0 mt-3 py-2 px-3" role="alert">
@@ -96,6 +116,9 @@
                             <th>L/P</th>
                             <th>RT / RW / Dusun</th>
                             <th>Pekerjaan</th>
+                            @if($showDynamicColumn)
+                                <th class="text-primary">{{ $fieldLabels[$searchField] ?? ucwords(str_replace('_', ' ', $searchField)) }}</th>
+                            @endif
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -134,6 +157,22 @@
                                 <td>
                                     {{ $penduduk->pekerjaan ?? '-' }}
                                 </td>
+                                @if($showDynamicColumn)
+                                    <td class="text-primary fw-semibold">
+                                        @php
+                                            $val = $penduduk->{$searchField} ?? null;
+                                        @endphp
+                                        @if($searchField === 'tanggal_lahir')
+                                            {{ $val ? \Carbon\Carbon::parse($val)->format('d/m/Y') : '-' }}
+                                        @elseif(in_array($searchField, ['pendidikan_terakhir', 'status_perkawinan', 'status_hubungan_keluarga']))
+                                            {{ ucwords(str_replace('_', ' ', $val ?? '-')) }}
+                                        @elseif(in_array($searchField, ['status', 'agama', 'kewarganegaraan']))
+                                            {{ ucfirst($val ?? '-') }}
+                                        @else
+                                            {{ $val ?: '-' }}
+                                        @endif
+                                    </td>
+                                @endif
                                 <td>
                                     <span class="badge {{ $penduduk->status === 'aktif' ? 'bg-success' : ($penduduk->status === 'meninggal' ? 'bg-danger' : 'bg-warning') }}">
                                         {{ ucfirst($penduduk->status) }}
@@ -164,7 +203,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4">Tidak ada data penduduk yang cocok.</td>
+                                <td colspan="{{ $showDynamicColumn ? 9 : 8 }}" class="text-center py-4">Tidak ada data penduduk yang cocok.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -193,6 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (field === 'jenis_kelamin') {
             html += `
                 <select name="search" id="search_input" class="form-select">
+                    <option value="">-- Pilih Jenis Kelamin --</option>
                     <option value="laki-laki" ${initialVal === 'laki-laki' ? 'selected' : ''}>Laki-laki</option>
                     <option value="perempuan" ${initialVal === 'perempuan' ? 'selected' : ''}>Perempuan</option>
                 </select>
@@ -200,11 +240,83 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (field === 'status') {
             html += `
                 <select name="search" id="search_input" class="form-select">
+                    <option value="">-- Pilih Status --</option>
                     <option value="aktif" ${initialVal === 'aktif' || initialVal === '' ? 'selected' : ''}>Aktif</option>
                     <option value="pindah" ${initialVal === 'pindah' ? 'selected' : ''}>Pindah</option>
                     <option value="meninggal" ${initialVal === 'meninggal' ? 'selected' : ''}>Meninggal</option>
                 </select>
             `;
+        } else if (field === 'agama') {
+            const agamas = ['islam', 'kristen', 'katolik', 'hindu', 'buddha', 'konghucu', 'lainnya'];
+            html += `<select name="search" id="search_input" class="form-select"><option value="">-- Pilih Agama --</option>`;
+            agamas.forEach(a => {
+                html += `<option value="${a}" ${initialVal === a ? 'selected' : ''}>${a.charAt(0).toUpperCase() + a.slice(1)}</option>`;
+            });
+            html += `</select>`;
+        } else if (field === 'pendidikan_terakhir') {
+            const pendidikans = [
+                {val: 'tidak_sekolah', label: 'Tidak / Belum Sekolah'},
+                {val: 'sd', label: 'SD / Sederajat'},
+                {val: 'smp', label: 'SMP / Sederajat'},
+                {val: 'sma', label: 'SMA / Sederajat'},
+                {val: 'd1', label: 'Diploma 1 (D1)'},
+                {val: 'd2', label: 'Diploma 2 (D2)'},
+                {val: 'd3', label: 'Diploma 3 (D3)'},
+                {val: 's1', label: 'Strata 1 (S1 / D4)'},
+                {val: 's2', label: 'Strata 2 (S2)'},
+                {val: 's3', label: 'Strata 3 (S3)'}
+            ];
+            html += `<select name="search" id="search_input" class="form-select"><option value="">-- Pilih Pendidikan --</option>`;
+            pendidikans.forEach(p => {
+                html += `<option value="${p.val}" ${initialVal === p.val ? 'selected' : ''}>${p.label}</option>`;
+            });
+            html += `</select>`;
+        } else if (field === 'status_perkawinan') {
+            const kawins = [
+                {val: 'belum_kawin', label: 'Belum Kawin'},
+                {val: 'kawin', label: 'Kawin'},
+                {val: 'cerai_hidup', label: 'Cerai Hidup'},
+                {val: 'cerai_mati', label: 'Cerai Mati'}
+            ];
+            html += `<select name="search" id="search_input" class="form-select"><option value="">-- Pilih Status Perkawinan --</option>`;
+            kawins.forEach(k => {
+                html += `<option value="${k.val}" ${initialVal === k.val ? 'selected' : ''}>${k.label}</option>`;
+            });
+            html += `</select>`;
+        } else if (field === 'status_hubungan_keluarga') {
+            const hubungans = [
+                {val: 'kepala_keluarga', label: 'Kepala Keluarga'},
+                {val: 'istri', label: 'Istri'},
+                {val: 'anak', label: 'Anak'},
+                {val: 'menantu', label: 'Menantu'},
+                {val: 'cucu', label: 'Cucu'},
+                {val: 'orang_tua', label: 'Orang Tua'},
+                {val: 'mertua', label: 'Mertua'},
+                {val: 'famili_lain', label: 'Famili Lain'},
+                {val: 'lainnya', label: 'Lainnya'}
+            ];
+            html += `<select name="search" id="search_input" class="form-select"><option value="">-- Pilih Hubungan KK --</option>`;
+            hubungans.forEach(h => {
+                html += `<option value="${h.val}" ${initialVal === h.val ? 'selected' : ''}>${h.label}</option>`;
+            });
+            html += `</select>`;
+        } else if (field === 'kewarganegaraan') {
+            html += `
+                <select name="search" id="search_input" class="form-select">
+                    <option value="">-- Pilih Kewarganegaraan --</option>
+                    <option value="WNI" ${initialVal === 'WNI' ? 'selected' : ''}>WNI</option>
+                    <option value="WNA" ${initialVal === 'WNA' ? 'selected' : ''}>WNA</option>
+                </select>
+            `;
+        } else if (field === 'golongan_darah') {
+            const golongans = ['A', 'B', 'AB', 'O', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+            html += `<select name="search" id="search_input" class="form-select"><option value="">-- Pilih Golongan Darah --</option>`;
+            golongans.forEach(g => {
+                html += `<option value="${g}" ${initialVal === g ? 'selected' : ''}>${g}</option>`;
+            });
+            html += `</select>`;
+        } else if (field === 'tanggal_lahir') {
+            html += `<input type="date" name="search" id="search_input" class="form-control" value="${initialVal}" />`;
         } else {
             let placeholder = 'Ketik kata kunci pencarian...';
             if (field === 'nik') placeholder = 'Ketik 16 digit NIK atau sebagian...';
@@ -214,8 +326,9 @@ document.addEventListener('DOMContentLoaded', function() {
         searchContainer.innerHTML = html;
     }
 
-    // Render awal saat load jika current field adalah select
-    if (searchField.value === 'jenis_kelamin' || searchField.value === 'status') {
+    // Render awal saat load untuk field select/date
+    const selectOrDateFields = ['jenis_kelamin', 'status', 'agama', 'pendidikan_terakhir', 'status_perkawinan', 'status_hubungan_keluarga', 'kewarganegaraan', 'golongan_darah', 'tanggal_lahir'];
+    if (selectOrDateFields.includes(searchField.value)) {
         renderSearchInput(searchField.value, currentValue);
     }
 

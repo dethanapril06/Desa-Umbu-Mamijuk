@@ -41,7 +41,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="nama_penginapan">Nama Penginapan / Homestay <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_penginapan" name="nama_penginapan" value="{{ old('nama_penginapan', $penginapan->nama_penginapan) }}" placeholder="Contoh: Homestay Asri Ibu Adri" required />
+                            <input type="text" class="form-control" id="nama_penginapan" name="nama_penginapan" value="{{ old('nama_penginapan', $penginapan->nama_penginapan) }}" placeholder="Contoh: Homestay Asri Ibu Adri" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="jenis">Jenis Penginapan</label>

@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="dusun_id">Dusun <span class="text-danger">*</span></label>
-                            <select class="form-select" id="dusun_id" name="dusun_id" required>
+                            <select class="form-select" id="dusun_id" name="dusun_id">
                                 <option value="">-- Pilih Dusun --</option>
                                 @foreach($dusunList as $d)
                                     <option value="{{ $d->id }}">{{ $d->nama }}</option>
@@ -42,13 +42,13 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="rt_rw_id">RT / RW <span class="text-danger">*</span></label>
-                            <select class="form-select" id="rt_rw_id" name="rt_rw_id" required disabled>
+                            <select class="form-select" id="rt_rw_id" name="rt_rw_id" disabled>
                                 <option value="">-- Pilih Dusun terlebih dahulu --</option>
                             </select>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="keluarga_id">Kartu Keluarga (KK) <span class="text-danger">*</span></label>
-                            <select class="form-select" id="keluarga_id" name="keluarga_id" required disabled>
+                            <select class="form-select" id="keluarga_id" name="keluarga_id" disabled>
                                 <option value="">-- Pilih RT/RW terlebih dahulu --</option>
                             </select>
                         </div>
@@ -66,12 +66,12 @@
                         <div class="card-body pt-3">
                             <div class="mb-3">
                                 <label class="form-label" for="nik">NIK (Nomor Induk Kependudukan) <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nik" name="nik" value="{{ old('nik', $penduduk->nik) }}" maxlength="16" inputmode="numeric" autocomplete="off" required />
+                                <input type="text" class="form-control" id="nik" name="nik" value="{{ old('nik', $penduduk->nik) }}" maxlength="16" inputmode="numeric" autocomplete="off" />
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="nama_lengkap">Nama Lengkap <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="{{ old('nama_lengkap', $penduduk->nama_lengkap) }}" required />
+                                <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="{{ old('nama_lengkap', $penduduk->nama_lengkap) }}" />
                             </div>
 
                             <div class="row">
@@ -89,11 +89,11 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label d-block">Jenis Kelamin <span class="text-danger">*</span></label>
                                     <div class="form-check form-check-inline mt-2">
-                                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="jk_l" value="laki-laki" {{ old('jenis_kelamin', $penduduk->jenis_kelamin) == 'laki-laki' ? 'checked' : '' }} required>
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="jk_l" value="laki-laki" {{ old('jenis_kelamin', $penduduk->jenis_kelamin) == 'laki-laki' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="jk_l">Laki-laki</label>
                                     </div>
                                     <div class="form-check form-check-inline mt-2">
-                                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="jk_p" value="perempuan" {{ old('jenis_kelamin', $penduduk->jenis_kelamin) == 'perempuan' ? 'checked' : '' }} required>
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="jk_p" value="perempuan" {{ old('jenis_kelamin', $penduduk->jenis_kelamin) == 'perempuan' ? 'checked' : '' }}>
                                         <label class="form-check-label" for="jk_p">Perempuan</label>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label" for="status_hubungan_keluarga">Hubungan Keluarga <span class="text-danger">*</span></label>
-                                <select class="form-select" id="status_hubungan_keluarga" name="status_hubungan_keluarga" required>
+                                <select class="form-select" id="status_hubungan_keluarga" name="status_hubungan_keluarga">
                                     <option value="kepala_keluarga" {{ old('status_hubungan_keluarga', $penduduk->status_hubungan_keluarga) == 'kepala_keluarga' ? 'selected' : '' }}>Kepala Keluarga</option>
                                     <option value="istri" {{ old('status_hubungan_keluarga', $penduduk->status_hubungan_keluarga) == 'istri' ? 'selected' : '' }}>Istri</option>
                                     <option value="anak" {{ old('status_hubungan_keluarga', $penduduk->status_hubungan_keluarga) == 'anak' ? 'selected' : '' }}>Anak</option>
@@ -188,7 +188,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label" for="kewarganegaraan">Kewarganegaraan <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="kewarganegaraan" name="kewarganegaraan" required>
+                                    <select class="form-select" id="kewarganegaraan" name="kewarganegaraan">
                                         <option value="WNI" {{ old('kewarganegaraan', $penduduk->kewarganegaraan) == 'WNI' ? 'selected' : '' }}>WNI</option>
                                         <option value="WNA" {{ old('kewarganegaraan', $penduduk->kewarganegaraan) == 'WNA' ? 'selected' : '' }}>WNA</option>
                                     </select>
@@ -262,7 +262,7 @@
                             <div class="row border-top pt-3 mt-3">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label" for="status">Status Penduduk <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="status" name="status" required>
+                                    <select class="form-select" id="status" name="status">
                                         <option value="aktif" {{ old('status', $penduduk->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
                                         <option value="pindah" {{ old('status', $penduduk->status) == 'pindah' ? 'selected' : '' }}>Pindah</option>
                                         <option value="meninggal" {{ old('status', $penduduk->status) == 'meninggal' ? 'selected' : '' }}>Meninggal</option>

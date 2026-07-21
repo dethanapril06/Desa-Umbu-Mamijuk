@@ -392,7 +392,7 @@
                                     <label for="nama" class="review-form-label">Nama</label>
                                     <input type="text" name="nama" id="nama"
                                         class="review-form-control @error('nama') is-invalid @enderror"
-                                        value="{{ old('nama') }}" placeholder="Nama Anda" required>
+                                        value="{{ old('nama') }}" placeholder="Nama Anda">
                                     @error('nama')
                                         <div class="review-form-error">{{ $message }}</div>
                                     @enderror
@@ -401,7 +401,7 @@
                                 <div class="col-md-6">
                                     <label for="rating" class="review-form-label">Rating</label>
                                     <select name="rating" id="rating"
-                                        class="review-form-control @error('rating') is-invalid @enderror" required>
+                                        class="review-form-control @error('rating') is-invalid @enderror">
                                         <option value="">Pilih rating</option>
                                         @for ($i = 5; $i >= 1; $i--)
                                             <option value="{{ $i }}" @selected((int) old('rating') === $i)>
@@ -418,7 +418,7 @@
                                     <label for="ulasan_text" class="review-form-label">Ulasan</label>
                                     <textarea name="ulasan" id="ulasan_text" rows="4"
                                         class="review-form-control @error('ulasan') is-invalid @enderror"
-                                        placeholder="Ceritakan pengalaman Anda saat berkunjung..." required>{{ old('ulasan') }}</textarea>
+                                        placeholder="Ceritakan pengalaman Anda saat berkunjung...">{{ old('ulasan') }}</textarea>
                                     @error('ulasan')
                                         <div class="review-form-error">{{ $message }}</div>
                                     @enderror

@@ -36,18 +36,18 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="nama_usaha">Nama Usaha / Bisnis <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_usaha" name="nama_usaha" value="{{ old('nama_usaha', $umkm->nama_usaha) }}" required />
+                            <input type="text" class="form-control" id="nama_usaha" name="nama_usaha" value="{{ old('nama_usaha', $umkm->nama_usaha) }}" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="nama_pemilik">Nama Pemilik <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" value="{{ old('nama_pemilik', $umkm->nama_pemilik) }}" required />
+                            <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" value="{{ old('nama_pemilik', $umkm->nama_pemilik) }}" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="kategori">Kategori Usaha <span class="text-danger">*</span></label>
-                            <select class="form-select" id="kategori" name="kategori" required>
+                            <select class="form-select" id="kategori" name="kategori">
                                 <option value="">-- Pilih Kategori --</option>
                                 <option value="Kuliner" {{ old('kategori', $umkm->kategori) == 'Kuliner' ? 'selected' : '' }}>Kuliner (Makanan & Minuman)</option>
                                 <option value="Fashion" {{ old('kategori', $umkm->kategori) == 'Fashion' ? 'selected' : '' }}>Fashion (Pakaian, Tenun & Aksesoris)</option>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="status">Status Keaktifan <span class="text-danger">*</span></label>
-                            <select class="form-select" id="status" name="status" required>
+                            <select class="form-select" id="status" name="status">
                                 <option value="aktif" {{ old('status', $umkm->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
                                 <option value="tidak_aktif" {{ old('status', $umkm->status) == 'tidak_aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                             </select>
@@ -90,12 +90,12 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="alamat">Alamat Fisik Usaha <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="alamat" name="alamat" rows="2" required>{{ old('alamat', $umkm->alamat) }}</textarea>
+                        <textarea class="form-control" id="alamat" name="alamat" rows="2">{{ old('alamat', $umkm->alamat) }}</textarea>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="deskripsi">Deskripsi Usaha / Produk / Layanan <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" required>{{ old('deskripsi', $umkm->deskripsi) }}</textarea>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5">{{ old('deskripsi', $umkm->deskripsi) }}</textarea>
                     </div>
 
                     <div class="mb-4">

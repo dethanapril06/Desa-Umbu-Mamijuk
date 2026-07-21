@@ -35,7 +35,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="album_galeri_id">Pilih Album Galeri <span class="text-danger">*</span></label>
-                        <select class="form-select" id="album_galeri_id" name="album_galeri_id" required>
+                        <select class="form-select" id="album_galeri_id" name="album_galeri_id">
                             @foreach($albums as $alb)
                                 <option value="{{ $alb->id }}" {{ old('album_galeri_id', $galeri->album_galeri_id) == $alb->id ? 'selected' : '' }}>{{ $alb->nama }}</option>
                             @endforeach

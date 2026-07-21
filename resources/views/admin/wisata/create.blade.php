@@ -37,7 +37,7 @@
                         <div class="col-md-8">
                             <div class="mb-3">
                                 <label class="form-label" for="nama">Nama Destinasi Wisata <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Tuliskan nama tempat wisata..." required />
+                                <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Tuliskan nama tempat wisata..." />
                             </div>
                         </div>
 
@@ -45,7 +45,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label" for="kategori_wisata_id">Kategori Wisata <span class="text-danger">*</span></label>
-                                <select class="form-select" id="kategori_wisata_id" name="kategori_wisata_id" required>
+                                <select class="form-select" id="kategori_wisata_id" name="kategori_wisata_id">
                                     <option value="">-- Pilih Kategori --</option>
                                     @foreach($categories as $cat)
                                         <option value="{{ $cat->id }}" {{ old('kategori_wisata_id') == $cat->id ? 'selected' : '' }}>{{ $cat->nama }}</option>
@@ -58,7 +58,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="gambar_utama">Gambar Utama (Cover Banner) <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control" id="gambar_utama" name="gambar_utama" accept="image/*" required />
+                                <input type="file" class="form-control" id="gambar_utama" name="gambar_utama" accept="image/*" />
                                 <div class="form-text"><strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px (rasio 3:2 / 16:9). Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label" for="harga_tiket">Harga Tiket Masuk (IDR) <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="harga_tiket" name="harga_tiket" value="{{ old('harga_tiket', 0) }}" inputmode="numeric" autocomplete="off" required />
+                                <input type="text" class="form-control" id="harga_tiket" name="harga_tiket" value="{{ old('harga_tiket', 0) }}" inputmode="numeric" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-md-4">

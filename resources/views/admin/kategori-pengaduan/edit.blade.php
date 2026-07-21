@@ -35,7 +35,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="nama">Nama Kategori <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $kategoriPengaduan->nama) }}" placeholder="Contoh: Infrastruktur, Layanan Sosial" required />
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $kategoriPengaduan->nama) }}" placeholder="Contoh: Infrastruktur, Layanan Sosial" />
                     </div>
 
                     <div class="mb-3">

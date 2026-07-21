@@ -34,13 +34,13 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="no_kk">Nomor Kartu Keluarga (KK) <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="no_kk" name="no_kk" value="{{ old('no_kk') }}" placeholder="16 digit nomor KK" maxlength="16" inputmode="numeric" autocomplete="off" required />
+                        <input type="text" class="form-control" id="no_kk" name="no_kk" value="{{ old('no_kk') }}" placeholder="16 digit nomor KK" maxlength="16" inputmode="numeric" autocomplete="off" />
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="dusun_id">Pilih Dusun <span class="text-danger">*</span></label>
-                            <select class="form-select" id="dusun_id" name="dusun_id" required>
+                            <select class="form-select" id="dusun_id" name="dusun_id">
                                 <option value="">-- Pilih Dusun --</option>
                                 @foreach($dusunList as $d)
                                     <option value="{{ $d->id }}" {{ old('dusun_id') == $d->id ? 'selected' : '' }}>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="rt_rw_id">Pilih RT / RW <span class="text-danger">*</span></label>
-                            <select class="form-select" id="rt_rw_id" name="rt_rw_id" required disabled>
+                            <select class="form-select" id="rt_rw_id" name="rt_rw_id" disabled>
                                 <option value="">-- Pilih Dusun terlebih dahulu --</option>
                             </select>
                         </div>
@@ -59,7 +59,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="alamat">Alamat KK Lengkap <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="alamat" name="alamat" rows="4" placeholder="Tuliskan nama jalan, dukuh/dusun, gang, no rumah" required>{{ old('alamat') }}</textarea>
+                        <textarea class="form-control" id="alamat" name="alamat" rows="4" placeholder="Tuliskan nama jalan, dukuh/dusun, gang, no rumah">{{ old('alamat') }}</textarea>
                     </div>
 
                     <div class="row">

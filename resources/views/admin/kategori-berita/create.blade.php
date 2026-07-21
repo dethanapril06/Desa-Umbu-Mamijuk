@@ -34,7 +34,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="nama">Nama Kategori <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Contoh: Kegiatan Desa, Pengumuman" required />
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Contoh: Kegiatan Desa, Pengumuman" />
                     </div>
 
                     <div class="mb-3">

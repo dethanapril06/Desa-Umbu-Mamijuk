@@ -259,7 +259,7 @@
                             @method('PATCH')
                             <div class="mb-3">
                                 <label class="form-label text-dark fw-bold" for="status">Ubah Status Pengaduan</label>
-                                <select id="status" name="status" class="form-select border-primary" required>
+                                <select id="status" name="status" class="form-select border-primary">
                                     @foreach($statusOptions as $opt)
                                         <option value="{{ $opt }}" {{ $pengaduan->status == $opt ? 'selected' : '' }}>
                                             {{ ucfirst($opt == 'diproses' ? 'diproses' : $opt) }}
@@ -292,7 +292,7 @@
                                     rows="5" 
                                     class="form-control" 
                                     placeholder="Ketik rincian tanggapan, penjelasan, atau solusi untuk laporan ini..." 
-                                    required>{{ old('isi_tanggapan') }}</textarea>
+                                    >{{ old('isi_tanggapan') }}</textarea>
                                 <div class="form-text fs-8 text-muted">Bila status pengaduan masih 'masuk', mengirim tanggapan akan otomatis mengubah status menjadi 'diproses'.</div>
                             </div>
 

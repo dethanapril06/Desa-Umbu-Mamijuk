@@ -34,7 +34,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="dusun_id">Pilih Dusun <span class="text-danger">*</span></label>
-                        <select class="form-select" id="dusun_id" name="dusun_id" required>
+                        <select class="form-select" id="dusun_id" name="dusun_id">
                             <option value="">-- Pilih Dusun --</option>
                             @foreach($dusunList as $d)
                                 <option value="{{ $d->id }}" {{ old('dusun_id') == $d->id ? 'selected' : '' }}>{{ $d->nama }}</option>
@@ -45,11 +45,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="no_rt">No. RT <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="no_rt" name="no_rt" value="{{ old('no_rt') }}" placeholder="Contoh: 001 atau 01" inputmode="numeric" autocomplete="off" required />
+                            <input type="text" class="form-control" id="no_rt" name="no_rt" value="{{ old('no_rt') }}" placeholder="Contoh: 001 atau 01" inputmode="numeric" autocomplete="off" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="no_rw">No. RW <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="no_rw" name="no_rw" value="{{ old('no_rw') }}" placeholder="Contoh: 002 atau 02" inputmode="numeric" autocomplete="off" required />
+                            <input type="text" class="form-control" id="no_rw" name="no_rw" value="{{ old('no_rw') }}" placeholder="Contoh: 002 atau 02" inputmode="numeric" autocomplete="off" />
                         </div>
                     </div>
 

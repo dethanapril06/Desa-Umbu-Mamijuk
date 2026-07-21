@@ -35,7 +35,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="nama">Nama Tag <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $tag->nama) }}" required />
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $tag->nama) }}" />
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">

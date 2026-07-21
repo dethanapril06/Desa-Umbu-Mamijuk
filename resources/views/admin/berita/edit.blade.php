@@ -38,7 +38,7 @@
                         <div class="col-md-8">
                             <div class="mb-3">
                                 <label class="form-label" for="judul">Judul Berita <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="judul" name="judul" value="{{ old('judul', $berita->judul) }}" required />
+                                <input type="text" class="form-control" id="judul" name="judul" value="{{ old('judul', $berita->judul) }}" />
                             </div>
                         </div>
                         
@@ -46,7 +46,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label" for="kategori_berita_id">Kategori Berita <span class="text-danger">*</span></label>
-                                <select class="form-select" id="kategori_berita_id" name="kategori_berita_id" required>
+                                <select class="form-select" id="kategori_berita_id" name="kategori_berita_id">
                                     @foreach($categories as $cat)
                                         <option value="{{ $cat->id }}" {{ old('kategori_berita_id', $berita->kategori_berita_id) == $cat->id ? 'selected' : '' }}>{{ $cat->nama }}</option>
                                     @endforeach

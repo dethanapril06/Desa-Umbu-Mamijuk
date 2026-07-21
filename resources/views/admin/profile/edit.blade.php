@@ -32,12 +32,12 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" required />
+                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="email">Alamat Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required />
+                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" />
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
@@ -59,18 +59,18 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="current_password">Password Saat Ini <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" id="current_password" name="current_password" placeholder="••••••••" required />
+                        <input type="password" class="form-control" id="current_password" name="current_password" placeholder="••••••••" />
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="password">Password Baru <span class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required />
+                            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" />
                             <div class="form-text">Minimal 8 karakter.</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="password_confirmation">Konfirmasi Password Baru <span class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="••••••••" required />
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="••••••••" />
                         </div>
                     </div>
 

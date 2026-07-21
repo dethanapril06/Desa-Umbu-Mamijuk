@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="filter_dusun_id">Dusun <span class="text-danger">*</span></label>
-                            <select class="form-select" id="filter_dusun_id" name="filter_dusun_id" required>
+                            <select class="form-select" id="filter_dusun_id" name="filter_dusun_id">
                                 <option value="">-- Pilih Dusun --</option>
                                 @foreach($dusunList as $d)
                                     <option value="{{ $d->id }}">{{ $d->nama }}</option>
@@ -45,13 +45,13 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="filter_rt_rw_id">RT / RW <span class="text-danger">*</span></label>
-                            <select class="form-select" id="filter_rt_rw_id" name="filter_rt_rw_id" required disabled>
+                            <select class="form-select" id="filter_rt_rw_id" name="filter_rt_rw_id" disabled>
                                 <option value="">-- Pilih Dusun terlebih dahulu --</option>
                             </select>
                         </div>
                         <div class="col-md-4 mb-3" id="penduduk_id_wrapper">
                             <label class="form-label" for="penduduk_id">Pilih Penduduk <span class="text-danger">*</span></label>
-                            <select class="form-select" id="penduduk_id" name="penduduk_id" required disabled>
+                            <select class="form-select" id="penduduk_id" name="penduduk_id" disabled>
                                 <option value="">-- Pilih RT/RW terlebih dahulu --</option>
                             </select>
                         </div>
@@ -59,7 +59,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="jenis_mutasi">Jenis Mutasi <span class="text-danger">*</span></label>
-                        <select class="form-select" id="jenis_mutasi" name="jenis_mutasi" required onchange="toggleAlamatField(this.value)">
+                        <select class="form-select" id="jenis_mutasi" name="jenis_mutasi" onchange="toggleAlamatField(this.value)">
                             <option value="mati" {{ old('jenis_mutasi', $mutasiPenduduk->jenis_mutasi) == 'mati' ? 'selected' : '' }}>Meninggal (Mati)</option>
                             <option value="pindah_masuk" {{ old('jenis_mutasi', $mutasiPenduduk->jenis_mutasi) == 'pindah_masuk' ? 'selected' : '' }}>Pindah Masuk</option>
                             <option value="pindah_keluar" {{ old('jenis_mutasi', $mutasiPenduduk->jenis_mutasi) == 'pindah_keluar' ? 'selected' : '' }}>Pindah Keluar</option>
@@ -266,7 +266,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="tanggal_mutasi">Tanggal Mutasi <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="tanggal_mutasi" name="tanggal_mutasi" value="{{ old('tanggal_mutasi', $mutasiPenduduk->tanggal_mutasi ? $mutasiPenduduk->tanggal_mutasi->format('Y-m-d') : '') }}" required />
+                            <input type="date" class="form-control" id="tanggal_mutasi" name="tanggal_mutasi" value="{{ old('tanggal_mutasi', $mutasiPenduduk->tanggal_mutasi ? $mutasiPenduduk->tanggal_mutasi->format('Y-m-d') : '') }}" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="no_surat">No. Surat Keterangan / Pengantar</label>

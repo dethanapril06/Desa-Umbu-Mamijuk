@@ -177,7 +177,7 @@
                                     <div class="col-md-6">
                                         <input type="text" name="nama"
                                             class="review-form-control @error('nama') is-invalid @enderror"
-                                            value="{{ old('nama') }}" placeholder="Nama Anda" required />
+                                            value="{{ old('nama') }}" placeholder="Nama Anda" />
                                         @error('nama')
                                             <div class="review-form-error">{{ $message }}</div>
                                         @enderror
@@ -192,7 +192,7 @@
                                     </div>
                                 </div>
                                 <textarea name="komentar" class="review-form-control mb-3 @error('komentar') is-invalid @enderror" rows="4"
-                                    placeholder="Tulis komentar Anda..." required>{{ old('komentar') }}</textarea>
+                                    placeholder="Tulis komentar Anda...">{{ old('komentar') }}</textarea>
                                 @error('komentar')
                                     <div class="review-form-error mb-3">{{ $message }}</div>
                                 @enderror

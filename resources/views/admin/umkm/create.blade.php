@@ -35,18 +35,18 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="nama_usaha">Nama Usaha / Bisnis <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_usaha" name="nama_usaha" value="{{ old('nama_usaha') }}" placeholder="Contoh: Kopi Asli Sumba" required />
+                            <input type="text" class="form-control" id="nama_usaha" name="nama_usaha" value="{{ old('nama_usaha') }}" placeholder="Contoh: Kopi Asli Sumba" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="nama_pemilik">Nama Pemilik <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" value="{{ old('nama_pemilik') }}" placeholder="Nama lengkap pemilik usaha" required />
+                            <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik" value="{{ old('nama_pemilik') }}" placeholder="Nama lengkap pemilik usaha" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="kategori">Kategori Usaha <span class="text-danger">*</span></label>
-                            <select class="form-select" id="kategori" name="kategori" required>
+                            <select class="form-select" id="kategori" name="kategori">
                                 <option value="">-- Pilih Kategori --</option>
                                 <option value="Kuliner" {{ old('kategori') == 'Kuliner' ? 'selected' : '' }}>Kuliner (Makanan & Minuman)</option>
                                 <option value="Fashion" {{ old('kategori') == 'Fashion' ? 'selected' : '' }}>Fashion (Pakaian, Tenun & Aksesoris)</option>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label" for="status">Status Keaktifan <span class="text-danger">*</span></label>
-                            <select class="form-select" id="status" name="status" required>
+                            <select class="form-select" id="status" name="status">
                                 <option value="aktif" {{ old('status', 'aktif') == 'aktif' ? 'selected' : '' }}>Aktif</option>
                                 <option value="tidak_aktif" {{ old('status') == 'tidak_aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                             </select>
@@ -89,12 +89,12 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="alamat">Alamat Fisik Usaha <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="alamat" name="alamat" rows="2" placeholder="Masukkan alamat lengkap lokasi usaha..." required>{{ old('alamat') }}</textarea>
+                        <textarea class="form-control" id="alamat" name="alamat" rows="2" placeholder="Masukkan alamat lengkap lokasi usaha...">{{ old('alamat') }}</textarea>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="deskripsi">Deskripsi Usaha / Produk / Layanan <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" placeholder="Tuliskan profil usaha Anda secara detail, produk utama, kelebihan usaha, dll..." required>{{ old('deskripsi') }}</textarea>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" placeholder="Tuliskan profil usaha Anda secara detail, produk utama, kelebihan usaha, dll...">{{ old('deskripsi') }}</textarea>
                     </div>
 
                     <div class="mb-4">

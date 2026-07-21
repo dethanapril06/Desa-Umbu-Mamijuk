@@ -21,8 +21,8 @@ class PendudukController extends Controller
         $query = Penduduk::with(['keluarga.rtRw.dusun']);
 
         $fulltextFields = ['nama_lengkap', 'tempat_lahir', 'pekerjaan', 'nama_ayah', 'nama_ibu'];
-        $likeFields     = ['nik', 'no_telepon', 'agama', 'status_hubungan_keluarga'];
-        $exactFields    = ['jenis_kelamin', 'status'];
+        $likeFields     = ['nik', 'no_telepon', 'agama', 'status_hubungan_keluarga', 'no_paspor', 'no_kitas_kitap'];
+        $exactFields    = ['jenis_kelamin', 'status', 'pendidikan_terakhir', 'status_perkawinan', 'golongan_darah', 'kewarganegaraan', 'tanggal_lahir'];
 
         if ($search !== '') {
             if (in_array($searchField, $fulltextFields, true)) {

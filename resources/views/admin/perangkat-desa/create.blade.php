@@ -34,12 +34,12 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="nama">Nama Lengkap <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" required />
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="jabatan">Jabatan <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" placeholder="Contoh: Sekretaris Desa, Kaur Keuangan" required />
+                        <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" placeholder="Contoh: Sekretaris Desa, Kaur Keuangan" />
                     </div>
 
                     <div class="mb-3">

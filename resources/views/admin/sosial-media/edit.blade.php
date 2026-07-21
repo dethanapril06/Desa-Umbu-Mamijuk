@@ -40,19 +40,19 @@
                             $currentPlatform = old('platform', $sosialMedia->platform);
                             $isPredefined = in_array($currentPlatform, $platforms);
                         @endphp
-                        <select class="form-select mb-2" id="platform_select" required>
+                        <select class="form-select mb-2" id="platform_select">
                             <option value="" disabled>Pilih Platform</option>
                             @foreach ($platforms as $p)
                                 <option value="{{ $p }}" {{ $currentPlatform == $p ? 'selected' : '' }}>{{ $p }}</option>
                             @endforeach
                             <option value="Lainnya" {{ !$isPredefined ? 'selected' : '' }}>Lainnya (Website / Lain-lain)</option>
                         </select>
-                        <input type="text" class="form-control {{ $isPredefined ? 'd-none' : '' }}" id="platform" name="platform" value="{{ $currentPlatform }}" placeholder="Masukkan nama platform..." required />
+                        <input type="text" class="form-control {{ $isPredefined ? 'd-none' : '' }}" id="platform" name="platform" value="{{ $currentPlatform }}" placeholder="Masukkan nama platform..." />
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="url">Link / URL Profil <span class="text-danger">*</span></label>
-                        <input type="url" class="form-control" id="url" name="url" value="{{ old('url', $sosialMedia->url) }}" placeholder="Contoh: https://facebook.com/username" required />
+                        <input type="url" class="form-control" id="url" name="url" value="{{ old('url', $sosialMedia->url) }}" placeholder="Contoh: https://facebook.com/username" />
                     </div>
 
                     <div class="mb-3">
