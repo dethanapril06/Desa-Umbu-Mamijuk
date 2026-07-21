@@ -43,7 +43,11 @@ class PendudukController extends Controller
             }
         }
 
-        $pendudukList = $query->orderBy('id', 'desc')->paginate(15)->withQueryString();
+        $pendudukList = $query->select('penduduk.*')
+            ->join('keluarga', 'penduduk.keluarga_id', '=', 'keluarga.id')
+            ->orderBy('keluarga.no_kk', 'asc')
+            ->paginate(15)
+            ->withQueryString();
         $dusunList = Dusun::where('is_active', true)->orderBy('nama')->get();
         $rtRwList = RtRw::with('dusun')->orderBy('no_rw')->orderBy('no_rt')->get();
 

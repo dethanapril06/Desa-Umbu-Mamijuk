@@ -36,7 +36,11 @@ class MutasiPendudukController extends Controller
             $query->where('jenis_mutasi', $jenis);
         }
 
-        $mutasiList = $query->orderBy('tanggal_mutasi', 'desc')->paginate(15);
+        $mutasiList = $query->select('mutasi_penduduk.*')
+            ->join('penduduk', 'mutasi_penduduk.penduduk_id', '=', 'penduduk.id')
+            ->join('keluarga', 'penduduk.keluarga_id', '=', 'keluarga.id')
+            ->orderBy('keluarga.no_kk', 'asc')
+            ->paginate(15);
         $dusunList = Dusun::where('is_active', true)->orderBy('nama')->get();
         $rtRwList = RtRw::with('dusun')->orderBy('no_rw')->orderBy('no_rt')->get();
 

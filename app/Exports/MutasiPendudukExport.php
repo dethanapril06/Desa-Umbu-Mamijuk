@@ -43,7 +43,10 @@ class MutasiPendudukExport extends DefaultValueBinder implements FromCollection,
             ->when($this->filters['dusun_id'] ?? null, function (Builder $query, string $value) {
                 $query->whereHas('penduduk.keluarga.rtRw', fn (Builder $rtRw) => $rtRw->where('dusun_id', $value));
             })
-            ->orderByDesc('tanggal_mutasi')
+            ->select('mutasi_penduduk.*')
+            ->join('penduduk', 'mutasi_penduduk.penduduk_id', '=', 'penduduk.id')
+            ->join('keluarga', 'penduduk.keluarga_id', '=', 'keluarga.id')
+            ->orderBy('keluarga.no_kk', 'asc')
             ->get();
     }
 

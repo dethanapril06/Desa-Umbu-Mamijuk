@@ -33,7 +33,7 @@ class KeluargaExport extends DefaultValueBinder implements FromCollection, WithH
             ->when($this->filters['tanggal_terdaftar_selesai'] ?? null, fn (Builder $query, string $value) => $query->whereDate('tanggal_terdaftar', '<=', $value))
             ->when(($this->filters['status_kepala_keluarga'] ?? null) === 'ada', fn (Builder $query) => $query->whereHas('kepalaKeluarga'))
             ->when(($this->filters['status_kepala_keluarga'] ?? null) === 'belum_ada', fn (Builder $query) => $query->whereDoesntHave('kepalaKeluarga'))
-            ->orderBy('no_kk')
+            ->orderBy('no_kk', 'asc')
             ->get();
     }
 

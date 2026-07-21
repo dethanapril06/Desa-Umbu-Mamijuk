@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => AdminMiddleware::class,
         ]);
+        $middleware->redirectUsersTo(function (Request $request) {
+            return ($request->user() && $request->user()->isAdmin()) ? route('admin.dashboard') : '/';
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

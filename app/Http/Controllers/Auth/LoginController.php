@@ -16,7 +16,10 @@ class LoginController extends Controller
     public function create(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('admin.dashboard');
+            if (Auth::user()?->isAdmin()) {
+                return redirect()->route('admin.dashboard');
+            }
+            Auth::logout();
         }
 
         return view('auth.login');
