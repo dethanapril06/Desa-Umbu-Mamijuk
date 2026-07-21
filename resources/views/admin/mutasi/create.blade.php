@@ -212,7 +212,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label" for="masuk_no_kitas_kitap">No. KITAS / KITAP</label>
-                                <input type="text" class="form-control" id="masuk_no_kitas_kitap" name="masuk_no_kitas_kitap" value="{{ old('masuk_no_kitas_kitap') }}" placeholder="No. KITAS/KITAP (jika ada)" />
+                                <input type="text" class="form-control" id="masuk_no_kitas_kitap" name="masuk_no_kitas_kitap" value="{{ old('masuk_no_kitas_kitap') }}" placeholder="No. KITAS/KITAP (jika ada)" inputmode="numeric" autocomplete="off" />
                             </div>
                         </div>
 
@@ -619,7 +619,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    const digitFields = document.querySelectorAll('#masuk_nik, #masuk_no_telepon');
+    const digitFields = document.querySelectorAll('#masuk_nik, #masuk_no_telepon, #masuk_no_kitas_kitap');
     digitFields.forEach(function(input) {
         if (!input) return;
         input.addEventListener('keydown', function(e) {
@@ -647,12 +647,12 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('blur',  function() { sanitizeDigits(this); });
     });
 
-    const noSpaceFields = document.querySelectorAll('#masuk_no_paspor, #masuk_no_kitas_kitap');
-    noSpaceFields.forEach(input => {
+    const pasporFields = document.querySelectorAll('#masuk_no_paspor');
+    pasporFields.forEach(input => {
         ['input', 'blur'].forEach(evt => {
             input.addEventListener(evt, function() {
                 if (!this.value) return;
-                this.value = this.value.replace(/\s+/g, '');
+                this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
             });
         });
     });
