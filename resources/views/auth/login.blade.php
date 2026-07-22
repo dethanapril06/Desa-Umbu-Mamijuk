@@ -8,6 +8,11 @@
     data-template="vertical-menu-template-free"
 >
 <head>
+    @php
+        $profil = $profilDesa ?? \App\Models\ProfilDesa::first();
+        $logoPath = $profil?->logo ? asset('storage/' . $profil->logo) : asset('fe/assets/img/logo-desa.png');
+        $namaDesa = $profil?->nama_desa ?? 'Umbu Mamijuk';
+    @endphp
     <meta charset="utf-8" />
 
     <meta
@@ -16,18 +21,18 @@
         user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Login Admin | Desa Sukamaju</title>
+    <title>Login Admin | Desa {{ $namaDesa }}</title>
 
     <meta
         name="description"
-        content="Halaman login administrator website Desa Sukamaju"
+        content="Halaman login administrator website Desa {{ $namaDesa }}"
     />
 
     {{-- Favicon --}}
     <link
         rel="icon"
-        type="image/x-icon"
-        href="{{ asset('template/assets/img/favicon/favicon.ico') }}"
+        type="image/png"
+        href="{{ $logoPath }}"
     />
 
     {{-- Fonts --}}
@@ -95,11 +100,11 @@
                                 class="app-brand-link gap-2"
                             >
                                 <span class="app-brand-logo demo">
-                                    <img src="{{ asset('fe/assets/img/logo-desa.png') }}" alt="Logo" width="60px" height="60px"   >
+                                    <img src="{{ $logoPath }}" alt="Logo" width="60px" height="60px" style="object-fit: contain;">
                                 </span>
 
                                 <span class="app-brand-text demo text-body fw-bolder">
-                                    Desa Umbu Mamijuk
+                                    Desa {{ $namaDesa }}
                                 </span>
                             </a>
                         </div>

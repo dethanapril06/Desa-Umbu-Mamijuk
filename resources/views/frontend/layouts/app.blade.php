@@ -2,6 +2,10 @@
 <html lang="id">
 
 <head>
+    @php
+        $profil = $profilDesa ?? \App\Models\ProfilDesa::first();
+        $logoPath = $profil?->logo ? asset('storage/' . $profil->logo) : asset('fe/assets/img/logo-desa.png');
+    @endphp
     <meta charset="UTF-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -45,7 +49,7 @@
             "@@type": "GovernmentOrganization",
             "name": "Desa Umbu Mamijuk",
             "url": "{{ url('/') }}",
-            "logo": "{{ asset('fe/assets/img/logo-desa.png') }}",
+            "logo": "{{ $logoPath }}",
             "description": "Website resmi Desa Umbu Mamijuk, Kecamatan Umbu Ratu Nggay Barat, Kabupaten Sumba Tengah, Nusa Tenggara Timur.",
             "address": {
                 "@@type": "PostalAddress",
@@ -74,10 +78,10 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
 
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('fe/assets/img/logo-desa.png') }}" />
-    <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('fe/assets/img/logo-desa.png') }}" />
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('fe/assets/img/logo-desa.png') }}" />
-    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('fe/assets/img/logo-desa.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ $logoPath }}" />
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ $logoPath }}" />
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ $logoPath }}" />
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ $logoPath }}" />
 
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('fe/assets/css/main.css') }}" />

@@ -8,8 +8,7 @@
 
 @php
     $imgUrl = $berita->gambar
-        ? asset('storage/' . $berita->gambar)
-        : 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80';
+        ? asset('storage/' . $berita->gambar);
     $authorName = $berita->user?->name ?? 'Admin Desa';
     $shareUrl = url()->current();
     $shareText = $berita->judul . ' - ' . $shareUrl;
@@ -278,8 +277,7 @@
                                 @foreach ($beritaTerbaru as $item)
                                     @php
                                         $thumbUrl = $item->gambar
-                                            ? asset('storage/' . $item->gambar)
-                                            : 'https://images.unsplash.com/photo-1473081556163-2a17de81fc97?w=150&q=70';
+                                            ? asset('storage/' . $item->gambar);
                                     @endphp
                                     <a href="{{ route('berita.show', $item->slug) }}" class="sidebar-news-item">
                                         <img src="{{ $thumbUrl }}" class="sidebar-news-thumb" alt="{{ $item->judul }}" />
@@ -299,8 +297,7 @@
                     @if ($wisataUnggulan)
                         @php
                             $wisataImg = $wisataUnggulan->gambar_utama
-                                ? asset('storage/' . $wisataUnggulan->gambar_utama)
-                                : 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&q=80';
+                                ? asset('storage/' . $wisataUnggulan->gambar_utama);
                         @endphp
                         <div class="sidebar-card">
                             <div class="sidebar-header">Destinasi Wisata Unggulan</div>
@@ -358,8 +355,7 @@
                     @foreach ($beritaTerkait as $item)
                         @php
                             $relatedImg = $item->gambar
-                                ? asset('storage/' . $item->gambar)
-                                : 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80';
+                                ? asset('storage/' . $item->gambar);
                         @endphp
                         <div class="col-md-4">
                             <a href="{{ route('berita.show', $item->slug) }}" class="related-card">

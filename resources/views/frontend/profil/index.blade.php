@@ -156,10 +156,6 @@
                                         <img src="{{ asset('storage/' . $kepalaDesa->foto) }}"
                                             alt="{{ $kepalaDesa->nama }}"
                                             style="width:100%; height:100%; object-fit:cover;">
-                                    @else
-                                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=80"
-                                            alt="{{ $kepalaDesa->nama }}"
-                                            style="width:100%; height:100%; object-fit:cover;">
                                     @endif
                                 </div>
                                 <h3

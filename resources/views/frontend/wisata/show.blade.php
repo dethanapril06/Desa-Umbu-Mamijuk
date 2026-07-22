@@ -578,9 +578,6 @@
                                     @if ($lain->gambar_utama)
                                         <img src="{{ asset('storage/' . $lain->gambar_utama) }}"
                                             alt="{{ $lain->nama }}" />
-                                    @else
-                                        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80"
-                                            alt="{{ $lain->nama }}" />
                                     @endif
                                 </div>
                                 <div class="wisata-lain-body">

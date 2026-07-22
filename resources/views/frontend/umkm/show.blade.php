@@ -31,7 +31,7 @@
 @section('content')
     {{-- HERO --}}
     <section class="hero-wisata" style="padding-top: 140px; padding-bottom: 70px;">
-        <div class="hero-bg" id="heroBg" style="background-image: url('{{ $umkm->foto ? asset('storage/' . $umkm->foto) : 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80' }}'); filter: blur(3px) brightness(0.6);">
+        <div class="hero-bg" id="heroBg" style="background-image: url('{{ $umkm->foto ? asset('storage/' . $umkm->foto) }}'); filter: blur(3px) brightness(0.6);">
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">

@@ -74,8 +74,7 @@
                     @foreach ($galeri as $foto)
                         @php
                             $imgUrl = $foto->gambar
-                                ? asset('storage/' . $foto->gambar)
-                                : 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80';
+                                ? asset('storage/' . $foto->gambar);
                             $caption = $foto->caption ?: 'Dokumentasi Desa';
                         @endphp
 

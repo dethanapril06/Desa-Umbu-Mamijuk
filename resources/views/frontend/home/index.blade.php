@@ -336,11 +336,6 @@
                                     src="{{ asset('storage/' . $wisataUnggulan->gambar_utama) }}"
                                     alt="{{ $wisataUnggulan->nama }}"
                                 />
-                            @else
-                                <img
-                                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80"
-                                    alt="{{ $wisataUnggulan->nama }}"
-                                />
                             @endif
 
                             <div class="wisata-featured-overlay">
@@ -403,11 +398,6 @@
                                         @if ($item->gambar_utama)
                                             <img
                                                 src="{{ asset('storage/' . $item->gambar_utama) }}"
-                                                alt="{{ $item->nama }}"
-                                            />
-                                        @else
-                                            <img
-                                                src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80"
                                                 alt="{{ $item->nama }}"
                                             />
                                         @endif
@@ -528,11 +518,6 @@
                                 @if ($kepalaDesa->foto)
                                     <img
                                         src="{{ asset('storage/' . $kepalaDesa->foto) }}"
-                                        alt="{{ $kepalaDesa->nama }}"
-                                    />
-                                @else
-                                    <img
-                                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=80"
                                         alt="{{ $kepalaDesa->nama }}"
                                     />
                                 @endif
@@ -861,84 +846,6 @@
         </div>
     </section>
 
-    {{-- GALERI --}}
-    <!-- <section class="galeri-section">
-        <div class="container">
-            <div class="row align-items-end mb-4">
-                <div class="col">
-                    <div class="section-label">Galeri</div>
-
-                    <h2 class="section-title">
-                        Potret &amp; <em>Kegiatan</em> Desa
-                    </h2>
-                </div>
-
-                <div class="col-auto">
-                    <a
-                        href="{{ url('/galeri') }}"
-                        class="btn-outline-green btn-sm"
-                    >
-                        Lihat Semua
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="galeri-grid">
-                @forelse ($galeri as $index => $foto)
-                    @php
-                        $imgUrl = $foto->gambar
-                            ? asset('storage/' . $foto->gambar)
-                            : 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=80';
-                        $kelas = $index === 0 ? 'large' : '';
-                        $caption = $foto->caption ?: ($foto->albumGaleri?->nama ?? 'Galeri Desa');
-                    @endphp
-
-                    <div
-                        class="galeri-item {{ $kelas }}"
-                        onclick='openLightbox(@json($imgUrl), @json($caption), @json($foto->albumGaleri?->nama ?? "Galeri Desa"))'
-                    >
-                        <img
-                            src="{{ $imgUrl }}"
-                            alt="{{ $caption }}"
-                        />
-
-                        <div class="galeri-overlay">
-                            <i class="fas fa-expand-alt"></i>
-                            <div class="galeri-overlay-text">
-                                <span>{{ $foto->albumGaleri?->nama ?? 'Galeri Desa' }}</span>
-                                <strong>{{ $caption }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    {{-- Fallback galeri statis jika DB kosong --}}
-                    @foreach ([
-                        ['https://images.unsplash.com/photo-1448375240586-882707db888b?w=1200&q=80', 'Hutan Desa', 'large'],
-                        ['https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=1200&q=80', 'Danau Desa', ''],
-                        ['https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1200&q=80', 'Sawah Desa', ''],
-                        ['https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&q=80', 'Air Terjun', ''],
-                        ['https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1200&q=80', 'Lembah Desa', ''],
-                    ] as [$src, $alt, $kls])
-                        <div
-                            class="galeri-item {{ $kls }}"
-                            onclick='openLightbox(@json($src), @json($alt), @json("Galeri Desa"))'
-                        >
-                            <img src="{{ $src }}" alt="{{ $alt }}" />
-                            <div class="galeri-overlay">
-                                <i class="fas fa-expand-alt"></i>
-                                <div class="galeri-overlay-text">
-                                    <span>Galeri Desa</span>
-                                    <strong>{{ $alt }}</strong>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                @endforelse
-            </div>
-        </div>
-    </section> -->
-
     {{-- BERITA --}}
     <section class="berita-section">
         <div class="container">
@@ -970,11 +877,6 @@
                                 @if ($item->gambar)
                                     <img
                                         src="{{ asset('storage/' . $item->gambar) }}"
-                                        alt="{{ $item->judul }}"
-                                    />
-                                @else
-                                    <img
-                                        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80"
                                         alt="{{ $item->judul }}"
                                     />
                                 @endif

@@ -73,8 +73,7 @@
                 @forelse ($berita as $item)
                     @php
                         $imgUrl = $item->gambar
-                            ? asset('storage/' . $item->gambar)
-                            : 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80';
+                            ? asset('storage/' . $item->gambar);
                     @endphp
 
                     <div class="col-lg-4 col-md-6">
