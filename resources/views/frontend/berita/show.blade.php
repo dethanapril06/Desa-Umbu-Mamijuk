@@ -4,6 +4,8 @@
 
 @section('meta_description', $berita->excerpt ?? Str::limit(strip_tags($berita->konten), 160))
 
+@section('og_type', 'article')
+
 @php
     $imgUrl = $berita->gambar
         ? asset('storage/' . $berita->gambar)
@@ -12,6 +14,38 @@
     $shareUrl = url()->current();
     $shareText = $berita->judul . ' - ' . $shareUrl;
 @endphp
+
+@section('meta_image', $imgUrl)
+
+@section('json_ld')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": "{{ $berita->judul }}",
+    "description": "{{ $berita->excerpt ?? Str::limit(strip_tags($berita->konten), 160) }}",
+    "image": "{{ $imgUrl }}",
+    "datePublished": "{{ $berita->created_at?->toIso8601String() }}",
+    "dateModified": "{{ $berita->updated_at?->toIso8601String() }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ $authorName }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Desa Umbu Mamijuk",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ asset('fe/assets/img/logo-desa.png') }}"
+        }
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ $shareUrl }}"
+    }
+}
+</script>
+@endsection
 
 @section('content')
     <div class="reading-progress">

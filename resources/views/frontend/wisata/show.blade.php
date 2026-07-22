@@ -4,6 +4,29 @@
 
 @section('meta_description', $wisata->deskripsi_singkat ?? Str::limit(strip_tags($wisata->deskripsi), 160))
 
+@section('meta_image', $wisata->gambar_utama ? asset('storage/' . $wisata->gambar_utama) : asset('fe/assets/img/og-default.png'))
+
+@section('json_ld')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "TouristAttraction",
+    "name": "{{ $wisata->nama }}",
+    "description": "{{ $wisata->deskripsi_singkat ?? Str::limit(strip_tags($wisata->deskripsi), 160) }}",
+    "image": "{{ $wisata->gambar_utama ? asset('storage/' . $wisata->gambar_utama) : asset('fe/assets/img/og-default.png') }}",
+    "url": "{{ url()->current() }}",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "{{ $wisata->lokasi ?? 'Umbu Ratu Nggay Barat' }}",
+        "addressRegion": "Sumba Tengah",
+        "addressCountry": "ID"
+    },
+    "isAccessibleForFree": {{ $wisata->harga_tiket == 0 ? 'true' : 'false' }},
+    "touristType": "{{ $wisata->kategoriWisata?->nama ?? 'Wisata' }}"
+}
+</script>
+@endsection
+
 @section('content')
     {{-- HERO --}}
     <section class="hero-wisata">

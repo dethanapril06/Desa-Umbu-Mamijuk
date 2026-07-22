@@ -4,6 +4,30 @@
 
 @section('meta_description', Str::limit(strip_tags($umkm->deskripsi), 160))
 
+@section('meta_image', $umkm->foto ? asset('storage/' . $umkm->foto) : asset('fe/assets/img/og-default.png'))
+
+@section('json_ld')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "{{ $umkm->nama_usaha }}",
+    "description": "{{ Str::limit(strip_tags($umkm->deskripsi), 160) }}",
+    "image": "{{ $umkm->foto ? asset('storage/' . $umkm->foto) : asset('fe/assets/img/og-default.png') }}",
+    "url": "{{ url()->current() }}",
+    "telephone": "{{ $umkm->no_telepon ?? '' }}",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ $umkm->alamat ?? '' }}",
+        "addressLocality": "Umbu Ratu Nggay Barat",
+        "addressRegion": "Sumba Tengah",
+        "addressCountry": "ID"
+    },
+    "openingHours": "{{ $umkm->jam_operasional ?? '' }}"
+}
+</script>
+@endsection
+
 @section('content')
     {{-- HERO --}}
     <section class="hero-wisata" style="padding-top: 140px; padding-bottom: 70px;">

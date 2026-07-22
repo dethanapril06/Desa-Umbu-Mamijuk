@@ -178,3 +178,5 @@ Route::get('/umkm', [App\Http\Controllers\Frontend\UmkmController::class, 'index
 Route::get('/umkm/{slug}', [App\Http\Controllers\Frontend\UmkmController::class, 'show'])->name('umkm.show');
 Route::post('/pengaduan', [App\Http\Controllers\Frontend\PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/pengaduan/lacak/{no_tiket}', [App\Http\Controllers\Frontend\PengaduanController::class, 'track'])->name('pengaduan.track');
+
+Route::get('/sitemap.xml', [App\Http\Controllers\Frontend\SitemapController::class, 'index'])->name('sitemap');
