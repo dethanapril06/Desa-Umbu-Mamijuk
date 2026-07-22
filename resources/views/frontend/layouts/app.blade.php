@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>
-        @yield('title', 'Website Resmi') | Kec. Umbu Ratu Nggay Barat, Kab. Sumba Tengah, NTT
+        @yield('title') | Kec. Umbu Ratu Nggay Barat, Kab. Sumba Tengah, NTT
     </title>
 
     <meta name="description" content="@yield('meta_description', 'Website resmi Desa Umbu Mamijuk. Portal informasi desa, data kependudukan, wisata, berita, galeri, dan pelayanan publik.')" />

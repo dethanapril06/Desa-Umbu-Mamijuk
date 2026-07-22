@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Desa' . $profilDesa?->nama_desa)
+@section('title', 'Desa ' . $profilDesa?->nama_desa)
 
 @section(
     'meta_description',
