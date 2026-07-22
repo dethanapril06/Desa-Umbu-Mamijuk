@@ -30,22 +30,14 @@
                             <tr>
                                 <td><strong>{{ $tag->nama }}</strong></td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-menu-item dropdown-item" href="{{ route('admin.tag.edit', $tag->id) }}">
-                                                <i class="bx bx-edit-alt me-1 text-primary"></i> Edit
-                                            </a>
+                                    <div style="display: grid; grid-template-columns: repeat(3, max-content); gap: 0.25rem;">
+
+                                            <a href="{{ route('admin.tag.edit', $tag->id) }}" class="btn btn-sm btn-icon" title="Edit"><i class="bx bx-edit-alt  text-primary"></i></a>
                                             <form action="{{ route('admin.tag.destroy', $tag->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus tag ini? Tag akan dilepas dari semua berita terkait.');" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bx bx-trash me-1 text-danger"></i> Hapus
-                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-icon" title="Hapus"><i class="bx bx-trash  text-danger"></i></button>
                                             </form>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>

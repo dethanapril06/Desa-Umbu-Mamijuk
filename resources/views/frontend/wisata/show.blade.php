@@ -75,7 +75,7 @@
                                     <i class="fas fa-images"></i> Lihat Galeri
                                 </a>
                             @endif
-                            @if ($wisata->penginapanWisata->count() > 0)
+                            @if ($wisata->penginapan->count() > 0)
                                 <a href="#penginapan" class="btn-outline-green"
                                     style="border-color:rgba(255,255,255,0.4);color:white;">
                                     <i class="fas fa-home"></i> Penginapan
@@ -106,7 +106,7 @@
                         @endif
                     </h2>
                     <div class="desc-content">
-                        {!! nl2br(e($wisata->deskripsi)) !!}
+                        {!! $wisata->deskripsi !!}
 
                         @if ($wisata->highlight_quote)
                             <div class="desc-highlight">

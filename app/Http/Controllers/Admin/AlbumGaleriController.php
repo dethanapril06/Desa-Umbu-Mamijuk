@@ -30,14 +30,16 @@ class AlbumGaleriController extends Controller
 
         $rules = [
             'nama' => 'required|string|max:255|unique:album_galeri,nama',
-            'deskripsi' => 'nullable|string',
-            'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'deskripsi' => 'required|string',
+            'cover' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
         ];
 
         $messages = [
             'nama.required' => 'Nama album wajib diisi.',
             'nama.unique' => 'Nama album tersebut sudah terdaftar di sistem.',
             'nama.max' => 'Nama album maksimal 255 karakter.',
+            'deskripsi.required' => 'Deskripsi album wajib diisi.',
+            'cover.required' => 'Cover album wajib diunggah.',
             'cover.dimensions' => 'Resolusi cover terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'cover.max' => 'Ukuran file cover maksimal 2 MB.',
             'cover.mimes' => 'Format cover harus berupa JPEG, PNG, JPG, atau WEBP.',
@@ -69,7 +71,7 @@ class AlbumGaleriController extends Controller
 
         $rules = [
             'nama' => 'required|string|max:255|unique:album_galeri,nama,' . $albumGaleri->id,
-            'deskripsi' => 'nullable|string',
+            'deskripsi' => 'required|string',
             'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
         ];
 
@@ -77,6 +79,7 @@ class AlbumGaleriController extends Controller
             'nama.required' => 'Nama album wajib diisi.',
             'nama.unique' => 'Nama album tersebut sudah terdaftar di sistem.',
             'nama.max' => 'Nama album maksimal 255 karakter.',
+            'deskripsi.required' => 'Deskripsi album wajib diisi.',
             'cover.dimensions' => 'Resolusi cover terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'cover.max' => 'Ukuran file cover maksimal 2 MB.',
             'cover.mimes' => 'Format cover harus berupa JPEG, PNG, JPG, atau WEBP.',

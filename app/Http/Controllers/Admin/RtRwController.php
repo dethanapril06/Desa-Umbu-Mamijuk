@@ -31,8 +31,8 @@ class RtRwController extends Controller
             'dusun_id' => 'required|exists:dusun,id',
             'no_rt' => 'required|string|max:10',
             'no_rw' => 'required|string|max:10',
-            'ketua_rt' => 'nullable|string|max:255',
-            'ketua_rw' => 'nullable|string|max:255',
+            'ketua_rt' => 'required|string|max:255',
+            'ketua_rw' => 'required|string|max:255',
         ];
 
         $messages = [
@@ -40,6 +40,8 @@ class RtRwController extends Controller
             'dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
             'no_rt.required' => 'Nomor RT wajib diisi.',
             'no_rw.required' => 'Nomor RW wajib diisi.',
+            'ketua_rt.required' => 'Nama ketua RT wajib diisi.',
+            'ketua_rw.required' => 'Nama ketua RW wajib diisi.',
         ];
 
         $request->validate($rules, $messages);
@@ -73,8 +75,8 @@ class RtRwController extends Controller
             'dusun_id' => 'required|exists:dusun,id',
             'no_rt' => 'required|string|max:10',
             'no_rw' => 'required|string|max:10',
-            'ketua_rt' => 'nullable|string|max:255',
-            'ketua_rw' => 'nullable|string|max:255',
+            'ketua_rt' => 'required|string|max:255',
+            'ketua_rw' => 'required|string|max:255',
         ];
 
         $messages = [
@@ -82,6 +84,8 @@ class RtRwController extends Controller
             'dusun_id.exists' => 'Dusun yang dipilih tidak valid.',
             'no_rt.required' => 'Nomor RT wajib diisi.',
             'no_rw.required' => 'Nomor RW wajib diisi.',
+            'ketua_rt.required' => 'Nama ketua RT wajib diisi.',
+            'ketua_rw.required' => 'Nama ketua RW wajib diisi.',
         ];
 
         $request->validate($rules, $messages);

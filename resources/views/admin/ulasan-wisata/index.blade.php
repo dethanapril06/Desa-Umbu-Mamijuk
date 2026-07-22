@@ -88,27 +88,18 @@
                                     {{ $ulasan->created_at ? $ulasan->created_at->format('d M Y') : '-' }}
                                 </td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <form action="{{ route('admin.ulasan-wisata.toggle-approve', $ulasan->id) }}" method="POST">
+                                    <div style="display: grid; grid-template-columns: repeat(3, max-content); gap: 0.25rem;">
+
+                                            <form action="{{ route('admin.ulasan-wisata.toggle-approve', $ulasan->id) }}" method="POST" onsubmit="return confirm('{{ $ulasan->is_approved ? 'Apakah Anda yakin ingin membatalkan persetujuan ulasan ini?' : 'Apakah Anda yakin ingin menyetujui ulasan ini?' }}');">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bx {{ $ulasan->is_approved ? 'bx-x-circle text-warning' : 'bx-check-circle text-success' }} me-1"></i>
-                                                    {{ $ulasan->is_approved ? 'Batalkan Setuju' : 'Setujui' }}
-                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-icon" title="{{ $ulasan->is_approved ? 'Batalkan Setuju' : 'Setujui' }}"><i class="bx {{ $ulasan->is_approved ? 'bx-x-circle text-warning' : 'bx-check-circle text-success' }}"></i></button>
                                             </form>
                                             <form action="{{ route('admin.ulasan-wisata.destroy', $ulasan->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ulasan ini?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bx bx-trash me-1 text-danger"></i> Hapus
-                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-icon" title="Hapus"><i class="bx bx-trash  text-danger"></i></button>
                                             </form>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>

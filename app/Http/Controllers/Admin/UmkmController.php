@@ -42,16 +42,18 @@ class UmkmController extends Controller
             'deskripsi' => 'required|string',
             'kategori' => 'required|string|max:100',
             'alamat' => 'required|string',
-            'no_telepon' => 'nullable|string|max:20',
+            'no_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:100',
             'website_url' => 'nullable|url|max:255',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=300,min_height=300',
-            'jam_operasional' => 'nullable|string|max:150',
+            'jam_operasional' => 'required|string|max:150',
             'status' => 'required|in:aktif,tidak_aktif',
         ], [
             'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 300px dan tinggi 300px.',
             'foto.max' => 'Ukuran file foto maksimal 2 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
+            'no_telepon.required' => 'Nomor telepon wajib diisi.',
+            'jam_operasional.required' => 'Jam operasional wajib diisi.',
         ]);
 
         $slug = Str::slug($request->nama_usaha);
@@ -88,16 +90,18 @@ class UmkmController extends Controller
             'deskripsi' => 'required|string',
             'kategori' => 'required|string|max:100',
             'alamat' => 'required|string',
-            'no_telepon' => 'nullable|string|max:20',
+            'no_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:100',
             'website_url' => 'nullable|url|max:255',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=300,min_height=300',
-            'jam_operasional' => 'nullable|string|max:150',
+            'jam_operasional' => 'required|string|max:150',
             'status' => 'required|in:aktif,tidak_aktif',
         ], [
             'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 300px dan tinggi 300px.',
             'foto.max' => 'Ukuran file foto maksimal 2 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
+            'no_telepon.required' => 'Nomor telepon wajib diisi.',
+            'jam_operasional.required' => 'Jam operasional wajib diisi.',
         ]);
 
         $data = $request->except(['foto']);

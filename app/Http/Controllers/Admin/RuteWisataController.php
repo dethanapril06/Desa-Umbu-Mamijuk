@@ -17,10 +17,12 @@ class RuteWisataController extends Controller
             'wisata_id' => 'required|exists:wisata,id',
             'jenis_transportasi' => 'required|string|max:100', // e.g. jalan kaki, mobil, motor
             'icon' => 'nullable|string|max:100', // e.g. bx-walk, bx-car
-            'deskripsi' => 'nullable|string',
-            'warna_badge' => 'nullable|string|max:50', // e.g. success, info, primary
+            'deskripsi' => 'required|string',
+            'warna_badge' => 'required|string|max:50', // e.g. success, info, primary
         ], [
             'jenis_transportasi.required' => 'Jenis transportasi wajib diisi.',
+            'deskripsi.required' => 'Deskripsi rute perjalanan wajib diisi.',
+            'warna_badge.required' => 'Warna badge wajib dipilih.',
             'wisata_id.required' => 'Destinasi wisata wajib dipilih.',
             'wisata_id.exists' => 'Destinasi wisata tidak valid.',
         ]);

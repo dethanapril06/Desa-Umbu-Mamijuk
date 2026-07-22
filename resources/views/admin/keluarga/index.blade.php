@@ -64,25 +64,15 @@
                                     <span class="badge bg-label-info">{{ $keluarga->penduduk->where('status', 'aktif')->count() }} Orang</span>
                                 </td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{ route('admin.keluarga.show', $keluarga->id) }}">
-                                                <i class="bx bx-show me-1 text-info"></i> Detail KK & Anggota
-                                            </a>
-                                            <a class="dropdown-item" href="{{ route('admin.keluarga.edit', $keluarga->id) }}">
-                                                <i class="bx bx-edit-alt me-1 text-primary"></i> Edit KK
-                                            </a>
+                                    <div style="display: grid; grid-template-columns: repeat(3, max-content); gap: 0.25rem;">
+
+                                            <a href="{{ route('admin.keluarga.show', $keluarga->id) }}" class="btn btn-sm btn-icon" title="Detail KK & Anggota"><i class="bx bx-show  text-info"></i></a>
+                                            <a href="{{ route('admin.keluarga.edit', $keluarga->id) }}" class="btn btn-sm btn-icon" title="Edit KK"><i class="bx bx-edit-alt  text-primary"></i></a>
                                             <form action="{{ route('admin.keluarga.destroy', $keluarga->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus KK ini? Semua data penduduk di dalamnya harus dipindahkan/dihapus terlebih dahulu.');" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bx bx-trash me-1 text-danger"></i> Hapus
-                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-icon" title="Hapus"><i class="bx bx-trash  text-danger"></i></button>
                                             </form>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>

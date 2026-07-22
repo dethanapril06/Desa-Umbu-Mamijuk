@@ -27,13 +27,14 @@ class DusunController extends Controller
 
         $rules = [
             'nama' => 'required|string|max:255|unique:dusun,nama',
-            'kepala_dusun' => 'nullable|string|max:255',
+            'kepala_dusun' => 'required|string|max:255',
             'is_active' => 'nullable|boolean',
         ];
 
         $messages = [
             'nama.required' => 'Nama dusun wajib diisi.',
             'nama.unique' => 'Nama dusun tersebut sudah terdaftar di sistem.',
+            'kepala_dusun.required' => 'Kepala dusun wajib diisi.',
         ];
 
         $request->validate($rules, $messages);
@@ -57,13 +58,14 @@ class DusunController extends Controller
 
         $rules = [
             'nama' => 'required|string|max:255|unique:dusun,nama,' . $dusun->id,
-            'kepala_dusun' => 'nullable|string|max:255',
+            'kepala_dusun' => 'required|string|max:255',
             'is_active' => 'nullable|boolean',
         ];
 
         $messages = [
             'nama.required' => 'Nama dusun wajib diisi.',
             'nama.unique' => 'Nama dusun tersebut sudah terdaftar di sistem.',
+            'kepala_dusun.required' => 'Kepala dusun wajib diisi.',
         ];
 
         $request->validate($rules, $messages);

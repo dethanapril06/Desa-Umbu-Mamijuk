@@ -109,22 +109,14 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{ route('admin.mutasi-penduduk.edit', $mutasi->id) }}">
-                                                <i class="bx bx-edit-alt me-1 text-primary"></i> Edit Catatan
-                                            </a>
+                                    <div style="display: grid; grid-template-columns: repeat(3, max-content); gap: 0.25rem;">
+
+                                            <a href="{{ route('admin.mutasi-penduduk.edit', $mutasi->id) }}" class="btn btn-sm btn-icon" title="Edit Catatan"><i class="bx bx-edit-alt  text-primary"></i></a>
                                             <form action="{{ route('admin.mutasi-penduduk.destroy', $mutasi->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus catatan mutasi ini? Menghapus catatan mutasi akan mengembalikan status penduduk terkait menjadi AKTIF.');" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bx bx-trash me-1 text-danger"></i> Hapus
-                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-icon" title="Hapus"><i class="bx bx-trash  text-danger"></i></button>
                                             </form>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>

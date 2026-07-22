@@ -73,31 +73,19 @@
                                     {{ $komentar->created_at ? $komentar->created_at->format('d M Y H:i') : '-' }}
                                 </td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <form action="{{ route('admin.komentar-berita.toggle-approve', $komentar->id) }}" method="POST" style="display:inline;">
+                                    <div style="display: grid; grid-template-columns: repeat(3, max-content); gap: 0.25rem;">
+
+                                            <form action="{{ route('admin.komentar-berita.toggle-approve', $komentar->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ $komentar->is_approved ? 'Apakah Anda yakin ingin membatalkan persetujuan komentar ini?' : 'Apakah Anda yakin ingin menyetujui komentar ini?' }}');">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" class="dropdown-item">
-                                                    @if($komentar->is_approved)
-                                                        <i class="bx bx-x-circle me-1 text-warning"></i> Batalkan Setuju
-                                                    @else
-                                                        <i class="bx bx-check-circle me-1 text-success"></i> Setujui
-                                                    @endif
-                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-icon" title="{{ $komentar->is_approved ? 'Batalkan Setuju' : 'Setujui' }}"><i class="bx {{ $komentar->is_approved ? 'bx-x-circle text-warning' : 'bx-check-circle text-success' }}"></i></button>
                                             </form>
 
                                             <form action="{{ route('admin.komentar-berita.destroy', $komentar->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus komentar ini?');" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bx bx-trash me-1 text-danger"></i> Hapus
-                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-icon" title="Hapus"><i class="bx bx-trash  text-danger"></i></button>
                                             </form>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>

@@ -88,22 +88,14 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-menu-item dropdown-item" href="{{ route('admin.wisata.edit', $item->id) }}">
-                                                <i class="bx bx-edit-alt me-1 text-primary"></i> Edit & Kelola Detail
-                                            </a>
+                                    <div style="display: grid; grid-template-columns: repeat(3, max-content); gap: 0.25rem;">
+
+                                            <a href="{{ route('admin.wisata.edit', $item->id) }}" class="btn btn-sm btn-icon" title="Edit & Kelola Detail"><i class="bx bx-edit-alt  text-primary"></i></a>
                                             <form action="{{ route('admin.wisata.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus destinasi wisata ini beserta fasilitas dan ulasan di dalamnya?');" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bx bx-trash me-1 text-danger"></i> Hapus
-                                                </button>
+                                                <button type="submit" class="btn btn-sm btn-icon" title="Hapus"><i class="bx bx-trash  text-danger"></i></button>
                                             </form>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>

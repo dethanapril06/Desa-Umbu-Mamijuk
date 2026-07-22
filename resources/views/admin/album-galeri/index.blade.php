@@ -38,27 +38,16 @@
                                     <a href="{{ route('admin.galeri.index', ['album_galeri_id' => $album->id]) }}" class="btn btn-sm btn-outline-primary">
                                         Kelola Foto
                                     </a>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-outline-secondary p-1 dropdown-toggle hide-arrow" type="button" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                    <a href="{{ route('admin.album-galeri.edit', $album->id) }}" class="btn btn-sm btn-icon" title="Edit Album">
+                                        <i class="bx bx-edit-alt text-primary"></i>
+                                    </a>
+                                    <form action="{{ route('admin.album-galeri.destroy', $album->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus album ini beserta seluruh foto di dalamnya?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-icon" title="Hapus Album">
+                                            <i class="bx bx-trash text-danger"></i>
                                         </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('admin.album-galeri.edit', $album->id) }}">
-                                                    <i class="bx bx-edit-alt me-1 text-primary"></i> Edit Album
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <form action="{{ route('admin.album-galeri.destroy', $album->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus album ini beserta seluruh foto di dalamnya?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="dropdown-item">
-                                                        <i class="bx bx-trash me-1 text-danger"></i> Hapus Album
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

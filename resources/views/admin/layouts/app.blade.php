@@ -172,18 +172,20 @@
                     form.addEventListener('submit', function (e) {
                         e.preventDefault();
                         
+                        const isDelete = message.toLowerCase().includes('hapus');
+                        
                         Swal.fire({
-                            title: 'Konfirmasi Hapus',
+                            title: 'Konfirmasi',
                             text: message,
                             icon: 'warning',
                             showCancelButton: true,
-                            confirmButtonColor: '#d33',
+                            confirmButtonColor: isDelete ? '#d33' : '#0d6efd',
                             cancelButtonColor: '#6c757d',
-                            confirmButtonText: 'Ya, Hapus!',
+                            confirmButtonText: isDelete ? 'Ya, Hapus!' : 'Ya, Lanjutkan!',
                             cancelButtonText: 'Batal',
                             customClass: {
-                                confirmButton: 'btn btn-danger me-2',
-                                cancelButton: 'btn btn-secondary'
+                                confirmButton: isDelete ? 'btn btn-danger me-2' : 'btn btn-primary me-2',
+                            cancelButton: 'btn btn-secondary'
                             },
                             buttonsStyling: false
                         }).then((result) => {

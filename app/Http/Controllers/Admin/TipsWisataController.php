@@ -16,9 +16,10 @@ class TipsWisataController extends Controller
         $request->validate([
             'wisata_id' => 'required|exists:wisata,id',
             'judul' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
+            'deskripsi' => 'required|string',
         ], [
             'judul.required' => 'Judul tips kunjungan wajib diisi.',
+            'deskripsi.required' => 'Deskripsi tips kunjungan wajib diisi.',
             'wisata_id.required' => 'Destinasi wisata wajib dipilih.',
             'wisata_id.exists' => 'Destinasi wisata tidak valid.',
         ]);
