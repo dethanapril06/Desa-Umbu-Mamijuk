@@ -26,7 +26,7 @@
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:title" content="@yield('title', 'Website Resmi') | Desa Umbu Mamijuk" />
     <meta property="og:description" content="@yield('meta_description', 'Website resmi Desa Umbu Mamijuk. Portal informasi desa, data kependudukan, wisata, berita, galeri, dan pelayanan publik.')" />
-    <meta property="og:image" content="@yield('meta_image', $logoPath)" />
+    <meta property="og:image" content="@yield('meta_image', asset('fe/assets/img/og-default.png'))" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Desa Umbu Mamijuk" />
@@ -37,7 +37,7 @@
     <meta name="twitter:url" content="{{ url()->current() }}" />
     <meta name="twitter:title" content="@yield('title', 'Website Resmi') | Desa Umbu Mamijuk" />
     <meta name="twitter:description" content="@yield('meta_description', 'Website resmi Desa Umbu Mamijuk. Portal informasi desa, data kependudukan, wisata, berita, galeri, dan pelayanan publik.')" />
-    <meta name="twitter:image" content="@yield('meta_image', $logoPath)" />
+    <meta name="twitter:image" content="@yield('meta_image', asset('fe/assets/img/og-default.png'))" />
 
     {{-- JSON-LD Structured Data --}}
     @hasSection('json_ld')
