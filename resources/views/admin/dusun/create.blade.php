@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="kepala_dusun">Kepala Dusun (Kamituwo)</label>
+                        <label class="form-label" for="kepala_dusun">Kepala Dusun <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="kepala_dusun" name="kepala_dusun" value="{{ old('kepala_dusun') }}" placeholder="Nama kepala dusun" />
                     </div>
 

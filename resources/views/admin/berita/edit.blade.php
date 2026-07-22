@@ -73,7 +73,7 @@
                         <!-- Caption Gambar -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="caption_gambar">Keterangan / Caption Gambar</label>
+                                <label class="form-label" for="caption_gambar">Keterangan / Caption Gambar <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="caption_gambar" name="caption_gambar" value="{{ old('caption_gambar', $berita->caption_gambar) }}" />
                             </div>
                         </div>
@@ -81,8 +81,8 @@
                         <!-- Excerpt / Ringkasan Pendek -->
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label" for="excerpt">Ringkasan Singkat (Excerpt)</label>
-                                <textarea class="form-control" id="excerpt" name="excerpt" rows="2">{{ old('excerpt', $berita->excerpt) }}</textarea>
+                                <label class="form-label" for="excerpt">Ringkasan Singkat (Excerpt) <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="excerpt" name="excerpt" rows="2" placeholder="Tuliskan rangkuman pendek berita untuk halaman depan...">{{ old('excerpt', $berita->excerpt) }}</textarea>
                             </div>
                         </div>
 
@@ -97,7 +97,7 @@
                         <!-- Tag Berita -->
                         <div class="col-12">
                             <div class="mb-4">
-                                <label class="form-label d-block">Tag Berita</label>
+                                <label class="form-label d-block">Tag Berita <span class="text-danger">*</span></label>
                                 <div class="row pt-1">
                                     @forelse($tags as $tag)
                                         <div class="col-md-3 col-6 mb-2">

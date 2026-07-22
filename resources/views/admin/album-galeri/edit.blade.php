@@ -52,8 +52,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="deskripsi">Deskripsi Album (Opsional)</label>
-                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4">{{ old('deskripsi', $albumGaleri->deskripsi) }}</textarea>
+                        <label class="form-label" for="deskripsi">Deskripsi Album <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Tuliskan keterangan singkat mengenai isi foto-foto di dalam album ini...">{{ old('deskripsi', $albumGaleri->deskripsi) }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">

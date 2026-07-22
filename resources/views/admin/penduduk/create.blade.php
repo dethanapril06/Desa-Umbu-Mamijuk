@@ -75,11 +75,11 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="tempat_lahir">Tempat Lahir</label>
+                                    <label class="form-label" for="tempat_lahir">Tempat Lahir <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" value="{{ old('tempat_lahir') }}" />
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="tanggal_lahir">Tanggal Lahir</label>
+                                    <label class="form-label" for="tanggal_lahir">Tanggal Lahir <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" />
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="no_telepon">No. Telepon / HP</label>
+                                    <label class="form-label" for="no_telepon">No. Telepon / HP <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 08xxxxxxx" inputmode="numeric" autocomplete="off" />
                                 </div>
                             </div>
@@ -130,7 +130,7 @@
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="agama">Agama</label>
+                                    <label class="form-label" for="agama">Agama <span class="text-danger">*</span></label>
                                     <select class="form-select" id="agama" name="agama">
                                         <option value="">-- Pilih Agama --</option>
                                         <option value="islam" {{ old('agama') == 'islam' ? 'selected' : '' }}>Islam</option>
@@ -143,7 +143,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="pendidikan_terakhir">Pendidikan Terakhir</label>
+                                    <label class="form-label" for="pendidikan_terakhir">Pendidikan Terakhir <span class="text-danger">*</span></label>
                                     <select class="form-select" id="pendidikan_terakhir" name="pendidikan_terakhir">
                                         <option value="">-- Pilih Pendidikan --</option>
                                         <option value="tidak_sekolah" {{ old('pendidikan_terakhir') == 'tidak_sekolah' ? 'selected' : '' }}>Tidak / Belum Sekolah</option>
@@ -162,7 +162,7 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="pekerjaan">Pekerjaan</label>
+                                    <label class="form-label" for="pekerjaan">Pekerjaan <span class="text-danger">*</span></label>
                                     <select class="form-select" id="pekerjaan" name="pekerjaan">
                                         <option value="">-- Pilih Pekerjaan --</option>
                                         @foreach($pekerjaanList as $job)
@@ -171,7 +171,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="status_perkawinan">Status Perkawinan</label>
+                                    <label class="form-label" for="status_perkawinan">Status Perkawinan <span class="text-danger">*</span></label>
                                     <select class="form-select" id="status_perkawinan" name="status_perkawinan">
                                         <option value="">-- Pilih Status --</option>
                                         <option value="belum_kawin" {{ old('status_perkawinan') == 'belum_kawin' ? 'selected' : '' }}>Belum Kawin</option>
@@ -191,7 +191,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="golongan_darah">Golongan Darah</label>
+                                    <label class="form-label" for="golongan_darah">Golongan Darah <span class="text-danger">*</span></label>
                                     <select class="form-select" id="golongan_darah" name="golongan_darah">
                                         <option value="">-- Pilih Golongan Darah --</option>
                                         <option value="A" {{ old('golongan_darah') == 'A' ? 'selected' : '' }}>A</option>
@@ -226,11 +226,11 @@
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="nama_ayah">Nama Lengkap Ayah</label>
+                                    <label class="form-label" for="nama_ayah">Nama Lengkap Ayah <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="nama_ayah" name="nama_ayah" value="{{ old('nama_ayah') }}" />
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="nama_ibu">Nama Lengkap Ibu</label>
+                                    <label class="form-label" for="nama_ibu">Nama Lengkap Ibu <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="nama_ibu" name="nama_ibu" value="{{ old('nama_ibu') }}" />
                                 </div>
                             </div>

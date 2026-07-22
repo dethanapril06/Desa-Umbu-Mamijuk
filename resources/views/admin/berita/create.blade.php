@@ -57,7 +57,7 @@
                         <!-- Gambar Cover Berita -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="gambar">Gambar Cover / Banner</label>
+                                <label class="form-label" for="gambar">Gambar Cover / Banner <span class="text-danger">*</span></label>
                                 <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" />
                                 <div class="form-text"><strong>Wajib orientasi mendatar (Landscape, rasio 16:9).</strong> Rekomendasi: 1200x675 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                             </div>
@@ -66,7 +66,7 @@
                         <!-- Caption Gambar -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="caption_gambar">Keterangan / Caption Gambar</label>
+                                <label class="form-label" for="caption_gambar">Keterangan / Caption Gambar <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="caption_gambar" name="caption_gambar" value="{{ old('caption_gambar') }}" placeholder="Contoh: Dok. Pemdes Umbu Mamijuk" />
                             </div>
                         </div>
@@ -74,8 +74,8 @@
                         <!-- Excerpt / Ringkasan Pendek -->
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label" for="excerpt">Ringkasan Singkat (Excerpt)</label>
-                                <textarea class="form-control" id="excerpt" name="excerpt" rows="2" placeholder="Tuliskan rangkuman pendek berita untuk halaman depan (opsional)...">{{ old('excerpt') }}</textarea>
+                                <label class="form-label" for="excerpt">Ringkasan Singkat (Excerpt) <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="excerpt" name="excerpt" rows="2" placeholder="Tuliskan rangkuman pendek berita untuk halaman depan...">{{ old('excerpt') }}</textarea>
                                 <div class="form-text">Maksimal 500 karakter. Jika kosong, ringkasan akan diambil dari potongan konten berita.</div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                         <!-- Tag Berita -->
                         <div class="col-12">
                             <div class="mb-4">
-                                <label class="form-label d-block">Tag Berita</label>
+                                <label class="form-label d-block">Tag Berita <span class="text-danger">*</span></label>
                                 <div class="row pt-1">
                                     @forelse($tags as $tag)
                                         <div class="col-md-3 col-6 mb-2">

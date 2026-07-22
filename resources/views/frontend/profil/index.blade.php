@@ -34,22 +34,12 @@
                 <div class="row g-4 align-items-stretch">
                     <div class="col-lg-5">
                         <div class="profil-detail-card dark">
-                            <div class="section-label" style="color: var(--green-light);">Tentang Desa</div>
-                            <h2 class="profil-detail-title">
-                                @if ($profilDesa?->ketinggian)
-                                    Desa di Ketinggian {{ $profilDesa->ketinggian }}
-                                @else
-                                    Mengenal Lebih Dekat {{ $profilDesa?->nama_desa ?? 'Desa Kami' }}
-                                @endif
-                            </h2>
+                            <div class="section-label" style="color: var(--green-light);">Sejarah Desa</div>
                             <p class="profil-detail-text">
                                 @if ($profilDesa?->sejarah_desa)
                                     {{ strip_tags($profilDesa->sejarah_desa) }}
                                 @else
-                                    {{ $profilDesa?->nama_desa ?? 'Desa' }} merupakan desa yang memiliki kekayaan alam,
-                                    budaya lokal, dan potensi ekonomi berbasis pertanian serta pariwisata. Dengan semangat
-                                    gotong royong, pemerintah desa terus mendorong pelayanan publik yang terbuka,
-                                    pembangunan yang merata, dan pemberdayaan masyarakat yang berkelanjutan.
+                                    Belum Tersedia
                                 @endif
                             </p>
                         </div>
@@ -63,7 +53,7 @@
                                         @if ($profilDesa?->visi)
                                             {{ $profilDesa->visi }}
                                         @else
-                                            Maju, Mandiri, Berdaya Saing
+                                            Belum Tersedia
                                         @endif
                                     </h2>
                                 </div>
@@ -77,11 +67,7 @@
                                                 <li>{{ trim($misi) }}</li>
                                             @endforeach
                                         @else
-                                            <li>Meningkatkan kualitas sumber daya manusia melalui pendidikan dan pelatihan.
-                                            </li>
-                                            <li>Mengembangkan potensi wisata berbasis kearifan lokal.</li>
-                                            <li>Membangun infrastruktur desa yang memadai dan berkelanjutan.</li>
-                                            <li>Meningkatkan perekonomian masyarakat desa.</li>
+                                            <li>Belum Tersedia</li>
                                         @endif
                                     </ul>
                                 </div>
@@ -97,19 +83,19 @@
             <div class="container">
                 <div class="text-center mb-5">
                     <div class="section-label" style="justify-content:center;">Informasi Desa</div>
-                    <h2 class="section-title">Data Umum <em>{{ $profilDesa?->nama_desa ?? 'Desa' }}</em></h2>
+                    <h2 class="section-title">Data Umum <em>{{ $profilDesa?->nama_desa }}</em></h2>
                 </div>
                 <div class="profil-info-grid">
                     <div class="profil-info-box">
                         <i class="fas fa-user-tie"></i>
                         <div class="label">Kepala Desa</div>
-                        <div class="value">{{ $kepalaDesa?->nama ?? '–' }}</div>
+                        <div class="value">{{ $kepalaDesa?->nama ?? 'Belum Tersedia' }}</div>
                     </div>
                     <div class="profil-info-box">
                         <i class="fas fa-map"></i>
                         <div class="label">Luas Wilayah</div>
                         <div class="value">
-                            {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) . ' Hektar' : '–' }}
+                            {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) . ' Hektar' : 'Belum Tersedia' }}
                         </div>
                     </div>
                     <div class="profil-info-box">
@@ -120,7 +106,7 @@
                     <div class="profil-info-box">
                         <i class="fas fa-mountain"></i>
                         <div class="label">Ketinggian</div>
-                        <div class="value">{{ $profilDesa?->ketinggian ?? '–' }}</div>
+                        <div class="value">{{ $profilDesa?->ketinggian ?? 'Belum Tersedia' }}</div>
                     </div>
                     <div class="profil-info-box">
                         <i class="fas fa-users"></i>
@@ -180,13 +166,7 @@
                                     @if ($kepalaDesa->sambutan)
                                         {!! nl2br(e($kepalaDesa->sambutan)) !!}
                                     @else
-                                        <p>Assalamu'alaikum warahmatullahi wabarakatuh.</p>
-                                        <p>Puji syukur kita panjatkan ke hadirat Allah SWT atas segala rahmat dan
-                                            karunia-Nya.
-                                            Website resmi ini kami hadirkan sebagai media informasi, komunikasi, dan
-                                            transparansi
-                                            bagi seluruh warga desa maupun masyarakat luas.</p>
-                                        <p>Wassalamu'alaikum warahmatullahi wabarakatuh.</p>
+                                        <p>Belum Tersedia</p>
                                     @endif
                                 </div>
                             </div>
@@ -197,13 +177,14 @@
         @endif
 
         {{-- PERANGKAT DESA --}}
-        @if ($perangkatDesa->count() > 0)
-            <section class="profil-detail-section alt">
-                <div class="container">
-                    <div class="text-center mb-5">
-                        <div class="section-label" style="justify-content:center;">Pemerintahan Desa</div>
-                        <h2 class="section-title">Perangkat <em>Desa</em></h2>
-                    </div>
+        <section class="profil-detail-section alt">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <div class="section-label" style="justify-content:center;">Pemerintahan Desa</div>
+                    <h2 class="section-title">Perangkat <em>Desa</em></h2>
+                </div>
+                
+                @if ($perangkatDesa->count() > 0)
                     <div class="row g-4 justify-content-center">
                         @foreach ($perangkatDesa as $perangkat)
                             <div class="col-6 col-md-4 col-lg-3">
@@ -233,32 +214,40 @@
                             </div>
                         @endforeach
                     </div>
-                </div>
-            </section>
-        @endif
+                @else
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Data Belum Tersedia</p>
+                    </div>
+                @endif
+            </div>
+        </section>
 
         {{-- STRUKTUR ORGANISASI --}}
-        @if ($profilDesa?->gambar_struktur_organisasi)
-            <section class="profil-detail-section">
-                <div class="container">
-                    <div class="row align-items-end mb-4">
-                        <div class="col-lg-8">
-                            <div class="section-label">Pemerintahan Desa</div>
-                            <h2 class="section-title">Bagan Struktur <em>Organisasi</em></h2>
-                        </div>
+        <section class="profil-detail-section">
+            <div class="container">
+                <div class="row align-items-end mb-4">
+                    <div class="col-lg-8">
+                        <div class="section-label">Pemerintahan Desa</div>
+                        <h2 class="section-title">Bagan Struktur <em>Organisasi</em></h2>
                     </div>
+                </div>
+                
+                @if ($profilDesa?->gambar_struktur_organisasi)
                     <div class="struktur-card">
                         <img src="{{ asset('storage/' . $profilDesa->gambar_struktur_organisasi) }}"
                             alt="Bagan Struktur Organisasi {{ $profilDesa->nama_desa ?? 'Desa' }}" />
                     </div>
-                </div>
-            </section>
-        @endif
+                @else
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Data Belum Tersedia</p>
+                    </div>
+                @endif
+            </div>
+        </section
 
         {{-- PETA DESA --}}
         @php
-            $osmUrl =
-                'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47947.482707782045!2d119.63056245000001!3d-9.582116450000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c4b17dcc3ac7dcf%3A0x448a4d7a7d9aeeaf!2sUmbu%20Mamijuk%2C%20Kec.%20Umbu%20Ratu%20Nggay%20Bar.%2C%20Kabupaten%20Sumba%20Tengah%2C%20Nusa%20Tenggara%20Tim.!5e1!3m2!1sid!2sid!4v1780389999315!5m2!1sid!2sid';
+            $osmUrl = $profilDesa?->peta_wilayah ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47947.482707782045!2d119.63056245000001!3d-9.582116450000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c4b17dcc3ac7dcf%3A0x448a4d7a7d9aeeaf!2sUmbu%20Mamijuk%2C%20Kec.%20Umbu%20Ratu%20Nggay%20Bar.%2C%20Kabupaten%20Sumba%20Tengah%2C%20Nusa%20Tenggara%20Tim.!5e1!3m2!1sid!2sid!4v1780389999315!5m2!1sid!2sid';
         @endphp
         <section class="profil-detail-section alt">
             <div class="container">
@@ -275,28 +264,28 @@
                                     <div class="batas-desa-icon"><i class="fas fa-arrow-up"></i></div>
                                     <div>
                                         <div class="batas-desa-label">Sebelah Utara</div>
-                                        <div class="batas-desa-value">{{ $profilDesa?->batas_utara ?? '–' }}</div>
+                                        <div class="batas-desa-value">{{ $profilDesa?->batas_utara ?? 'Belum Tersedia' }}</div>
                                     </div>
                                 </div>
                                 <div class="batas-desa-item">
                                     <div class="batas-desa-icon"><i class="fas fa-arrow-right"></i></div>
                                     <div>
                                         <div class="batas-desa-label">Sebelah Timur</div>
-                                        <div class="batas-desa-value">{{ $profilDesa?->batas_timur ?? '–' }}</div>
+                                        <div class="batas-desa-value">{{ $profilDesa?->batas_timur ?? 'Belum Tersedia' }}</div>
                                     </div>
                                 </div>
                                 <div class="batas-desa-item">
                                     <div class="batas-desa-icon"><i class="fas fa-arrow-down"></i></div>
                                     <div>
                                         <div class="batas-desa-label">Sebelah Selatan</div>
-                                        <div class="batas-desa-value">{{ $profilDesa?->batas_selatan ?? '–' }}</div>
+                                        <div class="batas-desa-value">{{ $profilDesa?->batas_selatan ?? 'Belum Tersedia' }}</div>
                                     </div>
                                 </div>
                                 <div class="batas-desa-item">
                                     <div class="batas-desa-icon"><i class="fas fa-arrow-left"></i></div>
                                     <div>
                                         <div class="batas-desa-label">Sebelah Barat</div>
-                                        <div class="batas-desa-value">{{ $profilDesa?->batas_barat ?? '–' }}</div>
+                                        <div class="batas-desa-value">{{ $profilDesa?->batas_barat ?? 'Belum Tersedia' }}</div>
                                     </div>
                                 </div>
                             </div>

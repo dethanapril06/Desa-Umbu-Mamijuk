@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="foto">Foto Kepala Desa</label>
+                        <label class="form-label" for="foto">Foto Kepala Desa <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" />
                         <div class="form-text">Rekomendasi resolusi: 600x800 px (rasio 3:4 potret). Minimal: 250x300 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                     </div>

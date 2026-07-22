@@ -68,11 +68,11 @@
                                 <input type="text" class="form-control" id="provinsi" name="provinsi" value="{{ old('provinsi', $profil->provinsi) }}" />
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label" for="kode_pos">Kode Pos</label>
+                                <label class="form-label" for="kode_pos">Kode Pos <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="kode_pos" name="kode_pos" value="{{ old('kode_pos', $profil->kode_pos) }}" inputmode="numeric" autocomplete="off" />
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label" for="telepon">No. Telepon / HP</label>
+                                <label class="form-label" for="telepon">No. Telepon / HP <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="telepon" name="telepon" value="{{ old('telepon', $profil->telepon) }}" inputmode="numeric" autocomplete="off" />
                             </div>
                             <div class="col-md-4">
@@ -80,11 +80,11 @@
                                 <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $profil->email) }}" />
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="jam_pelayanan">Jam Pelayanan Kantor Desa</label>
+                                <label class="form-label" for="jam_pelayanan">Jam Pelayanan Kantor Desa <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="jam_pelayanan" name="jam_pelayanan" value="{{ old('jam_pelayanan', $profil->jam_pelayanan) }}" placeholder="Contoh: Senin - Jumat, 08:00 - 15:00" />
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label" for="alamat_lengkap">Alamat Lengkap Kantor Desa</label>
+                                <label class="form-label" for="alamat_lengkap">Alamat Lengkap Kantor Desa <span class="text-danger">*</span></label>
                                 <textarea class="form-control" id="alamat_lengkap" name="alamat_lengkap" rows="3">{{ old('alamat_lengkap', $profil->alamat_lengkap) }}</textarea>
                             </div>
                         </div>
@@ -94,28 +94,33 @@
                     <div class="tab-pane fade" id="navs-geografis" role="tabpanel">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label" for="luas_wilayah">Luas Wilayah</label>
+                                <label class="form-label" for="luas_wilayah">Luas Wilayah <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="luas_wilayah" name="luas_wilayah" value="{{ old('luas_wilayah', $profil->luas_wilayah) }}" placeholder="Contoh: 15 km² atau 1.500 Ha" />
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="ketinggian">Ketinggian Wilayah</label>
+                                <label class="form-label" for="ketinggian">Ketinggian Wilayah <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="ketinggian" name="ketinggian" value="{{ old('ketinggian', $profil->ketinggian) }}" placeholder="Contoh: 250 mdpl" />
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label" for="batas_utara">Batas Utara</label>
+                                <label class="form-label" for="batas_utara">Batas Utara <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="batas_utara" name="batas_utara" value="{{ old('batas_utara', $profil->batas_utara) }}" />
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label" for="batas_timur">Batas Timur</label>
+                                <label class="form-label" for="batas_timur">Batas Timur <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="batas_timur" name="batas_timur" value="{{ old('batas_timur', $profil->batas_timur) }}" />
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label" for="batas_selatan">Batas Selatan</label>
+                                <label class="form-label" for="batas_selatan">Batas Selatan <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="batas_selatan" name="batas_selatan" value="{{ old('batas_selatan', $profil->batas_selatan) }}" />
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label" for="batas_barat">Batas Barat</label>
+                                <label class="form-label" for="batas_barat">Batas Barat <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="batas_barat" name="batas_barat" value="{{ old('batas_barat', $profil->batas_barat) }}" />
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="peta_wilayah">URL Embed Google Maps</label>
+                                <textarea class="form-control" id="peta_wilayah" name="peta_wilayah" rows="3" placeholder="Masukkan URL 'src' dari Google Maps (contoh: https://www.google.com/maps/embed?...)">{{ old('peta_wilayah', $profil->peta_wilayah) }}</textarea>
+                                <div class="form-text">Buka Google Maps > Bagikan > Sematkan peta > Salin URL pada atribut src="..." (Bukan seluruh tag iframe)</div>
                             </div>
                         </div>
                     </div>
@@ -124,11 +129,11 @@
                     <div class="tab-pane fade" id="navs-visi-misi" role="tabpanel">
                         <div class="row g-3">
                             <div class="col-md-12">
-                                <label class="form-label" for="visi">Visi Desa</label>
+                                <label class="form-label" for="visi">Visi Desa <span class="text-danger">*</span></label>
                                 <textarea class="form-control" id="visi" name="visi" rows="3" placeholder="Tuliskan Visi Desa...">{{ old('visi', $profil->visi) }}</textarea>
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label" for="misi">Misi Desa</label>
+                                <label class="form-label" for="misi">Misi Desa <span class="text-danger">*</span></label>
                                 <textarea class="form-control" id="misi" name="misi" rows="6" placeholder="Tuliskan Misi Desa (bisa berupa poin-poin)...">{{ old('misi', $profil->misi) }}</textarea>
                             </div>
                             <div class="col-md-12">

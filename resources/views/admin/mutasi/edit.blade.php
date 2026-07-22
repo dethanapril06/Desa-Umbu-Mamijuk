@@ -94,7 +94,7 @@
                                     value="{{ old('masuk_nama_lengkap', optional($mutasiPenduduk->penduduk)->nama_lengkap) }}" placeholder="Nama Lengkap Penduduk" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_no_telepon">No. Telepon / HP</label>
+                                <label class="form-label" for="masuk_no_telepon">No. Telepon / HP <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="masuk_no_telepon" name="masuk_no_telepon" 
                                     value="{{ old('masuk_no_telepon', optional($mutasiPenduduk->penduduk)->no_telepon) }}" placeholder="Contoh: 08xxxxxxx" inputmode="numeric" autocomplete="off" />
                             </div>
@@ -102,7 +102,7 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_tempat_lahir">Tempat Lahir</label>
+                                <label class="form-label" for="masuk_tempat_lahir">Tempat Lahir <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="masuk_tempat_lahir" name="masuk_tempat_lahir" 
                                     value="{{ old('masuk_tempat_lahir', optional($mutasiPenduduk->penduduk)->tempat_lahir) }}" placeholder="Tempat Lahir" />
                             </div>
@@ -141,7 +141,7 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_agama">Agama</label>
+                                <label class="form-label" for="masuk_agama">Agama <span class="text-danger">*</span></label>
                                 <select class="form-select" id="masuk_agama" name="masuk_agama">
                                     <option value="islam" {{ old('masuk_agama', optional($mutasiPenduduk->penduduk)->agama) == 'islam' ? 'selected' : '' }}>Islam</option>
                                     <option value="kristen" {{ old('masuk_agama', optional($mutasiPenduduk->penduduk)->agama) == 'kristen' ? 'selected' : '' }}>Kristen</option>
@@ -153,7 +153,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_pendidikan_terakhir">Pendidikan Terakhir</label>
+                                <label class="form-label" for="masuk_pendidikan_terakhir">Pendidikan Terakhir <span class="text-danger">*</span></label>
                                 <select class="form-select" id="masuk_pendidikan_terakhir" name="masuk_pendidikan_terakhir">
                                     <option value="tidak_sekolah" {{ old('masuk_pendidikan_terakhir', optional($mutasiPenduduk->penduduk)->pendidikan_terakhir) == 'tidak_sekolah' ? 'selected' : '' }}>Tidak / Belum Sekolah</option>
                                     <option value="sd" {{ old('masuk_pendidikan_terakhir', optional($mutasiPenduduk->penduduk)->pendidikan_terakhir) == 'sd' ? 'selected' : '' }}>SD / Sederajat</option>
@@ -171,7 +171,7 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_pekerjaan">Pekerjaan</label>
+                                <label class="form-label" for="masuk_pekerjaan">Pekerjaan <span class="text-danger">*</span></label>
                                 <select class="form-select" id="masuk_pekerjaan" name="masuk_pekerjaan">
                                     @foreach($pekerjaanList as $job)
                                         <option value="{{ $job }}" {{ old('masuk_pekerjaan', optional($mutasiPenduduk->penduduk)->pekerjaan) == $job ? 'selected' : '' }}>{{ $job }}</option>
@@ -179,7 +179,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_status_perkawinan">Status Perkawinan</label>
+                                <label class="form-label" for="masuk_status_perkawinan">Status Perkawinan <span class="text-danger">*</span></label>
                                 <select class="form-select" id="masuk_status_perkawinan" name="masuk_status_perkawinan">
                                     <option value="belum_kawin" {{ old('masuk_status_perkawinan', optional($mutasiPenduduk->penduduk)->status_perkawinan) == 'belum_kawin' ? 'selected' : '' }}>Belum Kawin</option>
                                     <option value="kawin" {{ old('masuk_status_perkawinan', optional($mutasiPenduduk->penduduk)->status_perkawinan) == 'kawin' ? 'selected' : '' }}>Kawin</option>
@@ -198,7 +198,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_golongan_darah">Golongan Darah</label>
+                                <label class="form-label" for="masuk_golongan_darah">Golongan Darah <span class="text-danger">*</span></label>
                                 <select class="form-select" id="masuk_golongan_darah" name="masuk_golongan_darah">
                                     <option value="">-- Pilih Golongan Darah --</option>
                                     <option value="A" {{ old('masuk_golongan_darah', optional($mutasiPenduduk->penduduk)->golongan_darah) == 'A' ? 'selected' : '' }}>A</option>
@@ -225,12 +225,12 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_nama_ayah">Nama Lengkap Ayah</label>
+                                <label class="form-label" for="masuk_nama_ayah">Nama Lengkap Ayah <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="masuk_nama_ayah" name="masuk_nama_ayah" 
                                     value="{{ old('masuk_nama_ayah', optional($mutasiPenduduk->penduduk)->nama_ayah) }}" placeholder="Nama Ayah" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_nama_ibu">Nama Lengkap Ibu</label>
+                                <label class="form-label" for="masuk_nama_ibu">Nama Lengkap Ibu <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="masuk_nama_ibu" name="masuk_nama_ibu" 
                                     value="{{ old('masuk_nama_ibu', optional($mutasiPenduduk->penduduk)->nama_ibu) }}" placeholder="Nama Ibu" />
                             </div>
@@ -269,18 +269,18 @@
                             <input type="date" class="form-control" id="tanggal_mutasi" name="tanggal_mutasi" value="{{ old('tanggal_mutasi', $mutasiPenduduk->tanggal_mutasi ? $mutasiPenduduk->tanggal_mutasi->format('Y-m-d') : '') }}" />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label" for="no_surat">No. Surat Keterangan / Pengantar</label>
+                            <label class="form-label" for="no_surat">No. Surat Keterangan / Pengantar <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="no_surat" name="no_surat" value="{{ old('no_surat', $mutasiPenduduk->no_surat) }}" />
                         </div>
                     </div>
 
                     <div class="mb-3" id="alamat_asal_wrapper" style="display: none;">
-                        <label class="form-label" for="alamat_asal">Alamat Asal</label>
+                        <label class="form-label" for="alamat_asal">Alamat Asal <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="alamat_asal" name="alamat_asal" rows="3">{{ old('alamat_asal', $mutasiPenduduk->alamat_asal) }}</textarea>
                     </div>
 
                     <div class="mb-3" id="alamat_tujuan_wrapper" style="display: none;">
-                        <label class="form-label" for="alamat_tujuan">Alamat Tujuan Pindah</label>
+                        <label class="form-label" for="alamat_tujuan">Alamat Tujuan Pindah <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="alamat_tujuan" name="alamat_tujuan" rows="3">{{ old('alamat_tujuan', $mutasiPenduduk->alamat_tujuan) }}</textarea>
                     </div>
 

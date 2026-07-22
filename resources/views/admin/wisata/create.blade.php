@@ -66,7 +66,7 @@
                         <!-- Telepon / Kontak Pengelola -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="telepon">No. Telepon / Pengelola</label>
+                                <label class="form-label" for="telepon">No. Telepon / Pengelola <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="telepon" name="telepon" value="{{ old('telepon') }}" placeholder="Contoh: 08xxxxxxxxxx" inputmode="numeric" autocomplete="off" />
                             </div>
                         </div>
@@ -74,19 +74,19 @@
                         <!-- Jarak dari Pusat Desa & Waktu Trekking -->
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label" for="jarak_dari_desa">Jarak dari Kantor Desa</label>
+                                <label class="form-label" for="jarak_dari_desa">Jarak dari Kantor Desa <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="jarak_dari_desa" name="jarak_dari_desa" value="{{ old('jarak_dari_desa') }}" placeholder="Contoh: 5 km atau 15 menit berkendara" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label" for="durasi_trek">Durasi Trekking / Kunjungan</label>
+                                <label class="form-label" for="durasi_trek">Durasi Trekking / Kunjungan <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="durasi_trek" name="durasi_trek" value="{{ old('durasi_trek') }}" placeholder="Contoh: 30 menit jalan kaki, atau 2-3 jam" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label" for="cocok_untuk">Cocok Untuk</label>
+                                <label class="form-label" for="cocok_untuk">Cocok Untuk <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="cocok_untuk" name="cocok_untuk" value="{{ old('cocok_untuk') }}" placeholder="Contoh: Keluarga, Petualang, Fotografi" />
                             </div>
                         </div>
@@ -94,13 +94,13 @@
                         <!-- Hari Buka & Jam Operasional -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="hari_buka">Hari Operasional</label>
+                                <label class="form-label" for="hari_buka">Hari Operasional <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="hari_buka" name="hari_buka" value="{{ old('hari_buka') }}" placeholder="Contoh: Setiap Hari, Senin–Jumat" />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="jam_operasional">Jam Operasional</label>
+                                <label class="form-label" for="jam_operasional">Jam Operasional <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="jam_operasional" name="jam_operasional" value="{{ old('jam_operasional') }}" placeholder="Contoh: 08:00 - 17:00 WITA, atau 24 Jam" />
                             </div>
                         </div>
@@ -108,19 +108,19 @@
                         <!-- Harga Tiket Masuk & Parkir -->
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label" for="harga_tiket">Harga Tiket Masuk (IDR) <span class="text-danger">*</span></label>
+                                <label class="form-label" for="harga_tiket">Harga Tiket Masuk <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="harga_tiket" name="harga_tiket" value="{{ old('harga_tiket', 0) }}" inputmode="numeric" autocomplete="off" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label" for="harga_parkir_motor">Tarif Parkir Motor</label>
+                                <label class="form-label" for="harga_parkir_motor">Tarif Parkir Motor <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="harga_parkir_motor" name="harga_parkir_motor" value="{{ old('harga_parkir_motor') }}" placeholder="Contoh: Rp 2.000 atau Gratis" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label" for="harga_parkir_mobil">Tarif Parkir Mobil</label>
+                                <label class="form-label" for="harga_parkir_mobil">Tarif Parkir Mobil <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="harga_parkir_mobil" name="harga_parkir_mobil" value="{{ old('harga_parkir_mobil') }}" placeholder="Contoh: Rp 5.000 atau Gratis" />
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                         <!-- Google Maps Embed URL -->
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label class="form-label" for="google_maps_embed_url">Google Maps Embed URL</label>
+                                <label class="form-label" for="google_maps_embed_url">Google Maps Embed URL <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="google_maps_embed_url" name="google_maps_embed_url" value="{{ old('google_maps_embed_url') }}" placeholder="Link dari menu Share > Embed a map (src link saja)" />
                             </div>
                         </div>
@@ -136,13 +136,13 @@
                         <!-- Deskripsi Singkat & Highlight Quote -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="deskripsi_singkat">Ringkasan Singkat Destinasi</label>
+                                <label class="form-label" for="deskripsi_singkat">Ringkasan Singkat Destinasi <span class="text-danger">*</span></label>
                                 <textarea class="form-control" id="deskripsi_singkat" name="deskripsi_singkat" rows="3" placeholder="Tuliskan rangkuman pendek destinasi wisata untuk kartu katalog depan...">{{ old('deskripsi_singkat') }}</textarea>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="highlight_quote">Highlight Quote / Tagline Utama</label>
+                                <label class="form-label" for="highlight_quote">Highlight Quote / Tagline Utama <span class="text-danger">*</span></label>
                                 <textarea class="form-control" id="highlight_quote" name="highlight_quote" rows="3" placeholder="Teks sorotan yang ditaruh di tengah artikel pariwisata...">{{ old('highlight_quote') }}</textarea>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                         <!-- Deskripsi Lengkap (WYSIWYG) -->
                         <div class="col-12">
                             <div class="mb-3">
-                                <label class="form-label" for="editor">Deskripsi Lengkap Wisata</label>
+                                <label class="form-label" for="editor">Deskripsi Lengkap Wisata <span class="text-danger">*</span></label>
                                 <textarea id="editor" name="deskripsi">{{ old('deskripsi') }}</textarea>
                             </div>
                         </div>

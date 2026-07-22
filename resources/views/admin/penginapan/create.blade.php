@@ -43,7 +43,7 @@
                             <input type="text" class="form-control" id="nama_penginapan" name="nama_penginapan" value="{{ old('nama_penginapan') }}" placeholder="Contoh: Homestay Asri Ibu Adri" />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label" for="jenis">Jenis Penginapan</label>
+                            <label class="form-label" for="jenis">Jenis Penginapan <span class="text-danger">*</span></label>
                             <select class="form-select" id="jenis" name="jenis">
                                 <option value="Homestay" {{ old('jenis') == 'Homestay' ? 'selected' : '' }}>Homestay</option>
                                 <option value="Villa" {{ old('jenis') == 'Villa' ? 'selected' : '' }}>Villa</option>
@@ -57,28 +57,28 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label" for="kisaran_harga">Kisaran Harga / Malam</label>
+                            <label class="form-label" for="kisaran_harga">Kisaran Harga / Malam <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="kisaran_harga" name="kisaran_harga" value="{{ old('kisaran_harga') }}" placeholder="Contoh: Rp 150.000 - Rp 300.000" />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label" for="no_telepon">No. WhatsApp / Reservasi</label>
+                            <label class="form-label" for="no_telepon">No. WhatsApp / Reservasi <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 08123456789" inputmode="numeric" autocomplete="off" />
                             <div class="form-text">Gunakan format angka tanpa spasi/simbol untuk tombol chat WhatsApp.</div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="jarak">Jarak / Keterangan Lokasi</label>
+                        <label class="form-label" for="jarak">Jarak / Keterangan Lokasi <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="jarak" name="jarak" value="{{ old('jarak') }}" placeholder="Contoh: 200 meter dari Bukit Kami / Pusat Desa" />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="fasilitas_singkat">Fasilitas Singkat</label>
+                        <label class="form-label" for="fasilitas_singkat">Fasilitas Singkat <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="fasilitas_singkat" name="fasilitas_singkat" value="{{ old('fasilitas_singkat') }}" placeholder="Contoh: AC, Wi-Fi, Sarapan Pagi, Kamar Mandi Dalam" />
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label" for="wisata_ids">Terletak di Dekat Destinasi Wisata Apa Saja? (Bisa pilih lebih dari satu)</label>
+                        <label class="form-label" for="wisata_ids">Terletak di Dekat Destinasi Wisata Apa Saja? (Bisa pilih lebih dari satu) <span class="text-danger">*</span></label>
                         <select class="form-select select2-multiple" id="wisata_ids" name="wisata_ids[]" multiple="multiple" data-placeholder="Cari & pilih destinasi wisata terkait...">
                             @foreach($allWisata as $w)
                                 <option value="{{ $w->id }}" {{ (is_array(old('wisata_ids')) && in_array($w->id, old('wisata_ids'))) ? 'selected' : '' }}>
@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label" for="foto">Foto Penginapan</label>
+                        <label class="form-label" for="foto">Foto Penginapan <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" onchange="previewImage(this)" />
                         <div class="form-text"><strong>Wajib orientasi mendatar (Landscape).</strong> Rekomendasi: 1200x800 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                         <div class="mt-3">

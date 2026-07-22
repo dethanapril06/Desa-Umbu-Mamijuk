@@ -74,7 +74,7 @@
                     @foreach ($galeri as $foto)
                         @php
                             $imgUrl = $foto->gambar
-                                ? asset('storage/' . $foto->gambar);
+                                ? asset('storage/' . $foto->gambar) : '';
                             $caption = $foto->caption ?: 'Dokumentasi Desa';
                         @endphp
 

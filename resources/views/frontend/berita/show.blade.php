@@ -7,9 +7,8 @@
 @section('og_type', 'article')
 
 @php
-    $imgUrl = $berita->gambar
-        ? asset('storage/' . $berita->gambar);
-    $authorName = $berita->user?->name ?? 'Admin Desa';
+    $imgUrl = $berita->gambar ? asset('storage/' . $berita->gambar) : '';
+    $authorName = $berita->user?->name;
     $shareUrl = url()->current();
     $shareText = $berita->judul . ' - ' . $shareUrl;
 @endphp
@@ -63,18 +62,18 @@
                             <a href="{{ url('/berita') }}">Berita</a>
                             <i class="fas fa-chevron-right"></i>
                             <span style="color: rgba(255, 255, 255, 0.8)">
-                                {{ $berita->kategoriBerita?->nama ?? 'Berita Desa' }}
+                                {{ $berita->kategoriBerita?->nama }}
                             </span>
                         </div>
 
                         <div class="artikel-kategori-pill">
                             <i class="{{ $berita->kategoriBerita?->icon ?? 'fas fa-newspaper' }}"></i>
-                            {{ $berita->kategoriBerita?->nama ?? 'Berita Desa' }}
+                            {{ $berita->kategoriBerita?->nama }}
                         </div>
 
-                        <h1 class="artikel-headline">{{ $berita->judul }}</h1>
+                        <h1 class="artikel-headline">{{ $berita?->judul }}</h1>
 
-                        @if ($berita->excerpt)
+                        @if ($berita?->excerpt)
                             <p class="artikel-lead">{{ $berita->excerpt }}</p>
                         @endif
 

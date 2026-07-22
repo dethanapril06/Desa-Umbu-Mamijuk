@@ -58,14 +58,14 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label" for="jam_operasional">Jam Operasional</label>
+                            <label class="form-label" for="jam_operasional">Jam Operasional <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="jam_operasional" name="jam_operasional" value="{{ old('jam_operasional', $umkm->jam_operasional) }}" placeholder="Contoh: 08.00 - 18.00 WITA" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label class="form-label" for="no_telepon">No. Telepon / WhatsApp</label>
+                            <label class="form-label" for="no_telepon">No. Telepon / WhatsApp <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $umkm->no_telepon) }}" placeholder="Contoh: 08123456789" inputmode="numeric" autocomplete="off" />
                             <div class="form-text">Gunakan format angka tanpa spasi/simbol untuk integrasi chat instan WhatsApp.</div>
                         </div>

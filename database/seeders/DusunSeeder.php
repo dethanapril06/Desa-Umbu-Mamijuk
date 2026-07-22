@@ -15,17 +15,14 @@ class DusunSeeder extends Seeder
             [
                 'nama' => 'Dusun Karang Indah',
                 'kepala_dusun' => 'Yohanes Gede',
-                'urutan' => 1,
             ],
             [
                 'nama' => 'Dusun Watu Langit',
                 'kepala_dusun' => 'Martinus Londa',
-                'urutan' => 2,
             ],
             [
                 'nama' => 'Dusun Sentosa',
                 'kepala_dusun' => 'Joko Susilo',
-                'urutan' => 3,
             ],
         ];
 

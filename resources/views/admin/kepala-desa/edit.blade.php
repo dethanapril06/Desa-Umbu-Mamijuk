@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="foto">Foto Kepala Desa</label>
+                        <label class="form-label" for="foto">Foto Kepala Desa @if(!$kepalaDesa->foto)<span class="text-danger">*</span>@endif</label>
                         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" />
                         <div class="form-text">Biarkan kosong jika tidak ingin mengubah foto. Rekomendasi resolusi: 600x800 px (rasio 3:4 potret). Minimal: 250x300 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
 

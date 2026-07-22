@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="caption">Keterangan Foto / Caption</label>
+                        <label class="form-label" for="caption">Keterangan Foto / Caption <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="caption" name="caption" value="{{ old('caption') }}" placeholder="Tuliskan keterangan pendek mengenai foto..." />
                     </div>
 

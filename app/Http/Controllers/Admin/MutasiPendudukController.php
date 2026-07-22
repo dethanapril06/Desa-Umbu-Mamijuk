@@ -83,8 +83,8 @@ class MutasiPendudukController extends Controller
             'jenis_mutasi' => 'required|in:mati,pindah_masuk,pindah_keluar',
             'tanggal_mutasi' => 'required|date',
             'no_surat' => 'required|string|max:100',
-            'alamat_tujuan' => 'nullable|string',
-            'alamat_asal' => 'nullable|string',
+            'alamat_tujuan' => 'required_if:jenis_mutasi,pindah_keluar|nullable|string',
+            'alamat_asal' => 'required_if:jenis_mutasi,pindah_masuk|nullable|string',
             'keterangan' => 'nullable|string',
             'lampiran' => 'nullable|file|mimes:pdf,jpeg,png,jpg|max:2048',
         ];
@@ -93,24 +93,24 @@ class MutasiPendudukController extends Controller
             $rules['masuk_keluarga_id'] = 'required|exists:keluarga,id';
             $rules['masuk_nik'] = 'required|string|size:16|unique:penduduk,nik';
             $rules['masuk_nama_lengkap'] = 'required|string|max:255';
-            $rules['masuk_tempat_lahir'] = 'nullable|string|max:100';
+            $rules['masuk_tempat_lahir'] = 'required|string|max:100';
             $rules['masuk_tanggal_lahir'] = 'required|date';
             $rules['masuk_jenis_kelamin'] = 'required|in:laki-laki,perempuan';
-            $rules['masuk_agama'] = 'nullable|in:islam,kristen,katolik,hindu,buddha,konghucu,lainnya';
-            $rules['masuk_pendidikan_terakhir'] = 'nullable|in:tidak_sekolah,sd,smp,sma,d1,d2,d3,s1,s2,s3';
-            $rules['masuk_pekerjaan'] = 'nullable|string|max:100';
-            $rules['masuk_status_perkawinan'] = 'nullable|in:belum_kawin,kawin,cerai_hidup,cerai_mati';
-            $rules['masuk_status_hubungan_keluarga'] = 'nullable|in:kepala_keluarga,istri,anak,menantu,cucu,orang_tua,mertua,famili_lain,lainnya';
+            $rules['masuk_agama'] = 'required|in:islam,kristen,katolik,hindu,buddha,konghucu,lainnya';
+            $rules['masuk_pendidikan_terakhir'] = 'required|in:tidak_sekolah,sd,smp,sma,d1,d2,d3,s1,s2,s3';
+            $rules['masuk_pekerjaan'] = 'required|string|max:100';
+            $rules['masuk_status_perkawinan'] = 'required|in:belum_kawin,kawin,cerai_hidup,cerai_mati';
+            $rules['masuk_status_hubungan_keluarga'] = 'required|in:kepala_keluarga,istri,anak,menantu,cucu,orang_tua,mertua,famili_lain,lainnya';
             $rules['masuk_kewarganegaraan'] = 'required|in:WNI,WNA';
-            $rules['masuk_golongan_darah'] = 'nullable|string|max:5';
+            $rules['masuk_golongan_darah'] = 'required|string|max:5';
             $rules['masuk_no_paspor'] = 'nullable|string|max:50';
             $rules['masuk_no_kitas_kitap'] = 'nullable|string|max:50';
-            $rules['masuk_nama_ayah'] = 'nullable|string|max:255';
-            $rules['masuk_nama_ibu'] = 'nullable|string|max:255';
-            $rules['masuk_no_telepon'] = 'nullable|string|max:20';
+            $rules['masuk_nama_ayah'] = 'required|string|max:255';
+            $rules['masuk_nama_ibu'] = 'required|string|max:255';
+            $rules['masuk_no_telepon'] = 'required|string|max:20';
             $rules['masuk_is_asuransi_kesehatan'] = 'nullable|boolean';
             $rules['masuk_is_disabilitas'] = 'nullable|boolean';
-            $rules['masuk_jenis_disabilitas'] = 'nullable|string|max:255';
+            $rules['masuk_jenis_disabilitas'] = 'required_if:masuk_is_disabilitas,1|nullable|string|max:255';
         } else {
             $rules['penduduk_id'] = 'required|exists:penduduk,id';
         }
@@ -250,8 +250,8 @@ class MutasiPendudukController extends Controller
             'jenis_mutasi' => 'required|in:mati,pindah_masuk,pindah_keluar',
             'tanggal_mutasi' => 'required|date',
             'no_surat' => 'required|string|max:100',
-            'alamat_tujuan' => 'nullable|string',
-            'alamat_asal' => 'nullable|string',
+            'alamat_tujuan' => 'required_if:jenis_mutasi,pindah_keluar|nullable|string',
+            'alamat_asal' => 'required_if:jenis_mutasi,pindah_masuk|nullable|string',
             'keterangan' => 'nullable|string',
             'lampiran' => 'nullable|file|mimes:pdf,jpeg,png,jpg|max:2048',
         ];
@@ -260,24 +260,24 @@ class MutasiPendudukController extends Controller
             $rules['masuk_keluarga_id'] = 'required|exists:keluarga,id';
             $rules['masuk_nik'] = 'required|string|size:16|unique:penduduk,nik,' . $mutasiPenduduk->penduduk_id;
             $rules['masuk_nama_lengkap'] = 'required|string|max:255';
-            $rules['masuk_tempat_lahir'] = 'nullable|string|max:100';
+            $rules['masuk_tempat_lahir'] = 'required|string|max:100';
             $rules['masuk_tanggal_lahir'] = 'required|date';
             $rules['masuk_jenis_kelamin'] = 'required|in:laki-laki,perempuan';
-            $rules['masuk_agama'] = 'nullable|in:islam,kristen,katolik,hindu,buddha,konghucu,lainnya';
-            $rules['masuk_pendidikan_terakhir'] = 'nullable|in:tidak_sekolah,sd,smp,sma,d1,d2,d3,s1,s2,s3';
-            $rules['masuk_pekerjaan'] = 'nullable|string|max:100';
-            $rules['masuk_status_perkawinan'] = 'nullable|in:belum_kawin,kawin,cerai_hidup,cerai_mati';
-            $rules['masuk_status_hubungan_keluarga'] = 'nullable|in:kepala_keluarga,istri,anak,menantu,cucu,orang_tua,mertua,famili_lain,lainnya';
+            $rules['masuk_agama'] = 'required|in:islam,kristen,katolik,hindu,buddha,konghucu,lainnya';
+            $rules['masuk_pendidikan_terakhir'] = 'required|in:tidak_sekolah,sd,smp,sma,d1,d2,d3,s1,s2,s3';
+            $rules['masuk_pekerjaan'] = 'required|string|max:100';
+            $rules['masuk_status_perkawinan'] = 'required|in:belum_kawin,kawin,cerai_hidup,cerai_mati';
+            $rules['masuk_status_hubungan_keluarga'] = 'required|in:kepala_keluarga,istri,anak,menantu,cucu,orang_tua,mertua,famili_lain,lainnya';
             $rules['masuk_kewarganegaraan'] = 'required|in:WNI,WNA';
-            $rules['masuk_golongan_darah'] = 'nullable|string|max:5';
+            $rules['masuk_golongan_darah'] = 'required|string|max:5';
             $rules['masuk_no_paspor'] = 'nullable|string|max:50';
             $rules['masuk_no_kitas_kitap'] = 'nullable|string|max:50';
-            $rules['masuk_nama_ayah'] = 'nullable|string|max:255';
-            $rules['masuk_nama_ibu'] = 'nullable|string|max:255';
-            $rules['masuk_no_telepon'] = 'nullable|string|max:20';
+            $rules['masuk_nama_ayah'] = 'required|string|max:255';
+            $rules['masuk_nama_ibu'] = 'required|string|max:255';
+            $rules['masuk_no_telepon'] = 'required|string|max:20';
             $rules['masuk_is_asuransi_kesehatan'] = 'nullable|boolean';
             $rules['masuk_is_disabilitas'] = 'nullable|boolean';
-            $rules['masuk_jenis_disabilitas'] = 'nullable|string|max:255';
+            $rules['masuk_jenis_disabilitas'] = 'required_if:masuk_is_disabilitas,1|nullable|string|max:255';
         } else {
             $rules['penduduk_id'] = 'required|exists:penduduk,id';
         }

@@ -4,7 +4,7 @@
 
 @section(
     'meta_description',
-    'Informasi terkini, pengumuman, dan liputan kegiatan dari ' . ($profilDesa?->nama_desa ?? 'desa') . '.'
+    'Informasi terkini, pengumuman, dan liputan kegiatan dari ' . ($profilDesa?->nama_desa) . '.'
 )
 
 @section('content')
@@ -72,8 +72,7 @@
             <div class="row g-4">
                 @forelse ($berita as $item)
                     @php
-                        $imgUrl = $item->gambar
-                            ? asset('storage/' . $item->gambar);
+                        $imgUrl = $item->gambar ? asset('storage/' . $item->gambar) : '';
                     @endphp
 
                     <div class="col-lg-4 col-md-6">

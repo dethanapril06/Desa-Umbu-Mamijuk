@@ -333,7 +333,7 @@
                         {{-- Rating summary --}}
                         <div class="col-md-4">
                             <div class="rating-summary-big">
-                                <div class="rating-avg">{{ $avgRating > 0 ? $avgRating : '–' }}</div>
+                                <div class="rating-avg">{{ $avgRating > 0 ? $avgRating : 'Belum Tersedia' }}</div>
                                 <div class="rating-stars-sum">
                                     @for ($i = 1; $i <= 5; $i++)
                                         {{ $i <= round($avgRating) ? '★' : '☆' }}

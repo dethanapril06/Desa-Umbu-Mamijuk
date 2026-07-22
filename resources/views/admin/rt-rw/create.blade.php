@@ -54,12 +54,12 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="ketua_rt">Nama Ketua RT (Opsional)</label>
+                        <label class="form-label" for="ketua_rt">Nama Ketua RT <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="ketua_rt" name="ketua_rt" value="{{ old('ketua_rt') }}" />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="ketua_rw">Nama Ketua RW (Opsional)</label>
+                        <label class="form-label" for="ketua_rw">Nama Ketua RW <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="ketua_rw" name="ketua_rw" value="{{ old('ketua_rw') }}" />
                     </div>
 

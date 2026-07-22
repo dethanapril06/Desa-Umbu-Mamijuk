@@ -81,38 +81,6 @@
                                 <i class="bx {{ $sm->icon }}"></i>
                             </a>
                         @endforeach
-                    @else
-                        <a
-                            href="#"
-                            class="social-icon"
-                            aria-label="Facebook Desa Kami"
-                        >
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-
-                        <a
-                            href="#"
-                            class="social-icon"
-                            aria-label="Instagram Desa Kami"
-                        >
-                            <i class="fab fa-instagram"></i>
-                        </a>
-
-                        <a
-                            href="#"
-                            class="social-icon"
-                            aria-label="YouTube Desa Kami"
-                        >
-                            <i class="fab fa-youtube"></i>
-                        </a>
-
-                        <a
-                            href="#"
-                            class="social-icon"
-                            aria-label="WhatsApp Desa Kami"
-                        >
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
                     @endif
                 </div>
             </div>

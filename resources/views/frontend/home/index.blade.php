@@ -4,7 +4,7 @@
 
 @section(
     'meta_description',
-    'Website resmi ' . ($profilDesa?->nama_desa ?? 'Desa') . '. Jelajahi profil desa, destinasi wisata, statistik kependudukan, galeri, dan berita terbaru.'
+    'Website resmi ' . ($profilDesa?->nama_desa) . '. Jelajahi profil desa, destinasi wisata, statistik kependudukan, galeri, dan berita terbaru.'
 )
 
 @push('styles')
@@ -53,8 +53,8 @@
                                 <div class="col-lg-7">
                                     <div class="hero-badge">
                                         <i class="fas fa-map-marker-alt"></i>
-                                        Kec. {{ $profilDesa?->kecamatan ?? '–' }},
-                                        Kab. {{ $profilDesa?->kabupaten ?? '–' }}
+                                        Kec. {{ $profilDesa?->kecamatan }},
+                                        Kab. {{ $profilDesa?->kabupaten }}
                                     </div>
 
                                     <h1 class="hero-title">
@@ -66,8 +66,7 @@
                                         @if ($profilDesa?->sejarah_desa)
                                             {{ Str::limit(strip_tags($profilDesa->sejarah_desa), 180) }}
                                         @else
-                                            Desa yang kaya akan keindahan alam, budaya lokal, dan destinasi wisata memukau.
-                                            Temukan pengalaman tak terlupakan di antara hijaunya alam nusantara.
+                                            Belum Tersedia
                                         @endif
                                     </p>
 
@@ -96,14 +95,14 @@
 
                                         <div class="scattered-stat s2">
                                             <div class="hero-stat-num">
-                                                {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . 'K' : $totalPenduduk }}
+                                                {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . '0' : $totalPenduduk }}
                                             </div>
                                             <div class="hero-stat-label">Penduduk</div>
                                         </div>
 
                                         <div class="scattered-stat s3">
                                             <div class="hero-stat-num">
-                                                {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '–' }}
+                                                {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '0' }}
                                             </div>
                                             <div class="hero-stat-label">Hektar Luas</div>
                                         </div>
@@ -123,8 +122,8 @@
                                     <div class="col-lg-7">
                                         <div class="hero-badge">
                                             <i class="fas fa-map-marker-alt"></i>
-                                            Kec. {{ $profilDesa?->kecamatan ?? '–' }},
-                                            Kab. {{ $profilDesa?->kabupaten ?? '–' }}
+                                            Kec. {{ $profilDesa?->kecamatan ?? 'Belum Tersedia' }},
+                                            Kab. {{ $profilDesa?->kabupaten ?? 'Belum Tersedia' }}
                                         </div>
 
                                         <h1 class="hero-title">
@@ -143,8 +142,7 @@
                                                 @if ($profilDesa?->sejarah_desa)
                                                     {{ Str::limit(strip_tags($profilDesa->sejarah_desa), 180) }}
                                                 @else
-                                                    Desa yang kaya akan keindahan alam, budaya lokal, dan destinasi wisata memukau.
-                                                    Temukan pengalaman tak terlupakan di antara hijaunya alam nusantara.
+                                                    Belum Tersedia
                                                 @endif
                                             @endif
                                         </p>
@@ -181,14 +179,14 @@
 
                                             <div class="scattered-stat s2">
                                                 <div class="hero-stat-num">
-                                                    {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . 'K' : $totalPenduduk }}
+                                                    {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . '0' : $totalPenduduk }}
                                                 </div>
                                                 <div class="hero-stat-label">Penduduk</div>
                                             </div>
 
                                             <div class="scattered-stat s3">
                                                 <div class="hero-stat-num">
-                                                    {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '–' }}
+                                                    {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '0' }}
                                                 </div>
                                                 <div class="hero-stat-label">Hektar Luas</div>
                                             </div>
@@ -200,16 +198,6 @@
                     </div>
                 @endforeach
             </div>
-
-            {{-- Controls --}}
-            <!-- <button class="carousel-control-prev hero-carousel-control" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 5;">
-                <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next hero-carousel-control" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 5;">
-                <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
-                <span class="visually-hidden">Next</span>
-            </button> -->
 
             <div class="hero-scroll-hint" style="z-index: 5;">
                 <span>Scroll</span>
@@ -226,8 +214,8 @@
                     <div class="col-lg-7">
                         <div class="hero-badge">
                             <i class="fas fa-map-marker-alt"></i>
-                            Kec. {{ $profilDesa?->kecamatan ?? '–' }},
-                            Kab. {{ $profilDesa?->kabupaten ?? '–' }}
+                            Kec. {{ $profilDesa?->kecamatan }},
+                            Kab. {{ $profilDesa?->kabupaten }}
                         </div>
 
                         <h1 class="hero-title">
@@ -236,12 +224,7 @@
                         </h1>
 
                         <p class="hero-desc">
-                            @if ($profilDesa?->sejarah_desa)
-                                {{ Str::limit(strip_tags($profilDesa->sejarah_desa), 180) }}
-                            @else
-                                Desa yang kaya akan keindahan alam, budaya lokal, dan destinasi wisata memukau.
-                                Temukan pengalaman tak terlupakan di antara hijaunya alam nusantara.
-                            @endif
+                            {{ Str::limit(strip_tags($profilDesa?->sejarah_desa), 180) }}
                         </p>
 
                         <div class="hero-actions">
@@ -275,14 +258,14 @@
 
                             <div class="scattered-stat s2">
                                 <div class="hero-stat-num">
-                                    {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . 'K' : $totalPenduduk }}
+                                    {{ $totalPenduduk > 999 ? number_format($totalPenduduk / 1000, 1) . '0' : $totalPenduduk }}
                                 </div>
                                 <div class="hero-stat-label">Penduduk</div>
                             </div>
 
                             <div class="scattered-stat s3">
                                 <div class="hero-stat-num">
-                                    {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '–' }}
+                                    {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) : '0' }}
                                 </div>
                                 <div class="hero-stat-label">Hektar Luas</div>
                             </div>
@@ -311,7 +294,7 @@
                     <h2 class="section-title">
                         Destinasi <em>Unggulan</em>
                         <br />
-                        Desa {{ $profilDesa?->nama_desa ?? 'Desa Kami' }}
+                        Desa {{ $profilDesa?->nama_desa }}
                     </h2>
                 </div>
 
@@ -459,7 +442,7 @@
                         Profil
                         <em style="color: var(--gold-light)">Desa</em>
                         <br />
-                        {{ $profilDesa?->nama_desa ?? 'Kami' }}
+                        {{ $profilDesa?->nama_desa }}
                     </h2>
 
                     <p
@@ -470,12 +453,7 @@
                             margin: 1.5rem 0 2rem;
                         "
                     >
-                        @if ($profilDesa?->sejarah_desa)
-                            {{ Str::limit(strip_tags($profilDesa->sejarah_desa), 200) }}
-                        @else
-                            Desa yang terletak di tengah alam yang asri, dikenal dengan
-                            keramahan warga, potensi wisata, dan semangat gotong royong.
-                        @endif
+                        {{ Str::limit(strip_tags($profilDesa?->sejarah_desa), 200) }}
                     </p>
 
                     <a
@@ -487,66 +465,60 @@
                     </a>
 
                     {{-- Visi --}}
-                    @if ($profilDesa?->visi)
-                        <div class="visi-misi-card mb-4">
-                            <div class="visi-title">Visi Desa</div>
-                            <div class="visi-text">
-                                "{{ $profilDesa->visi }}"
-                            </div>
+                    
+                    <div class="visi-misi-card mb-4">
+                        <div class="visi-title">Visi Desa</div>
+                        <div class="visi-text">
+                            "{{ $profilDesa?->visi }}"
                         </div>
-                    @endif
+                    </div>
+                   
 
                     {{-- Misi --}}
-                    @if ($profilDesa?->misi)
-                        <div class="visi-misi-card">
-                            <div class="visi-title mb-3">Misi Desa</div>
-                            @foreach (array_filter(explode("\n", $profilDesa->misi)) as $misi)
-                                <div class="misi-item">
-                                    <div class="misi-dot"></div>
-                                    {{ trim($misi) }}
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
+                    
+                    <div class="visi-misi-card">
+                        <div class="visi-title mb-3">Misi Desa</div>
+                        @foreach (array_filter(explode("\n", $profilDesa?->misi)) as $misi)
+                            <div class="misi-item">
+                                <div class="misi-dot"></div>
+                                {{ trim($misi) }}
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
                 <div class="col-lg-7">
                     {{-- Sambutan Kepala Desa --}}
-                    @if ($kepalaDesa)
-                        <div class="kepala-desa-card mb-4">
-                            <div class="kepala-desa-photo">
-                                @if ($kepalaDesa->foto)
-                                    <img
-                                        src="{{ asset('storage/' . $kepalaDesa->foto) }}"
-                                        alt="{{ $kepalaDesa->nama }}"
-                                    />
+                    <div class="kepala-desa-card mb-4">
+                        <div class="kepala-desa-photo">
+                            @if ($kepalaDesa && $kepalaDesa->foto)
+                                <img
+                                    src="{{ asset('storage/' . $kepalaDesa->foto) }}"
+                                    alt="{{ $kepalaDesa->nama }}"
+                                />
+                            @else
+                                <div style="width:100%; height:100%; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;">
+                                    <i class="fas fa-user-tie fa-3x" style="color:rgba(255,255,255,0.3);"></i>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="kepala-desa-content">
+                            <div class="kepala-desa-label">Sambutan Kepala Desa</div>
+
+                            <h3 class="kepala-desa-name">
+                                {{ $kepalaDesa?->nama }}
+                            </h3>
+
+                            <div class="kepala-desa-text">
+                                @if ($kepalaDesa && $kepalaDesa->sambutan)
+                                    {!! nl2br(e(Str::limit($kepalaDesa->sambutan, 400))) !!}
+                                @else
+                                    <p>Belum Tersedia</p>
                                 @endif
                             </div>
-
-                            <div class="kepala-desa-content">
-                                <div class="kepala-desa-label">Sambutan Kepala Desa</div>
-
-                                <h3 class="kepala-desa-name">
-                                    {{ $kepalaDesa->nama }}
-                                </h3>
-
-                                <div class="kepala-desa-text">
-                                    @if ($kepalaDesa->sambutan)
-                                        {!! nl2br(e(Str::limit($kepalaDesa->sambutan, 400))) !!}
-                                    @else
-                                        <p>
-                                            Assalamu'alaikum warahmatullahi wabarakatuh.
-                                            Puji syukur kita panjatkan ke hadirat Allah SWT atas segala rahmat dan karunia-Nya.
-                                        </p>
-                                        <p>
-                                            Website resmi ini kami hadirkan sebagai media informasi, komunikasi,
-                                            dan transparansi bagi seluruh warga desa maupun masyarakat luas.
-                                        </p>
-                                    @endif
-                                </div>
-                            </div>
                         </div>
-                    @endif
+                    </div> 
 
                     {{-- Informasi Desa --}}
                     <div class="profil-info-card">
@@ -564,79 +536,57 @@
                             Informasi Desa
                         </h5>
 
-                        @if ($kepalaDesa)
-                            <div class="profil-info-item">
-                                <div class="profil-info-icon">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <div>
-                                    <div class="profil-info-label">Kepala Desa</div>
-                                    <div class="profil-info-value">{{ $kepalaDesa->nama }}</div>
+                        <div class="profil-info-item">
+                            <div class="profil-info-icon">
+                                <i class="fas fa-map"></i>
+                            </div>
+                            <div>
+                                <div class="profil-info-label">Luas Wilayah</div>
+                                <div class="profil-info-value">
+                                    {{ $profilDesa?->luas_wilayah ? number_format((float) $profilDesa->luas_wilayah) . ' Hektar' : 'Belum Tersedia' }}
                                 </div>
                             </div>
-                        @endif
+                        </div>
 
-                        @if ($profilDesa?->luas_wilayah)
-                            <div class="profil-info-item">
-                                <div class="profil-info-icon">
-                                    <i class="fas fa-map"></i>
-                                </div>
-                                <div>
-                                    <div class="profil-info-label">Luas Wilayah</div>
-                                    <div class="profil-info-value">
-                                        {{ number_format((float) $profilDesa->luas_wilayah) }} Hektar
-                                    </div>
-                                </div>
+                        <div class="profil-info-item">
+                            <div class="profil-info-icon">
+                                <i class="fas fa-mountain"></i>
                             </div>
-                        @endif
+                            <div>
+                                <div class="profil-info-label">Ketinggian</div>
+                                <div class="profil-info-value">{{ $profilDesa?->ketinggian ?? 'Belum Tersedia' }}</div>
+                            </div>
+                        </div>
 
-                        @if ($profilDesa?->ketinggian)
-                            <div class="profil-info-item">
-                                <div class="profil-info-icon">
-                                    <i class="fas fa-mountain"></i>
-                                </div>
-                                <div>
-                                    <div class="profil-info-label">Ketinggian</div>
-                                    <div class="profil-info-value">{{ $profilDesa->ketinggian }}</div>
-                                </div>
+                        <div class="profil-info-item">
+                            <div class="profil-info-icon">
+                                <i class="fas fa-phone"></i>
                             </div>
-                        @endif
+                            <div>
+                                <div class="profil-info-label">Telepon Kantor Desa</div>
+                                <div class="profil-info-value">{{ $profilDesa?->telepon ?? 'Belum Tersedia' }}</div>
+                            </div>
+                        </div>
 
-                        @if ($profilDesa?->telepon)
-                            <div class="profil-info-item">
-                                <div class="profil-info-icon">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <div>
-                                    <div class="profil-info-label">Telepon Kantor Desa</div>
-                                    <div class="profil-info-value">{{ $profilDesa->telepon }}</div>
-                                </div>
+                        <div class="profil-info-item">
+                            <div class="profil-info-icon">
+                                <i class="fas fa-envelope"></i>
                             </div>
-                        @endif
+                            <div>
+                                <div class="profil-info-label">Email</div>
+                                <div class="profil-info-value">{{ $profilDesa?->email ?? 'Belum Tersedia' }}</div>
+                            </div>
+                        </div>
 
-                        @if ($profilDesa?->email)
-                            <div class="profil-info-item">
-                                <div class="profil-info-icon">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div>
-                                    <div class="profil-info-label">Email</div>
-                                    <div class="profil-info-value">{{ $profilDesa->email }}</div>
-                                </div>
+                        <div class="profil-info-item">
+                            <div class="profil-info-icon">
+                                <i class="fas fa-clock"></i>
                             </div>
-                        @endif
-
-                        @if ($profilDesa?->jam_pelayanan)
-                            <div class="profil-info-item">
-                                <div class="profil-info-icon">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                                <div>
-                                    <div class="profil-info-label">Jam Pelayanan</div>
-                                    <div class="profil-info-value">{{ $profilDesa->jam_pelayanan }}</div>
-                                </div>
+                            <div>
+                                <div class="profil-info-label">Jam Pelayanan</div>
+                                <div class="profil-info-value">{{ $profilDesa?->jam_pelayanan ?? 'Belum Tersedia' }}</div>
                             </div>
-                        @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -645,7 +595,7 @@
 
     {{-- PETA WILAYAH --}}
     @php
-        $osmUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47947.482707782045!2d119.63056245000001!3d-9.582116450000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c4b17dcc3ac7dcf%3A0x448a4d7a7d9aeeaf!2sUmbu%20Mamijuk%2C%20Kec.%20Umbu%20Ratu%20Nggay%20Bar.%2C%20Kabupaten%20Sumba%20Tengah%2C%20Nusa%20Tenggara%20Tim.!5e1!3m2!1sid!2sid!4v1780389999315!5m2!1sid!2sid";
+        $osmUrl = $profilDesa?->peta_wilayah ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47947.482707782045!2d119.63056245000001!3d-9.582116450000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c4b17dcc3ac7dcf%3A0x448a4d7a7d9aeeaf!2sUmbu%20Mamijuk%2C%20Kec.%20Umbu%20Ratu%20Nggay%20Bar.%2C%20Kabupaten%20Sumba%20Tengah%2C%20Nusa%20Tenggara%20Tim.!5e1!3m2!1sid!2sid!4v1780389999315!5m2!1sid!2sid';
     @endphp
     <section class="peta-section" style="padding: 100px 0; background: var(--cream);">
         <div class="container">
@@ -653,7 +603,7 @@
                 <div class="col-12">
                     <div class="section-label">Peta Wilayah</div>
                     <h2 class="section-title">
-                        Lokasi dan Wilayah <em>Desa {{ $profilDesa->nama_desa }}</em>
+                        Lokasi dan Wilayah <em>Desa {{ $profilDesa->nama_desa ?? 'Desa Umbu Mamijuk' }}</em>
                     </h2>
                 </div>
             </div>
@@ -663,7 +613,7 @@
                     <div class="peta-desa-frame" style="border-radius: 28px; overflow: hidden; box-shadow: 0 15px 45px rgba(26, 58, 42, 0.08); border: 1px solid var(--green-pale);">
                         <iframe
                             src="{!! $osmUrl !!}"
-                            title="Peta Wilayah {{ $profilDesa?->nama_desa ?? 'Desa' }}"
+                            title="Peta Wilayah {{ $profilDesa?->nama_desa }}"
                             style="width: 100%; height: 480px; border: none; display: block; filter: grayscale(5%) contrast(105%);"
                             loading="lazy"
                             allow="geolocation; gyroscope; accelerometer; magnetometer"

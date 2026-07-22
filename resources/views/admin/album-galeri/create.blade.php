@@ -38,14 +38,14 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="cover">Gambar Cover Album</label>
+                        <label class="form-label" for="cover">Gambar Cover Album <span class="text-danger">*</span></label>
                         <input type="file" class="form-control" id="cover" name="cover" accept="image/*" />
                         <div class="form-text">Resolusi yang disarankan: 800x600 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="deskripsi">Deskripsi Album (Opsional)</label>
-                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Tuliskan keterangan singkat mengenai isi foto-foto di dalam album ini...">{{ old('deskripsi') }}</textarea>
+                        <label class="form-label" for="deskripsi">Deskripsi Album <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Tuliskan deskripsi singkat mengenai isi album ini...">{{ old('deskripsi') }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">

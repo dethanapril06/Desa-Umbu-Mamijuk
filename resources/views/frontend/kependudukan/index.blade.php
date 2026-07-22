@@ -111,7 +111,7 @@
 
             <div class="chart-panel">
                 <h2 class="chart-panel-title">Berdasarkan Pekerjaan</h2>
-                <p class="chart-panel-desc">Daftar pekerjaan dan jumlah penduduk. Data dengan jumlah 0 tidak ditampilkan.</p>
+                <p class="chart-panel-desc">Daftar pekerjaan dan jumlah penduduk.</p>
                 <div class="pekerjaan-layout">
                     <div class="pekerjaan-list">
                         @forelse ($pekerjaanDistribution as $item)
@@ -135,19 +135,6 @@
                             <div class="text-muted text-center py-4">Data belum tersedia</div>
                         @endforelse
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- WAJIB PILIH --}}
-    <section class="kependudukan-detail-section alt">
-        <div class="container">
-            <div class="chart-panel">
-                <h2 class="chart-panel-title">Berdasarkan Wajib Pilih</h2>
-                <p class="chart-panel-desc">Estimasi jumlah penduduk wajib pilih berdasarkan usia dan status perkawinan.</p>
-                <div class="chart-box">
-                    <canvas id="wajibPilihBarChart"></canvas>
                 </div>
             </div>
         </div>
@@ -284,28 +271,6 @@
                     label: 'Jumlah Penduduk',
                     data: @json($pendidikanDistribution['data']),
                     backgroundColor: greenDark,
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: { beginAtZero: true, grid: { color: grid } },
-                    x: { grid: { display: false } }
-                },
-                plugins: { legend: { display: false } }
-            }
-        });
-
-        new Chart(document.getElementById('wajibPilihBarChart'), {
-            type: 'bar',
-            data: {
-                labels: @json($wajibPilihDistribution['labels']),
-                datasets: [{
-                    label: 'Wajib Pilih',
-                    data: @json($wajibPilihDistribution['data']),
-                    backgroundColor: gold,
                     borderRadius: 8
                 }]
             },

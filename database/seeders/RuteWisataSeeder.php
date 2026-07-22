@@ -21,14 +21,12 @@ class RuteWisataSeeder extends Seeder
                 'icon' => 'bi bi-bicycle',
                 'deskripsi' => 'Dari Kantor Desa Umbu Mamijuk, arahkan kendaraan ke Jalan Raya Trans Sumba ke arah barat laut. Perjalanan memakan waktu sekitar 15-20 menit dengan kondisi jalan aspal yang sebagian besar sudah beraspal halus.',
                 'warna_badge' => '#2d5a3d',
-                'urutan' => 1,
             ],
             [
                 'jenis_transportasi' => 'Mobil',
                 'icon' => 'bi bi-car-front',
                 'deskripsi' => 'Melalui Jalan Raya Trans Sumba, berkendara ke arah barat laut menuju Anakalang selama kurang lebih 20-25 menit. Jalur ini sangat mudah diakses karena Kampung Adat Pasunga berada tepat di tepi jalan lintas kabupaten.',
                 'warna_badge' => '#52a96e',
-                'urutan' => 2,
             ],
         ];
 
