@@ -9,14 +9,14 @@
 @section('json_ld')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "TouristAttraction",
+    "@@context": "https://schema.org",
+    "@@type": "TouristAttraction",
     "name": "{{ $wisata->nama }}",
     "description": "{{ $wisata->deskripsi_singkat ?? Str::limit(strip_tags($wisata->deskripsi), 160) }}",
     "image": "{{ $wisata->gambar_utama ? asset('storage/' . $wisata->gambar_utama) : asset('fe/assets/img/og-default.png') }}",
     "url": "{{ url()->current() }}",
     "address": {
-        "@type": "PostalAddress",
+        "@@type": "PostalAddress",
         "addressLocality": "{{ $wisata->lokasi ?? 'Umbu Ratu Nggay Barat' }}",
         "addressRegion": "Sumba Tengah",
         "addressCountry": "ID"

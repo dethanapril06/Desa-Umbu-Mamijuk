@@ -41,14 +41,14 @@
     @else
         <script type="application/ld+json">
         {
-            "@context": "https://schema.org",
-            "@type": "GovernmentOrganization",
+            "@@context": "https://schema.org",
+            "@@type": "GovernmentOrganization",
             "name": "Desa Umbu Mamijuk",
             "url": "{{ url('/') }}",
             "logo": "{{ asset('fe/assets/img/logo-desa.png') }}",
             "description": "Website resmi Desa Umbu Mamijuk, Kecamatan Umbu Ratu Nggay Barat, Kabupaten Sumba Tengah, Nusa Tenggara Timur.",
             "address": {
-                "@type": "PostalAddress",
+                "@@type": "PostalAddress",
                 "addressLocality": "Umbu Ratu Nggay Barat",
                 "addressRegion": "Sumba Tengah",
                 "addressCountry": "ID"

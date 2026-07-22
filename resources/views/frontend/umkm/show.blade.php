@@ -9,15 +9,15 @@
 @section('json_ld')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@@context": "https://schema.org",
+    "@@type": "LocalBusiness",
     "name": "{{ $umkm->nama_usaha }}",
     "description": "{{ Str::limit(strip_tags($umkm->deskripsi), 160) }}",
     "image": "{{ $umkm->foto ? asset('storage/' . $umkm->foto) : asset('fe/assets/img/og-default.png') }}",
     "url": "{{ url()->current() }}",
     "telephone": "{{ $umkm->no_telepon ?? '' }}",
     "address": {
-        "@type": "PostalAddress",
+        "@@type": "PostalAddress",
         "streetAddress": "{{ $umkm->alamat ?? '' }}",
         "addressLocality": "Umbu Ratu Nggay Barat",
         "addressRegion": "Sumba Tengah",

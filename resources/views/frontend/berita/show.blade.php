@@ -20,28 +20,28 @@
 @section('json_ld')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "NewsArticle",
+    "@@context": "https://schema.org",
+    "@@type": "NewsArticle",
     "headline": "{{ $berita->judul }}",
     "description": "{{ $berita->excerpt ?? Str::limit(strip_tags($berita->konten), 160) }}",
     "image": "{{ $imgUrl }}",
     "datePublished": "{{ $berita->created_at?->toIso8601String() }}",
     "dateModified": "{{ $berita->updated_at?->toIso8601String() }}",
     "author": {
-        "@type": "Person",
+        "@@type": "Person",
         "name": "{{ $authorName }}"
     },
     "publisher": {
-        "@type": "Organization",
+        "@@type": "Organization",
         "name": "Desa Umbu Mamijuk",
         "logo": {
-            "@type": "ImageObject",
+            "@@type": "ImageObject",
             "url": "{{ asset('fe/assets/img/logo-desa.png') }}"
         }
     },
     "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ $shareUrl }}"
+        "@@type": "WebPage",
+        "@@id": "{{ $shareUrl }}"
     }
 }
 </script>
