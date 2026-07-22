@@ -4,7 +4,9 @@
 
 @section('meta_description', $wisata->deskripsi_singkat ?? Str::limit(strip_tags($wisata->deskripsi), 160))
 
-@section('meta_image', $wisata->gambar_utama ? asset('storage/' . $wisata->gambar_utama) : asset('fe/assets/img/og-default.png'))
+@if($wisata->gambar_utama)
+    @section('meta_image', asset('storage/' . $wisata->gambar_utama))
+@endif
 
 @section('json_ld')
 <script type="application/ld+json">
@@ -13,7 +15,7 @@
     "@@type": "TouristAttraction",
     "name": "{{ $wisata->nama }}",
     "description": "{{ $wisata->deskripsi_singkat ?? Str::limit(strip_tags($wisata->deskripsi), 160) }}",
-    "image": "{{ $wisata->gambar_utama ? asset('storage/' . $wisata->gambar_utama) : asset('fe/assets/img/og-default.png') }}",
+    "image": "{{ $wisata->gambar_utama ? asset('storage/' . $wisata->gambar_utama) : (\App\Models\ProfilDesa::first()?->logo ? asset('storage/' . \App\Models\ProfilDesa::first()->logo) : asset('fe/assets/img/logo-desa.png')) }}",
     "url": "{{ url()->current() }}",
     "address": {
         "@@type": "PostalAddress",

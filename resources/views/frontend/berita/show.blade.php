@@ -35,7 +35,7 @@
         "name": "Desa Umbu Mamijuk",
         "logo": {
             "@@type": "ImageObject",
-            "url": "{{ asset('fe/assets/img/logo-desa.png') }}"
+            "url": "{{ \App\Models\ProfilDesa::first()?->logo ? asset('storage/' . \App\Models\ProfilDesa::first()->logo) : asset('fe/assets/img/logo-desa.png') }}"
         }
     },
     "mainEntityOfPage": {

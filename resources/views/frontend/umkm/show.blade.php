@@ -4,7 +4,9 @@
 
 @section('meta_description', Str::limit(strip_tags($umkm->deskripsi), 160))
 
-@section('meta_image', $umkm->foto ? asset('storage/' . $umkm->foto) : asset('fe/assets/img/og-default.png'))
+@if($umkm->foto)
+    @section('meta_image', asset('storage/' . $umkm->foto))
+@endif
 
 @section('json_ld')
 <script type="application/ld+json">
@@ -13,7 +15,7 @@
     "@@type": "LocalBusiness",
     "name": "{{ $umkm->nama_usaha }}",
     "description": "{{ Str::limit(strip_tags($umkm->deskripsi), 160) }}",
-    "image": "{{ $umkm->foto ? asset('storage/' . $umkm->foto) : asset('fe/assets/img/og-default.png') }}",
+    "image": "{{ $umkm->foto ? asset('storage/' . $umkm->foto) : (\App\Models\ProfilDesa::first()?->logo ? asset('storage/' . \App\Models\ProfilDesa::first()->logo) : asset('fe/assets/img/logo-desa.png')) }}",
     "url": "{{ url()->current() }}",
     "telephone": "{{ $umkm->no_telepon ?? '' }}",
     "address": {
