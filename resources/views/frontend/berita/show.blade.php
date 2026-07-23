@@ -354,7 +354,7 @@
                     @foreach ($beritaTerkait as $item)
                         @php
                             $relatedImg = $item->gambar
-                                ? asset('storage/' . $item->gambar);
+                                ? asset('storage/' . $item->gambar) : '';
                         @endphp
                         <div class="col-md-4">
                             <a href="{{ route('berita.show', $item->slug) }}" class="related-card">
