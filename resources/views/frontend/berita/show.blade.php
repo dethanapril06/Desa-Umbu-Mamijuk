@@ -276,7 +276,7 @@
                                 @foreach ($beritaTerbaru as $item)
                                     @php
                                         $thumbUrl = $item->gambar
-                                            ? asset('storage/' . $item->gambar : '');
+                                            ? asset('storage/' . $item->gambar) : '';
                                     @endphp
                                     <a href="{{ route('berita.show', $item->slug) }}" class="sidebar-news-item">
                                         <img src="{{ $thumbUrl }}" class="sidebar-news-thumb" alt="{{ $item->judul }}" />
