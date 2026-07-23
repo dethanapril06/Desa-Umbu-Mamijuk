@@ -296,7 +296,7 @@
                     @if ($wisataUnggulan)
                         @php
                             $wisataImg = $wisataUnggulan->gambar_utama
-                                ? asset('storage/' . $wisataUnggulan->gambar_utama : '');
+                                ? asset('storage/' . $wisataUnggulan->gambar_utama) : '';
                         @endphp
                         <div class="sidebar-card">
                             <div class="sidebar-header">Destinasi Wisata Unggulan</div>
