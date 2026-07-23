@@ -29,7 +29,7 @@
     <link
         rel="icon"
         type="image/x-icon"
-        href="{{ asset('template/assets/img/favicon/favicon.ico') }}"
+        href="{{ asset('fe/assets/img/logo-desa.png') }}"
     />
 
     {{-- Fonts --}}
