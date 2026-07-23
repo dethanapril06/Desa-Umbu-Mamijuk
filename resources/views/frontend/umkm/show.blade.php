@@ -163,7 +163,7 @@
                             </div>
                         @endif
 
-                        @if ($umkm->website_url)
+                        @if (!empty($umkm->website_url) && !in_array(trim($umkm->website_url), ['-', '#', '']))
                             <div class="mt-2">
                                 <a href="{{ $umkm->website_url }}" target="_blank" class="btn btn-outline-success w-100 py-2 d-flex align-items-center justify-content-center gap-2" style="border-radius: 50px; font-weight: 600; font-size: 0.95rem;">
                                     <i class="fas fa-external-link-alt"></i> Kunjungi Marketplace / Medsos
