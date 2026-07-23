@@ -57,7 +57,7 @@
                         <!-- Gambar Cover Berita -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="gambar">Gambar Cover / Banner</label>
+                                <label class="form-label" for="gambar">Gambar Cover / Banner <span class="text-danger">*</span></label>
                                 <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" />
                                 <div class="form-text">Biarkan kosong jika tidak ingin mengubah cover. <strong>Wajib orientasi mendatar (Landscape, rasio 16:9).</strong> Rekomendasi: 1200x675 px. Minimal: 400x250 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
 
