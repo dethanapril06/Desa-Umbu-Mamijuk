@@ -56,7 +56,7 @@ class BeritaController extends Controller
             'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption_gambar' => 'required|string|max:255',
             'is_published' => 'nullable|boolean',
-            'tags' => 'required|array|min:1',
+            'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
         ], [
             'judul.required' => 'Judul berita wajib diisi.',
@@ -69,8 +69,6 @@ class BeritaController extends Controller
             'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
-            'tags.required' => 'Tag berita wajib dipilih minimal satu.',
-            'tags.min' => 'Tag berita wajib dipilih minimal satu.',
         ]);
 
         $data = $request->except(['gambar', 'tags']);
@@ -115,7 +113,7 @@ class BeritaController extends Controller
             'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
             'caption_gambar' => 'required|string|max:255',
             'is_published' => 'nullable|boolean',
-            'tags' => 'required|array|min:1',
+            'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
         ], [
             'judul.required' => 'Judul berita wajib diisi.',
@@ -127,8 +125,6 @@ class BeritaController extends Controller
             'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
             'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
-            'tags.required' => 'Tag berita wajib dipilih minimal satu.',
-            'tags.min' => 'Tag berita wajib dipilih minimal satu.',
         ]);
 
         $data = $request->except(['gambar', 'tags']);

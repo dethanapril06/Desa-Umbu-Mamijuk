@@ -91,7 +91,7 @@
                         <!-- Tag Berita -->
                         <div class="col-12">
                             <div class="mb-4">
-                                <label class="form-label d-block">Tag Berita <span class="text-danger">*</span></label>
+                                <label class="form-label d-block">Tag Berita</label>
                                 <div class="row pt-1">
                                     @forelse($tags as $tag)
                                         <div class="col-md-3 col-6 mb-2">
