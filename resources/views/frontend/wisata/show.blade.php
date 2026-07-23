@@ -142,10 +142,11 @@
                 </section>
 
                 {{-- GALERI --}}
-                @if ($wisata->galeriWisata->count() > 0)
-                    <section class="mb-5 reveal" id="galeri">
-                        <div class="section-label">Galeri Foto</div>
-                        <h2 class="section-title mb-4">Pesona <em>Visual</em></h2>
+                <section class="mb-5 reveal" id="galeri">
+                    <div class="section-label">Galeri Foto</div>
+                    <h2 class="section-title mb-4">Pesona <em>Visual</em></h2>
+                    
+                    @if ($wisata->galeriWisata->count() > 0)
                         <div class="gallery-grid">
                             @foreach ($wisata->galeriWisata->take(5) as $index => $foto)
                                 @php
@@ -174,8 +175,13 @@
                                 @endif
                             @endforeach
                         </div>
-                    </section>
-                @endif
+                    @else
+                        <div class="alert alert-light border-0 shadow-sm rounded-4 p-4 text-center text-muted">
+                            <i class="bx bx-images fs-1 mb-2"></i><br>
+                            Belum ada foto galeri yang tersedia untuk destinasi wisata ini.
+                        </div>
+                    @endif
+                </section>
 
                 {{-- FASILITAS --}}
                 @if ($wisata->fasilitasWisata->count() > 0)
