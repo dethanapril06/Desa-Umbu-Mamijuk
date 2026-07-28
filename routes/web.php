@@ -169,6 +169,7 @@ Route::get('/kependudukan', [App\Http\Controllers\Frontend\KependudukanControlle
 Route::get('/galeri', [App\Http\Controllers\Frontend\GaleriController::class, 'index'])->name('galeri.index');
 Route::get('/berita', [App\Http\Controllers\Frontend\BeritaController::class, 'index'])->name('berita.index');
 Route::post('/berita/{slug}/komentar', [App\Http\Controllers\Frontend\BeritaController::class, 'storeKomentar'])->name('berita.komentar.store');
+Route::post('/komentar-berita/{id}/like', [App\Http\Controllers\Frontend\BeritaController::class, 'likeKomentar'])->name('berita.komentar.like');
 Route::get('/berita/{slug}', [App\Http\Controllers\Frontend\BeritaController::class, 'show'])->name('berita.show');
 Route::get('/wisata', [App\Http\Controllers\Frontend\WisataController::class, 'index'])->name('wisata.index');
 Route::post('/wisata/{slug}/ulasan', [App\Http\Controllers\Frontend\WisataController::class, 'storeUlasan'])->name('wisata.ulasan.store');

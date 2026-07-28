@@ -251,9 +251,15 @@
                                             </div>
                                         </div>
                                         <p class="review-text" style="margin:0;">{{ $komentar->komentar }}</p>
-                                        <div style="color: var(--green-mid); font-size: 0.78rem; font-weight: 600; padding-top: 6px;">
-                                            <i class="far fa-thumbs-up me-1"></i>{{ number_format($komentar->likes) }} Suka
-                                        </div>
+                                        <button type="button" 
+                                            class="btn-like-komentar border-0 bg-transparent p-0 d-inline-flex align-items-center gap-1 mt-2" 
+                                            data-id="{{ $komentar->id }}"
+                                            data-url="{{ route('berita.komentar.like', $komentar->id) }}"
+                                            style="color: var(--green-mid); font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
+                                            <i class="far fa-thumbs-up icon-like"></i>
+                                            <span class="likes-count">{{ number_format($komentar->likes) }}</span>
+                                            <span>Suka</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -377,3 +383,66 @@
         </section>
     @endif
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    const likedComments = JSON.parse(localStorage.getItem('liked_comments_berita') || '[]');
+
+    document.querySelectorAll('.btn-like-komentar').forEach(button => {
+        const commentId = button.getAttribute('data-id');
+        const icon = button.querySelector('.icon-like');
+
+        if (likedComments.includes(commentId)) {
+            button.classList.add('liked');
+            button.style.color = 'var(--green-dark)';
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+        }
+
+        button.addEventListener('click', async function () {
+            if (likedComments.includes(commentId)) {
+                return;
+            }
+
+            const url = button.getAttribute('data-url');
+            button.style.pointerEvents = 'none';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    const countSpan = button.querySelector('.likes-count');
+                    if (countSpan) {
+                        countSpan.textContent = new Intl.NumberFormat('id-ID').format(data.likes);
+                    }
+                    likedComments.push(commentId);
+                    localStorage.setItem('liked_comments_berita', JSON.stringify(likedComments));
+
+                    button.classList.add('liked');
+                    button.style.color = 'var(--green-dark)';
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    icon.style.transform = 'scale(1.2)';
+                    setTimeout(() => icon.style.transform = 'scale(1)', 200);
+                } else {
+                    button.style.pointerEvents = 'auto';
+                }
+            } catch (err) {
+                console.error('Error liking comment:', err);
+                button.style.pointerEvents = 'auto';
+            }
+        });
+    });
+});
+</script>
+@endpush

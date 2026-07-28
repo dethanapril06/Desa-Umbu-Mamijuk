@@ -10,6 +10,7 @@ use App\Models\ProfilDesa;
 use App\Models\Wisata;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
 class BeritaController extends Controller
@@ -175,5 +176,20 @@ class BeritaController extends Controller
         return back()
             ->with('komentar_success', 'Terima kasih! Komentar Anda berhasil dikirim dan akan tampil setelah disetujui admin.')
             ->withFragment('komentar');
+    }
+
+    /**
+     * Menambah (increment) jumlah likes pada komentar berita.
+     */
+    public function likeKomentar(int $id): JsonResponse
+    {
+        $komentar = KomentarBerita::where('is_approved', true)->findOrFail($id);
+        $komentar->increment('likes');
+
+        return response()->json([
+            'success' => true,
+            'likes' => $komentar->likes,
+            'message' => 'Terima kasih atas tanggapan Anda!',
+        ]);
     }
 }
