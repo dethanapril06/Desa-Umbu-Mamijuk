@@ -43,10 +43,12 @@ Route::prefix('admin')
         Route::put('/profil-desa', [\App\Http\Controllers\Admin\ProfilDesaController::class, 'update'])->name('profil-desa.update');
 
         // Kepala Desa
+        Route::delete('/kepala-desa/{kepala_desa}/foto', [\App\Http\Controllers\Admin\KepalaDesaController::class, 'deleteFoto'])->name('kepala-desa.delete-foto');
         Route::patch('/kepala-desa/{kepala_desa}/toggle-status', [\App\Http\Controllers\Admin\KepalaDesaController::class, 'toggleStatus'])->name('kepala-desa.toggle-status');
         Route::resource('/kepala-desa', \App\Http\Controllers\Admin\KepalaDesaController::class);
 
         // Perangkat Desa
+        Route::delete('/perangkat-desa/{perangkat_desa}/foto', [\App\Http\Controllers\Admin\PerangkatDesaController::class, 'deleteFoto'])->name('perangkat-desa.delete-foto');
         Route::resource('/perangkat-desa', \App\Http\Controllers\Admin\PerangkatDesaController::class);
 
         // Slider
@@ -65,6 +67,7 @@ Route::prefix('admin')
 
         // Keluarga
         Route::get('/keluarga/report', [\App\Http\Controllers\Admin\KeluargaController::class, 'report'])->name('keluarga.report');
+        Route::get('/keluarga/{keluarga}/pdf', [\App\Http\Controllers\Admin\KeluargaController::class, 'exportPdf'])->name('keluarga.pdf');
         Route::resource('/keluarga', \App\Http\Controllers\Admin\KeluargaController::class);
 
         // Penduduk
@@ -111,6 +114,7 @@ Route::prefix('admin')
         ]);
 
         // UMKM
+        Route::delete('/umkm/{umkm}/foto', [\App\Http\Controllers\Admin\UmkmController::class, 'deleteFoto'])->name('umkm.delete-foto');
         Route::resource('/umkm', \App\Http\Controllers\Admin\UmkmController::class);
 
         // Penginapan / Homestay
@@ -177,6 +181,10 @@ Route::get('/wisata/{slug}', [App\Http\Controllers\Frontend\WisataController::cl
 
 Route::get('/umkm', [App\Http\Controllers\Frontend\UmkmController::class, 'index'])->name('umkm.index');
 Route::get('/umkm/{slug}', [App\Http\Controllers\Frontend\UmkmController::class, 'show'])->name('umkm.show');
+
+Route::get('/penginapan', [App\Http\Controllers\Frontend\PenginapanController::class, 'index'])->name('penginapan.index');
+Route::get('/penginapan/{id}', [App\Http\Controllers\Frontend\PenginapanController::class, 'show'])->name('penginapan.show');
+
 Route::post('/pengaduan', [App\Http\Controllers\Frontend\PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/pengaduan/lacak/{no_tiket}', [App\Http\Controllers\Frontend\PengaduanController::class, 'track'])->name('pengaduan.track');
 

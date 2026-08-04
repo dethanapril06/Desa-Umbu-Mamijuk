@@ -98,9 +98,21 @@ class DusunController extends Controller
         foreach ($fields as $field) {
             if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
                 $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
-                $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $cleaned = $this->toCapitalEachWord($cleaned);
                 $request->merge([$field => $cleaned]);
             }
         }
+    }
+
+    private function toCapitalEachWord(string $str): string
+    {
+        $romanPattern = '/^(?:M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3}))$/i';
+        return preg_replace_callback('/\b[a-zA-Z]+\b/', function ($matches) use ($romanPattern) {
+            $word = $matches[0];
+            if (preg_match($romanPattern, $word)) {
+                return strtoupper($word);
+            }
+            return mb_convert_case(mb_strtolower($word, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+        }, $str);
     }
 }

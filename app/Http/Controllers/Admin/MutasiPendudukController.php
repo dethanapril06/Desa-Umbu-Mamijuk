@@ -107,7 +107,7 @@ class MutasiPendudukController extends Controller
             $rules['masuk_no_kitas_kitap'] = 'nullable|string|max:50';
             $rules['masuk_nama_ayah'] = 'required|string|max:255';
             $rules['masuk_nama_ibu'] = 'required|string|max:255';
-            $rules['masuk_no_telepon'] = 'required|string|max:20';
+            $rules['masuk_no_telepon'] = 'nullable|string|max:20';
             $rules['masuk_is_asuransi_kesehatan'] = 'nullable|boolean';
             $rules['masuk_is_disabilitas'] = 'nullable|boolean';
             $rules['masuk_jenis_disabilitas'] = 'required_if:masuk_is_disabilitas,1|nullable|string|max:255';
@@ -274,7 +274,7 @@ class MutasiPendudukController extends Controller
             $rules['masuk_no_kitas_kitap'] = 'nullable|string|max:50';
             $rules['masuk_nama_ayah'] = 'required|string|max:255';
             $rules['masuk_nama_ibu'] = 'required|string|max:255';
-            $rules['masuk_no_telepon'] = 'required|string|max:20';
+            $rules['masuk_no_telepon'] = 'nullable|string|max:20';
             $rules['masuk_is_asuransi_kesehatan'] = 'nullable|boolean';
             $rules['masuk_is_disabilitas'] = 'nullable|boolean';
             $rules['masuk_jenis_disabilitas'] = 'required_if:masuk_is_disabilitas,1|nullable|string|max:255';
@@ -438,6 +438,8 @@ class MutasiPendudukController extends Controller
         $list = [
             'Belum / Tidak Bekerja',
             'Pelajar / Mahasiswa',
+            'Kepala Desa',
+            'Perangkat Desa',
             'PNS / ASN',
             'PPPK',
             'TNI / POLRI',
@@ -447,7 +449,8 @@ class MutasiPendudukController extends Controller
             'Wiraswasta / Pedagang',
             'Buruh Harian Lepas',
             'Sopir / Pengemudi',
-            'Pensiunan'
+            'Pensiunan',
+            'Lainnya'
         ];
         sort($list);
         return $list;

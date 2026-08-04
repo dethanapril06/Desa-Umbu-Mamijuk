@@ -137,6 +137,12 @@
                 >
                     UMKM
                 </a>
+                <a
+                    href="{{ url('/penginapan') }}"
+                    class="footer-link"
+                >
+                    Penginapan
+                </a>
             </div>
 
             <div class="col-lg-4">

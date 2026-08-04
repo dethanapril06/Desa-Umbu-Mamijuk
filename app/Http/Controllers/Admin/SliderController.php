@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Rules\LandscapeImage;
 
 class SliderController extends Controller
 {
@@ -31,11 +31,10 @@ class SliderController extends Controller
             'judul' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
             'link' => 'nullable|url|max:255',
-            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=800,min_height=350', new LandscapeImage],
+            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'is_active' => 'nullable|boolean',
         ], [
-            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 800px dan tinggi 350px agar tampilan banner tidak pecah.',
-            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -43,7 +42,7 @@ class SliderController extends Controller
         $data['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('images/slider', 'public');
+            $path = ImageService::processAndStore($request->file('gambar'), 'images/slider');
             $data['gambar'] = $path;
         }
 
@@ -65,11 +64,10 @@ class SliderController extends Controller
             'judul' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
             'link' => 'nullable|url|max:255',
-            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=800,min_height=350', new LandscapeImage],
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'is_active' => 'nullable|boolean',
         ], [
-            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 800px dan tinggi 350px agar tampilan banner tidak pecah.',
-            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -80,7 +78,7 @@ class SliderController extends Controller
             if ($slider->gambar && Storage::disk('public')->exists($slider->gambar)) {
                 Storage::disk('public')->delete($slider->gambar);
             }
-            $path = $request->file('gambar')->store('images/slider', 'public');
+            $path = ImageService::processAndStore($request->file('gambar'), 'images/slider');
             $data['gambar'] = $path;
         }
 

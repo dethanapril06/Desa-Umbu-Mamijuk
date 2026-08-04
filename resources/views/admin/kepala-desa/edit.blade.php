@@ -55,14 +55,20 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="foto">Foto Kepala Desa @if(!$kepalaDesa->foto)<span class="text-danger">*</span>@endif</label>
+                        <label class="form-label" for="foto">Foto Kepala Desa</label>
                         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" />
-                        <div class="form-text">Biarkan kosong jika tidak ingin mengubah foto. Rekomendasi resolusi: 600x800 px (rasio 3:4 potret). Minimal: 250x300 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
+                        <div class="form-text">Biarkan kosong jika tidak ingin mengubah foto. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
 
                         @if ($kepalaDesa->foto)
                             <div class="mt-3">
                                 <label class="d-block form-label">Foto Saat Ini:</label>
-                                <img src="{{ asset('storage/' . $kepalaDesa->foto) }}" alt="Foto Kepala Desa" class="img-thumbnail" style="max-height: 150px; object-fit: cover;" />
+                                <div class="position-relative d-inline-block rounded border p-1 bg-light">
+                                    <img src="{{ asset('storage/' . $kepalaDesa->foto) }}" alt="Foto Kepala Desa" class="img-thumbnail border-0" style="max-height: 160px; object-fit: cover;" />
+                                    
+                                    <button type="button" class="btn btn-icon position-absolute top-0 end-0 m-1 bg-white border text-danger rounded-circle shadow-sm" title="Hapus Foto" onclick="confirmDeleteFoto()" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; z-index: 10;">
+                                        <i class="bx bx-trash fs-5"></i>
+                                    </button>
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -82,6 +88,13 @@
                         <i class="bx bx-save me-1"></i> Simpan Perubahan
                     </button>
                 </form>
+
+                @if ($kepalaDesa->foto)
+                    <form id="deleteFotoForm" action="{{ route('admin.kepala-desa.delete-foto', $kepalaDesa->id) }}" method="POST" style="display: none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                @endif
             </div>
         </div>
     </div>
@@ -182,5 +195,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+function confirmDeleteFoto() {
+    Swal.fire({
+        title: 'Hapus Foto Kepala Desa?',
+        text: 'Foto yang dihapus tidak dapat dikembalikan!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Hapus Foto!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('deleteFotoForm').submit();
+        }
+    });
+}
 </script>
 @endpush

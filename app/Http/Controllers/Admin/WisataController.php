@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Rules\LandscapeImage;
+use App\Services\ImageService;
 
 class WisataController extends Controller
 {
@@ -52,7 +52,7 @@ class WisataController extends Controller
             'deskripsi_singkat' => 'required|string|max:1000',
             'deskripsi' => 'required|string',
             'highlight_quote' => 'required|string|max:500',
-            'gambar_utama' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'gambar_utama' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'harga_tiket' => 'required|numeric|min:0',
             'harga_parkir_motor' => 'required|string|max:50',
             'harga_parkir_mobil' => 'required|string|max:50',
@@ -73,8 +73,7 @@ class WisataController extends Controller
             'deskripsi.required' => 'Deskripsi wajib diisi.',
             'highlight_quote.required' => 'Highlight quote wajib diisi.',
             'gambar_utama.required' => 'Gambar utama wajib diunggah.',
-            'gambar_utama.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'gambar_utama.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar_utama.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar_utama.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
             'harga_tiket.required' => 'Harga tiket masuk wajib diisi.',
             'harga_tiket.numeric' => 'Harga tiket harus berupa angka.',
@@ -96,7 +95,7 @@ class WisataController extends Controller
         $data['is_published'] = $request->has('is_published') ? (bool) $request->is_published : false;
 
         if ($request->hasFile('gambar_utama')) {
-            $path = $request->file('gambar_utama')->store('images/wisata', 'public');
+            $path = ImageService::processAndStore($request->file('gambar_utama'), 'images/wisata');
             $data['gambar_utama'] = $path;
         }
 
@@ -124,7 +123,7 @@ class WisataController extends Controller
             'deskripsi_singkat' => 'required|string|max:1000',
             'deskripsi' => 'required|string',
             'highlight_quote' => 'required|string|max:500',
-            'gambar_utama' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'gambar_utama' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'harga_tiket' => 'required|numeric|min:0',
             'harga_parkir_motor' => 'required|string|max:50',
             'harga_parkir_mobil' => 'required|string|max:50',
@@ -144,8 +143,7 @@ class WisataController extends Controller
             'deskripsi_singkat.required' => 'Deskripsi singkat wajib diisi.',
             'deskripsi.required' => 'Deskripsi wajib diisi.',
             'highlight_quote.required' => 'Highlight quote wajib diisi.',
-            'gambar_utama.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'gambar_utama.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar_utama.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar_utama.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
             'harga_tiket.required' => 'Harga tiket masuk wajib diisi.',
             'harga_tiket.numeric' => 'Harga tiket harus berupa angka.',
@@ -172,7 +170,7 @@ class WisataController extends Controller
             if ($wisata->gambar_utama && Storage::disk('public')->exists($wisata->gambar_utama)) {
                 Storage::disk('public')->delete($wisata->gambar_utama);
             }
-            $path = $request->file('gambar_utama')->store('images/wisata', 'public');
+            $path = ImageService::processAndStore($request->file('gambar_utama'), 'images/wisata');
             $data['gambar_utama'] = $path;
         }
 

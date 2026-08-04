@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Rules\LandscapeImage;
+use App\Services\ImageService;
 
 class BeritaController extends Controller
 {
@@ -53,7 +53,7 @@ class BeritaController extends Controller
             'kategori_berita_id' => 'required|exists:kategori_berita,id',
             'konten' => 'required|string',
             'excerpt' => 'required|string|max:500',
-            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'caption_gambar' => 'required|string|max:255',
             'is_published' => 'nullable|boolean',
             'tags' => 'nullable|array',
@@ -66,8 +66,7 @@ class BeritaController extends Controller
             'excerpt.required' => 'Ringkasan singkat wajib diisi.',
             'gambar.required' => 'Gambar cover wajib diunggah.',
             'caption_gambar.required' => 'Caption gambar wajib diisi.',
-            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -79,7 +78,7 @@ class BeritaController extends Controller
         $data['published_at'] = $data['is_published'] ? now() : null;
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('images/berita', 'public');
+            $path = ImageService::processAndStore($request->file('gambar'), 'images/berita');
             $data['gambar'] = $path;
         }
 
@@ -110,7 +109,7 @@ class BeritaController extends Controller
             'kategori_berita_id' => 'required|exists:kategori_berita,id',
             'konten' => 'required|string',
             'excerpt' => 'required|string|max:500',
-            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'caption_gambar' => 'required|string|max:255',
             'is_published' => 'nullable|boolean',
             'tags' => 'nullable|array',
@@ -122,8 +121,7 @@ class BeritaController extends Controller
             'konten.required' => 'Konten berita wajib diisi.',
             'excerpt.required' => 'Ringkasan singkat wajib diisi.',
             'caption_gambar.required' => 'Caption gambar wajib diisi.',
-            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -131,12 +129,8 @@ class BeritaController extends Controller
         $data['is_published'] = $request->has('is_published') ? (bool) $request->is_published : false;
 
         // Manage published_at
-        if ($data['is_published']) {
-            if (!$berita->is_published) {
-                $data['published_at'] = now();
-            }
-        } else {
-            $data['published_at'] = null;
+        if ($data['is_published'] && !$berita->published_at) {
+            $data['published_at'] = now();
         }
 
         // Regenerate slug if title changes
@@ -148,7 +142,7 @@ class BeritaController extends Controller
             if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
                 Storage::disk('public')->delete($berita->gambar);
             }
-            $path = $request->file('gambar')->store('images/berita', 'public');
+            $path = ImageService::processAndStore($request->file('gambar'), 'images/berita');
             $data['gambar'] = $path;
         }
 

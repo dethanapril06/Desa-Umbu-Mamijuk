@@ -108,7 +108,7 @@ class PendudukController extends Controller
             'no_kitas_kitap' => 'nullable|string|max:50',
             'nama_ayah' => 'required|string|max:255',
             'nama_ibu' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:20',
+            'no_telepon' => 'nullable|string|max:20',
             'is_asuransi_kesehatan' => 'nullable|boolean',
             'is_disabilitas' => 'nullable|boolean',
             'jenis_disabilitas' => 'required_if:is_disabilitas,1|nullable|string|max:255',
@@ -138,7 +138,6 @@ class PendudukController extends Controller
             'nama_ibu.required' => 'Nama lengkap ibu wajib diisi.',
             'status_hubungan_keluarga.required' => 'Hubungan keluarga wajib dipilih.',
             'golongan_darah.required' => 'Golongan darah wajib dipilih.',
-            'no_telepon.required' => 'No. Telepon / HP wajib diisi.',
             'jenis_disabilitas.required_if' => 'Jenis disabilitas wajib diisi jika penyandang disabilitas.',
             'status.required' => 'Status penduduk wajib dipilih.',
         ];
@@ -202,7 +201,7 @@ class PendudukController extends Controller
             'no_kitas_kitap' => 'nullable|string|max:50',
             'nama_ayah' => 'required|string|max:255',
             'nama_ibu' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:20',
+            'no_telepon' => 'nullable|string|max:20',
             'is_asuransi_kesehatan' => 'nullable|boolean',
             'is_disabilitas' => 'nullable|boolean',
             'jenis_disabilitas' => 'required_if:is_disabilitas,1|nullable|string|max:255',
@@ -232,7 +231,6 @@ class PendudukController extends Controller
             'nama_ibu.required' => 'Nama lengkap ibu wajib diisi.',
             'status_hubungan_keluarga.required' => 'Hubungan keluarga wajib dipilih.',
             'golongan_darah.required' => 'Golongan darah wajib dipilih.',
-            'no_telepon.required' => 'No. Telepon / HP wajib diisi.',
             'jenis_disabilitas.required_if' => 'Jenis disabilitas wajib diisi jika penyandang disabilitas.',
             'status.required' => 'Status penduduk wajib dipilih.',
         ];
@@ -269,6 +267,8 @@ class PendudukController extends Controller
         $list = [
             'Belum / Tidak Bekerja',
             'Pelajar / Mahasiswa',
+            'Kepala Desa',
+            'Perangkat Desa',
             'PNS / ASN',
             'PPPK',
             'TNI / POLRI',
@@ -278,7 +278,8 @@ class PendudukController extends Controller
             'Wiraswasta / Pedagang',
             'Buruh Harian Lepas',
             'Sopir / Pengemudi',
-            'Pensiunan'
+            'Pensiunan',
+            'Lainnya'
         ];
         sort($list);
         return $list;

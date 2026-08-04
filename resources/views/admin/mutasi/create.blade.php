@@ -92,7 +92,7 @@
                                 <input type="text" class="form-control" id="masuk_nama_lengkap" name="masuk_nama_lengkap" value="{{ old('masuk_nama_lengkap') }}" placeholder="Nama Lengkap Penduduk" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label" for="masuk_no_telepon">No. Telepon / HP <span class="text-danger">*</span></label>
+                                <label class="form-label" for="masuk_no_telepon">No. Telepon / HP</label>
                                 <input type="text" class="form-control" id="masuk_no_telepon" name="masuk_no_telepon" value="{{ old('masuk_no_telepon') }}" placeholder="Contoh: 08xxxxxxx" inputmode="numeric" autocomplete="off" />
                             </div>
                         </div>

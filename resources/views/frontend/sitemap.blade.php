@@ -32,6 +32,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>{{ url('/penginapan') }}</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>{{ url('/galeri') }}</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
@@ -64,6 +69,16 @@
         <lastmod>{{ $umkm->updated_at?->toIso8601String() }}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
+    </url>
+    @endforeach
+
+    {{-- Halaman Detail Penginapan --}}
+    @foreach($penginapanList as $p)
+    <url>
+        <loc>{{ url('/penginapan/' . $p->id) }}</loc>
+        <lastmod>{{ $p->updated_at?->toIso8601String() }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
     @endforeach
 </urlset>

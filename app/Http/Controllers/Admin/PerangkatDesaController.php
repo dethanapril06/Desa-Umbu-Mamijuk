@@ -30,13 +30,12 @@ class PerangkatDesaController extends Controller
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
             'nip' => 'nullable|string|max:50',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'is_active' => 'nullable|boolean',
         ], [
             'nama.required' => 'Nama perangkat desa wajib diisi.',
             'jabatan.required' => 'Jabatan perangkat desa wajib diisi.',
-            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -66,20 +65,24 @@ class PerangkatDesaController extends Controller
             'nama' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
             'nip' => 'nullable|string|max:50',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'is_active' => 'nullable|boolean',
         ], [
             'nama.required' => 'Nama perangkat desa wajib diisi.',
             'jabatan.required' => 'Jabatan perangkat desa wajib diisi.',
-            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
-        $data = $request->except(['foto']);
+        $data = $request->except(['foto', 'delete_foto']);
         $data['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
 
-        if ($request->hasFile('foto')) {
+        if ($request->has('delete_foto') && $request->delete_foto == '1') {
+            if ($perangkatDesa->foto && Storage::disk('public')->exists($perangkatDesa->foto)) {
+                Storage::disk('public')->delete($perangkatDesa->foto);
+            }
+            $data['foto'] = null;
+        } elseif ($request->hasFile('foto')) {
             if ($perangkatDesa->foto && Storage::disk('public')->exists($perangkatDesa->foto)) {
                 Storage::disk('public')->delete($perangkatDesa->foto);
             }
@@ -90,6 +93,16 @@ class PerangkatDesaController extends Controller
         $perangkatDesa->update($data);
 
         return redirect()->route('admin.perangkat-desa.index')->with('success', 'Perangkat desa berhasil diperbarui!');
+    }
+
+    public function deleteFoto(PerangkatDesa $perangkatDesa): RedirectResponse
+    {
+        if ($perangkatDesa->foto && Storage::disk('public')->exists($perangkatDesa->foto)) {
+            Storage::disk('public')->delete($perangkatDesa->foto);
+        }
+        $perangkatDesa->update(['foto' => null]);
+
+        return redirect()->back()->with('success', 'Foto perangkat desa berhasil dihapus!');
     }
 
     public function destroy(PerangkatDesa $perangkatDesa): RedirectResponse

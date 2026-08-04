@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Berita;
 use App\Models\Wisata;
 use App\Models\Umkm;
+use App\Models\Penginapan;
 use Illuminate\Http\Response;
 
 class SitemapController extends Controller
@@ -27,7 +28,12 @@ class SitemapController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $content = view('frontend.sitemap', compact('beritaList', 'wisataList', 'umkmList'));
+        $penginapanList = Penginapan::where('is_published', true)
+            ->select('id', 'updated_at')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $content = view('frontend.sitemap', compact('beritaList', 'wisataList', 'umkmList', 'penginapanList'));
 
         return response($content, 200)
             ->header('Content-Type', 'application/xml');

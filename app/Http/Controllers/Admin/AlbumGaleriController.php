@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AlbumGaleri;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Rules\LandscapeImage;
 
 class AlbumGaleriController extends Controller
 {
@@ -31,7 +31,7 @@ class AlbumGaleriController extends Controller
         $rules = [
             'nama' => 'required|string|max:255|unique:album_galeri,nama',
             'deskripsi' => 'required|string',
-            'cover' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'cover' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
         ];
 
         $messages = [
@@ -40,8 +40,7 @@ class AlbumGaleriController extends Controller
             'nama.max' => 'Nama album maksimal 255 karakter.',
             'deskripsi.required' => 'Deskripsi album wajib diisi.',
             'cover.required' => 'Cover album wajib diunggah.',
-            'cover.dimensions' => 'Resolusi cover terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'cover.max' => 'Ukuran file cover maksimal 2 MB.',
+            'cover.max' => 'Ukuran file cover maksimal 10 MB.',
             'cover.mimes' => 'Format cover harus berupa JPEG, PNG, JPG, atau WEBP.',
         ];
 
@@ -51,7 +50,7 @@ class AlbumGaleriController extends Controller
         $data['slug'] = Str::slug($request->nama);
 
         if ($request->hasFile('cover')) {
-            $path = $request->file('cover')->store('images/album', 'public');
+            $path = ImageService::processAndStore($request->file('cover'), 'images/album');
             $data['cover'] = $path;
         }
 
@@ -72,7 +71,7 @@ class AlbumGaleriController extends Controller
         $rules = [
             'nama' => 'required|string|max:255|unique:album_galeri,nama,' . $albumGaleri->id,
             'deskripsi' => 'required|string',
-            'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
         ];
 
         $messages = [
@@ -80,8 +79,7 @@ class AlbumGaleriController extends Controller
             'nama.unique' => 'Nama album tersebut sudah terdaftar di sistem.',
             'nama.max' => 'Nama album maksimal 255 karakter.',
             'deskripsi.required' => 'Deskripsi album wajib diisi.',
-            'cover.dimensions' => 'Resolusi cover terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'cover.max' => 'Ukuran file cover maksimal 2 MB.',
+            'cover.max' => 'Ukuran file cover maksimal 10 MB.',
             'cover.mimes' => 'Format cover harus berupa JPEG, PNG, JPG, atau WEBP.',
         ];
 
@@ -94,7 +92,7 @@ class AlbumGaleriController extends Controller
             if ($albumGaleri->cover && Storage::disk('public')->exists($albumGaleri->cover)) {
                 Storage::disk('public')->delete($albumGaleri->cover);
             }
-            $path = $request->file('cover')->store('images/album', 'public');
+            $path = ImageService::processAndStore($request->file('cover'), 'images/album');
             $data['cover'] = $path;
         }
 

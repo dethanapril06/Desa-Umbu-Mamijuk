@@ -8,13 +8,35 @@ use App\Models\Keluarga;
 use App\Models\Penduduk;
 use App\Models\RtRw;
 use App\Models\Dusun;
+use App\Models\ProfilDesa;
+use App\Models\KepalaDesa;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KeluargaController extends Controller
 {
+    public function exportPdf(Request $request, Keluarga $keluarga)
+    {
+        $keluarga->load(['rtRw.dusun', 'penduduk' => function ($query) {
+            $query->where('status', 'aktif')
+                  ->orderByRaw("FIELD(status_hubungan_keluarga, 'kepala_keluarga', 'istri', 'anak', 'menantu', 'cucu', 'orang_tua', 'mertua', 'famili_lain', 'lainnya')");
+        }]);
+
+        $kepalaKeluarga = $keluarga->penduduk->where('status_hubungan_keluarga', 'kepala_keluarga')->first();
+        $profilDesa = ProfilDesa::first();
+        $kepalaDesa = KepalaDesa::where('is_active', true)->first();
+
+        $pdf = Pdf::loadView('admin.keluarga.pdf', compact('keluarga', 'kepalaKeluarga', 'profilDesa', 'kepalaDesa'))
+                  ->setPaper('a4', 'landscape')
+                  ->setOption(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'defaultFont' => 'sans-serif']);
+
+        $filename = 'Kartu-Keluarga-' . preg_replace('/[^0-9]/', '', $keluarga->no_kk) . '.pdf';
+
+        return $pdf->download($filename);
+    }
     public function index(Request $request): View
     {
         $search = $request->input('search');

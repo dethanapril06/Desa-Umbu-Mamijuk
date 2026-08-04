@@ -5,27 +5,27 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Galeri;
 use App\Models\AlbumGaleri;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Rules\LandscapeImage;
 
 class GaleriController extends Controller
 {
     public function index(Request $request): View
     {
-        $albumId = $request->input('album_galeri_id');
+        $selectedAlbumId = $request->input('album_galeri_id');
         $query = Galeri::with('albumGaleri');
 
-        if ($albumId) {
-            $query->where('album_galeri_id', $albumId);
+        if ($selectedAlbumId) {
+            $query->where('album_galeri_id', $selectedAlbumId);
         }
 
-        $photos = $query->orderBy('id', 'desc')->paginate(15);
-        $albums = AlbumGaleri::all();
+        $galeriList = $query->orderBy('id', 'desc')->paginate(12);
+        $albums = AlbumGaleri::withCount('galeri')->get();
 
-        return view('admin.galeri.index', compact('photos', 'albums', 'albumId'));
+        return view('admin.galeri.index', compact('galeriList', 'albums', 'selectedAlbumId'));
     }
 
     public function create(Request $request): View
@@ -40,19 +40,18 @@ class GaleriController extends Controller
     {
         $request->validate([
             'album_galeri_id' => 'required|exists:album_galeri,id',
-            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'caption' => 'required|string|max:255',
         ], [
             'caption.required' => 'Keterangan foto wajib diisi.',
-            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
         $data = $request->except(['gambar']);
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('images/galeri', 'public');
+            $path = ImageService::processAndStore($request->file('gambar'), 'images/galeri');
             $data['gambar'] = $path;
         }
 
@@ -71,12 +70,11 @@ class GaleriController extends Controller
     {
         $request->validate([
             'album_galeri_id' => 'required|exists:album_galeri,id',
-            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'caption' => 'required|string|max:255',
         ], [
             'caption.required' => 'Keterangan foto wajib diisi.',
-            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -86,7 +84,7 @@ class GaleriController extends Controller
             if ($galeri->gambar && Storage::disk('public')->exists($galeri->gambar)) {
                 Storage::disk('public')->delete($galeri->gambar);
             }
-            $path = $request->file('gambar')->store('images/galeri', 'public');
+            $path = ImageService::processAndStore($request->file('gambar'), 'images/galeri');
             $data['gambar'] = $path;
         }
 

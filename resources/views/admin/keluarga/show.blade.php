@@ -15,9 +15,14 @@
                 <div class="card mb-4 h-100">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <h5 class="mb-0 text-white"><i class="bx bx-card me-1"></i> Data KK</h5>
-                        <a href="{{ route('admin.keluarga.edit', $keluarga->id) }}" class="btn btn-sm btn-outline-light">
-                            <i class="bx bx-edit"></i> Edit
-                        </a>
+                        <div class="d-flex gap-1">
+                            <a href="{{ route('admin.keluarga.pdf', $keluarga->id) }}" class="btn btn-sm btn-danger" title="Download File PDF KK">
+                                <i class="bx bxs-file-pdf me-1"></i> Download PDF KK
+                            </a>
+                            <a href="{{ route('admin.keluarga.edit', $keluarga->id) }}" class="btn btn-sm btn-outline-light">
+                                <i class="bx bx-edit"></i> Edit
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body pt-3">
                         <table class="table table-borderless">

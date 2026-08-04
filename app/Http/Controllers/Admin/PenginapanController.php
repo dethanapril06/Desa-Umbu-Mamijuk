@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Penginapan;
 use App\Models\Wisata;
-use App\Rules\LandscapeImage;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +38,7 @@ class PenginapanController extends Controller
             'jarak' => 'required|string|max:100',
             'no_telepon' => 'required|string|max:50',
             'fasilitas_singkat' => 'required|string|max:255',
-            'foto' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'foto' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'wisata_ids' => 'required|array',
             'wisata_ids.*' => 'exists:wisata,id',
         ], [
@@ -50,8 +50,7 @@ class PenginapanController extends Controller
             'fasilitas_singkat.required' => 'Fasilitas singkat wajib diisi.',
             'foto.required' => 'Foto penginapan wajib diunggah.',
             'wisata_ids.required' => 'Destinasi wisata terdekat wajib dipilih minimal satu.',
-            'foto.dimensions' => 'Resolusi foto penginapan terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -59,7 +58,7 @@ class PenginapanController extends Controller
         $data['is_published'] = $request->has('is_published') ? (bool) $request->is_published : true;
 
         if ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('images/penginapan', 'public');
+            $path = ImageService::processAndStore($request->file('foto'), 'images/penginapan');
             $data['foto'] = $path;
         }
 
@@ -88,7 +87,7 @@ class PenginapanController extends Controller
             'jarak' => 'required|string|max:100',
             'no_telepon' => 'required|string|max:50',
             'fasilitas_singkat' => 'required|string|max:255',
-            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'wisata_ids' => 'required|array',
             'wisata_ids.*' => 'exists:wisata,id',
         ], [
@@ -99,8 +98,7 @@ class PenginapanController extends Controller
             'no_telepon.required' => 'Nomor telepon wajib diisi.',
             'fasilitas_singkat.required' => 'Fasilitas singkat wajib diisi.',
             'wisata_ids.required' => 'Destinasi wisata terdekat wajib dipilih minimal satu.',
-            'foto.dimensions' => 'Resolusi foto penginapan terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -111,7 +109,7 @@ class PenginapanController extends Controller
             if ($penginapan->foto && Storage::disk('public')->exists($penginapan->foto)) {
                 Storage::disk('public')->delete($penginapan->foto);
             }
-            $path = $request->file('foto')->store('images/penginapan', 'public');
+            $path = ImageService::processAndStore($request->file('foto'), 'images/penginapan');
             $data['foto'] = $path;
         }
 

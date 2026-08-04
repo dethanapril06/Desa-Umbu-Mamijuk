@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="no_telepon">No. Telepon / HP <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="no_telepon">No. Telepon / HP</label>
                                     <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $penduduk->no_telepon) }}" inputmode="numeric" autocomplete="off" />
                                 </div>
                             </div>

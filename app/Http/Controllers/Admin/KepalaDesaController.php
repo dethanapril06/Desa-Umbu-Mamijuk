@@ -32,15 +32,13 @@ class KepalaDesaController extends Controller
             'periode_mulai' => 'required|string|max:50',
             'periode_selesai' => 'required|string|max:50',
             'sambutan' => 'nullable|string',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'is_active' => 'nullable|boolean',
         ], [
             'nama.required' => 'Nama Kepala Desa wajib diisi.',
             'periode_mulai.required' => 'Tahun periode mulai wajib diisi.',
             'periode_selesai.required' => 'Tahun periode selesai wajib diisi.',
-            'foto.required' => 'Foto Kepala Desa wajib diunggah.',
-            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
@@ -77,22 +75,25 @@ class KepalaDesaController extends Controller
             'periode_mulai' => 'required|string|max:50',
             'periode_selesai' => 'required|string|max:50',
             'sambutan' => 'nullable|string',
-            'foto' => $kepalaDesa->foto ? 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300' : 'required|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=250,min_height=300',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'is_active' => 'nullable|boolean',
         ], [
             'nama.required' => 'Nama Kepala Desa wajib diisi.',
             'periode_mulai.required' => 'Tahun periode mulai wajib diisi.',
             'periode_selesai.required' => 'Tahun periode selesai wajib diisi.',
-            'foto.required' => 'Foto Kepala Desa wajib diunggah.',
-            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 250px dan tinggi 300px.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
-        $data = $request->except(['foto']);
+        $data = $request->except(['foto', 'delete_foto']);
         $data['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
 
-        if ($request->hasFile('foto')) {
+        if ($request->has('delete_foto') && $request->delete_foto == '1') {
+            if ($kepalaDesa->foto && Storage::disk('public')->exists($kepalaDesa->foto)) {
+                Storage::disk('public')->delete($kepalaDesa->foto);
+            }
+            $data['foto'] = null;
+        } elseif ($request->hasFile('foto')) {
             if ($kepalaDesa->foto && Storage::disk('public')->exists($kepalaDesa->foto)) {
                 Storage::disk('public')->delete($kepalaDesa->foto);
             }
@@ -108,6 +109,16 @@ class KepalaDesaController extends Controller
         $kepalaDesa->update($data);
 
         return redirect()->route('admin.kepala-desa.index')->with('success', 'Data kepala desa berhasil diperbarui!');
+    }
+
+    public function deleteFoto(KepalaDesa $kepalaDesa): RedirectResponse
+    {
+        if ($kepalaDesa->foto && Storage::disk('public')->exists($kepalaDesa->foto)) {
+            Storage::disk('public')->delete($kepalaDesa->foto);
+        }
+        $kepalaDesa->update(['foto' => null]);
+
+        return redirect()->back()->with('success', 'Foto kepala desa berhasil dihapus!');
     }
 
     public function destroy(KepalaDesa $kepalaDesa): RedirectResponse

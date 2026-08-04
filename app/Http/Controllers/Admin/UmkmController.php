@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Umkm;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -45,12 +46,11 @@ class UmkmController extends Controller
             'no_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:100',
             'website_url' => 'nullable|url|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=300,min_height=300',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'jam_operasional' => 'required|string|max:150',
             'status' => 'required|in:aktif,tidak_aktif',
         ], [
-            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 300px dan tinggi 300px.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
             'no_telepon.required' => 'Nomor telepon wajib diisi.',
             'jam_operasional.required' => 'Jam operasional wajib diisi.',
@@ -68,7 +68,7 @@ class UmkmController extends Controller
         $data['slug'] = $slug;
 
         if ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('umkm', 'public');
+            $path = ImageService::processAndStore($request->file('foto'), 'umkm');
             $data['foto'] = $path;
         }
 
@@ -93,12 +93,11 @@ class UmkmController extends Controller
             'no_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:100',
             'website_url' => 'nullable|url|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048|dimensions:min_width=300,min_height=300',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'jam_operasional' => 'required|string|max:150',
             'status' => 'required|in:aktif,tidak_aktif',
         ], [
-            'foto.dimensions' => 'Resolusi foto terlalu kecil! Minimal lebar 300px dan tinggi 300px.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
             'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
             'no_telepon.required' => 'Nomor telepon wajib diisi.',
             'jam_operasional.required' => 'Jam operasional wajib diisi.',
@@ -119,13 +118,23 @@ class UmkmController extends Controller
             if ($umkm->foto && Storage::disk('public')->exists($umkm->foto)) {
                 Storage::disk('public')->delete($umkm->foto);
             }
-            $path = $request->file('foto')->store('umkm', 'public');
+            $path = ImageService::processAndStore($request->file('foto'), 'umkm');
             $data['foto'] = $path;
         }
 
         $umkm->update($data);
 
         return redirect()->route('admin.umkm.index')->with('success', 'Data UMKM berhasil diperbarui!');
+    }
+
+    public function deleteFoto(Umkm $umkm): RedirectResponse
+    {
+        if ($umkm->foto && Storage::disk('public')->exists($umkm->foto)) {
+            Storage::disk('public')->delete($umkm->foto);
+        }
+        $umkm->update(['foto' => null]);
+
+        return redirect()->back()->with('success', 'Foto UMKM berhasil dihapus!');
     }
 
     public function destroy(Umkm $umkm): RedirectResponse

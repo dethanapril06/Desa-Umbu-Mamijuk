@@ -101,12 +101,17 @@
                     <div class="mb-4">
                         <label class="form-label" for="foto">Foto Cover / Logo Usaha / Produk</label>
                         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" onchange="previewImage(this)" />
-                        <div class="form-text">Biarkan kosong jika tidak ingin merubah foto. Rekomendasi resolusi: 800x800 px. Minimal: 300x300 px. Format: jpeg, png, jpg, webp. Maksimal 2MB.</div>
+                        <div class="form-text">Biarkan kosong jika tidak ingin merubah foto. Format: jpeg, png, jpg, webp. Maksimal 10MB. Foto berukuran besar akan di-resize & dikompresi otomatis.</div>
                         <div class="mt-3">
                             @if($umkm->foto)
                                 <div class="mb-2">
                                     <small class="text-muted d-block mb-1">Foto Saat Ini:</small>
-                                    <img src="{{ asset('storage/' . $umkm->foto) }}" alt="Foto Usaha" class="img-fluid rounded mb-2" style="max-height: 150px;" />
+                                    <div class="position-relative d-inline-block rounded border p-1 bg-light">
+                                        <img src="{{ asset('storage/' . $umkm->foto) }}" alt="Foto Usaha" class="img-fluid rounded" style="max-height: 160px; object-fit: cover;" />
+                                        <button type="button" class="btn btn-icon position-absolute top-0 end-0 m-1 bg-white border text-danger rounded-circle shadow-sm" title="Hapus Foto" onclick="confirmDeleteFoto()" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; z-index: 10;">
+                                            <i class="bx bx-trash fs-5"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             @endif
                             <img id="image-preview" src="#" alt="Preview Foto" class="img-fluid rounded" style="max-height: 200px; display: none;" />
@@ -117,6 +122,13 @@
                         <i class="bx bx-save me-1"></i> Simpan Perubahan Data UMKM
                     </button>
                 </form>
+
+                @if ($umkm->foto)
+                    <form id="deleteFotoForm" action="{{ route('admin.umkm.delete-foto', $umkm->id) }}" method="POST" style="display: none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                @endif
             </div>
         </div>
     </div>
@@ -183,6 +195,23 @@ document.addEventListener('DOMContentLoaded', function() {
         telpField.addEventListener('blur',  function() { sanitizeDigits(this); });
     }
 });
+
+function confirmDeleteFoto() {
+    Swal.fire({
+        title: 'Hapus Foto UMKM?',
+        text: 'Foto yang dihapus tidak dapat dikembalikan!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Hapus Foto!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('deleteFotoForm').submit();
+        }
+    });
+}
 </script>
 @endpush
 @endsection

@@ -225,6 +225,7 @@ class KependudukanController extends Controller
         $text = str($label)->lower();
 
         return match (true) {
+            $text->contains(['kepala desa', 'perangkat desa', 'kades']) => 'fa-building-columns',
             $text->contains('tani') => 'fa-seedling',
             $text->contains(['dagang', 'usaha', 'wiraswasta']) => 'fa-store',
             $text->contains(['buruh', 'karyawan']) => 'fa-helmet-safety',

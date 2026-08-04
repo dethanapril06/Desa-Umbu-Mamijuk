@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\GaleriWisata;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\RedirectResponse;
-use App\Rules\LandscapeImage;
 
 class GaleriWisataController extends Controller
 {
@@ -17,12 +17,11 @@ class GaleriWisataController extends Controller
 
         $request->validate([
             'wisata_id' => 'required|exists:wisata,id',
-            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048', 'dimensions:min_width=400,min_height=250', new LandscapeImage],
+            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
             'caption' => 'nullable|string|max:255',
         ], [
             'gambar.required' => 'Foto galeri wajib diunggah.',
-            'gambar.dimensions' => 'Resolusi gambar terlalu kecil! Minimal lebar 400px dan tinggi 250px.',
-            'gambar.max' => 'Ukuran file gambar maksimal 2 MB.',
+            'gambar.max' => 'Ukuran file gambar maksimal 10 MB.',
             'gambar.mimes' => 'Format gambar harus berupa JPEG, PNG, JPG, atau WEBP.',
             'wisata_id.required' => 'Destinasi wisata wajib dipilih.',
             'wisata_id.exists' => 'Destinasi wisata tidak valid.',
@@ -31,7 +30,7 @@ class GaleriWisataController extends Controller
         $data = $request->except(['gambar']);
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('images/wisata/galeri', 'public');
+            $path = ImageService::processAndStore($request->file('gambar'), 'images/wisata/galeri');
             $data['gambar'] = $path;
         }
 

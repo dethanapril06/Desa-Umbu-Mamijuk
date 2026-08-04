@@ -56,7 +56,13 @@
                         @if ($perangkatDesa->foto)
                             <div class="mt-3">
                                 <label class="d-block form-label">Foto Saat Ini:</label>
-                                <img src="{{ asset('storage/' . $perangkatDesa->foto) }}" alt="Foto Perangkat" class="img-thumbnail" style="max-height: 150px; object-fit: cover;" />
+                                <div class="position-relative d-inline-block rounded border p-1 bg-light">
+                                    <img src="{{ asset('storage/' . $perangkatDesa->foto) }}" alt="Foto Perangkat" class="img-thumbnail border-0" style="max-height: 160px; object-fit: cover;" />
+                                    
+                                    <button type="button" class="btn btn-icon position-absolute top-0 end-0 m-1 bg-white border text-danger rounded-circle shadow-sm" title="Hapus Foto" onclick="confirmDeleteFoto()" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; z-index: 10;">
+                                        <i class="bx bx-trash fs-5"></i>
+                                    </button>
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -70,6 +76,13 @@
                         <i class="bx bx-save me-1"></i> Simpan Perubahan
                     </button>
                 </form>
+
+                @if ($perangkatDesa->foto)
+                    <form id="deleteFotoForm" action="{{ route('admin.perangkat-desa.delete-foto', $perangkatDesa->id) }}" method="POST" style="display: none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                @endif
             </div>
         </div>
     </div>
@@ -138,5 +151,22 @@ document.addEventListener('DOMContentLoaded', function() {
         nipField.addEventListener('blur',  function() { sanitizeNip(this); });
     }
 });
+
+function confirmDeleteFoto() {
+    Swal.fire({
+        title: 'Hapus Foto Perangkat Desa?',
+        text: 'Foto yang dihapus tidak dapat dikembalikan!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Hapus Foto!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('deleteFotoForm').submit();
+        }
+    });
+}
 </script>
 @endpush
