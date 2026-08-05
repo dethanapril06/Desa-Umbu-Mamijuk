@@ -7,6 +7,7 @@ use App\Models\Berita;
 use App\Models\Wisata;
 use App\Models\Umkm;
 use App\Models\Penginapan;
+use App\Models\LembagaDesa;
 use Illuminate\Http\Response;
 
 class SitemapController extends Controller
@@ -33,7 +34,12 @@ class SitemapController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $content = view('frontend.sitemap', compact('beritaList', 'wisataList', 'umkmList', 'penginapanList'));
+        $lembagaList = LembagaDesa::where('is_active', true)
+            ->select('slug', 'updated_at')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $content = view('frontend.sitemap', compact('beritaList', 'wisataList', 'umkmList', 'penginapanList', 'lembagaList'));
 
         return response($content, 200)
             ->header('Content-Type', 'application/xml');

@@ -87,6 +87,16 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->routeIs('admin.lembaga-desa.*') ? 'active' : '' }}">
+            <a
+                href="{{ route('admin.lembaga-desa.index') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon tf-icons bx bx-sitemap"></i>
+                <div>Lembaga Desa</div>
+            </a>
+        </li>
+
         {{-- Kependudukan --}}
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">

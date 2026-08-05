@@ -51,6 +51,11 @@ Route::prefix('admin')
         Route::delete('/perangkat-desa/{perangkat_desa}/foto', [\App\Http\Controllers\Admin\PerangkatDesaController::class, 'deleteFoto'])->name('perangkat-desa.delete-foto');
         Route::resource('/perangkat-desa', \App\Http\Controllers\Admin\PerangkatDesaController::class);
 
+        // Lembaga Desa
+        Route::delete('/lembaga-desa/{lembaga_desa}/logo', [\App\Http\Controllers\Admin\LembagaDesaController::class, 'deleteLogo'])->name('lembaga-desa.delete-logo');
+        Route::patch('/lembaga-desa/{lembaga_desa}/toggle-status', [\App\Http\Controllers\Admin\LembagaDesaController::class, 'toggleStatus'])->name('lembaga-desa.toggle-status');
+        Route::resource('/lembaga-desa', \App\Http\Controllers\Admin\LembagaDesaController::class);
+
         // Slider
         Route::resource('/slider', \App\Http\Controllers\Admin\SliderController::class);
 
@@ -169,6 +174,8 @@ Route::prefix('admin')
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/profil-desa', [App\Http\Controllers\Frontend\ProfilDesaController::class, 'index'])->name('profil-desa');
+Route::get('/lembaga-desa', [App\Http\Controllers\Frontend\LembagaDesaController::class, 'index'])->name('lembaga-desa.index');
+Route::get('/lembaga-desa/{slug}', [App\Http\Controllers\Frontend\LembagaDesaController::class, 'show'])->name('lembaga-desa.show');
 Route::get('/kependudukan', [App\Http\Controllers\Frontend\KependudukanController::class, 'index'])->name('kependudukan.index');
 Route::get('/galeri', [App\Http\Controllers\Frontend\GaleriController::class, 'index'])->name('galeri.index');
 Route::get('/berita', [App\Http\Controllers\Frontend\BeritaController::class, 'index'])->name('berita.index');

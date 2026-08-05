@@ -104,14 +104,29 @@
                     </a>
                 </li>
 
-                {{-- 2. Profil Desa --}}
-                <li class="nav-item">
+                {{-- 2. Dropdown: Profil Desa --}}
+                <li class="nav-item dropdown">
                     <a
-                        class="nav-link {{ request()->is('profil-desa') ? 'active' : '' }}"
-                        href="{{ url('/profil-desa') }}"
+                        class="nav-link dropdown-toggle {{ request()->is('profil-desa', 'lembaga-desa*') ? 'active' : '' }}"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
                     >
                         Profil Desa
                     </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item {{ request()->is('profil-desa') ? 'active' : '' }}" href="{{ url('/profil-desa') }}">
+                                <i class="fas fa-landmark me-2"></i> Profil & Sejarah
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item {{ request()->is('lembaga-desa*') ? 'active' : '' }}" href="{{ url('/lembaga-desa') }}">
+                                <i class="fas fa-sitemap me-2"></i> Lembaga Desa
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 {{-- 3. Dropdown: Informasi Desa --}}
