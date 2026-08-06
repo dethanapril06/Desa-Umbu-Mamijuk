@@ -46,8 +46,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="ketua" class="form-label">Nama Ketua / Penanggung Jawab</label>
-                                    <input type="text" class="form-control @error('ketua') is-invalid @enderror" id="ketua" name="ketua" value="{{ old('ketua') }}" placeholder="Contoh: Ahmad Subagyo, S.Pd">
+                                    <label for="ketua" class="form-label">Nama Ketua / Penanggung Jawab <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('ketua') is-invalid @enderror" id="ketua" name="ketua" value="{{ old('ketua') }}" placeholder="Contoh: Ahmad Subagyo, S.Pd" required>
                                     @error('ketua')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -56,8 +56,8 @@
 
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="no_telepon" class="form-label">No. Telepon / Kontak Sekretariat</label>
-                                    <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 081234567890">
+                                    <label for="no_telepon" class="form-label">No. Telepon / Kontak Sekretariat <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 081234567890" required>
                                     @error('no_telepon')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -66,16 +66,16 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="alamat_sekretariat" class="form-label">Alamat Sekretariat / Kantor</label>
-                            <input type="text" class="form-control @error('alamat_sekretariat') is-invalid @enderror" id="alamat_sekretariat" name="alamat_sekretariat" value="{{ old('alamat_sekretariat') }}" placeholder="Contoh: Jl. Raya Desa No. 12, RT 02 / RW 01">
+                            <label for="alamat_sekretariat" class="form-label">Alamat Sekretariat / Kantor <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('alamat_sekretariat') is-invalid @enderror" id="alamat_sekretariat" name="alamat_sekretariat" value="{{ old('alamat_sekretariat') }}" placeholder="Contoh: Jl. Raya Desa No. 12, RT 02 / RW 01" required>
                             @error('alamat_sekretariat')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="deskripsi" class="form-label">Deskripsi & Tugas Lembaga</label>
-                            <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi" rows="4" placeholder="Jelaskan peran, fungsi, visi, dan aktivitas lembaga desa ini...">{{ old('deskripsi') }}</textarea>
+                            <label for="deskripsi" class="form-label">Deskripsi & Tugas Lembaga <span class="text-danger">*</span></label>
+                            <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi" rows="4" placeholder="Jelaskan peran, fungsi, visi, dan aktivitas lembaga desa ini..." required>{{ old('deskripsi') }}</textarea>
                             @error('deskripsi')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
