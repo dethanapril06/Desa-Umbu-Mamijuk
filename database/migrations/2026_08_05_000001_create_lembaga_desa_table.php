@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('lembaga_desa', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lembaga');
-            $table->string('singkatan')->nullable();
-            $table->string('slug')->unique();
-            $table->string('ketua')->nullable();
-            $table->string('no_telepon')->nullable();
-            $table->string('alamat_sekretariat')->nullable();
-            $table->text('deskripsi')->nullable();
-            $table->string('logo')->nullable();
+            $table->string('nama');
+            $table->string('jabatan');
+            $table->string('foto')->nullable();
+            $table->string('nip')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

@@ -12,20 +12,19 @@ class LembagaDesa extends Model
     protected $table = 'lembaga_desa';
 
     protected $fillable = [
-        'nama_lembaga',
-        'singkatan',
-        'slug',
-        'ketua',
-        'no_telepon',
-        'alamat_sekretariat',
-        'deskripsi',
-        'logo',
+        'nama',
+        'jabatan',
+        'foto',
+        'nip',
         'is_active',
     ];
 
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+        ];
+    }
 
     public function scopeActive($query)
     {

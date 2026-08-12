@@ -82,18 +82,10 @@
     </url>
     @endforeach
 
-    {{-- Halaman Detail Lembaga Desa --}}
+    {{-- Halaman Lembaga Desa --}}
     <url>
         <loc>{{ url('/lembaga-desa') }}</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
-    @foreach($lembagaList as $lem)
-    <url>
-        <loc>{{ url('/lembaga-desa/' . $lem->slug) }}</loc>
-        <lastmod>{{ $lem->updated_at?->toIso8601String() }}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    @endforeach
 </urlset>

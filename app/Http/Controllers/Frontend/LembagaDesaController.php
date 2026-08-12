@@ -22,35 +22,14 @@ class LembagaDesaController extends Controller
         if ($request->filled('q')) {
             $search = $request->q;
             $query->where(function ($q) use ($search) {
-                $q->where('nama_lembaga', 'like', "%{$search}%")
-                  ->orWhere('singkatan', 'like', "%{$search}%")
-                  ->orWhere('ketua', 'like', "%{$search}%")
-                  ->orWhere('deskripsi', 'like', "%{$search}%");
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('jabatan', 'like', "%{$search}%")
+                  ->orWhere('nip', 'like', "%{$search}%");
             });
         }
 
-        $lembagaList = $query->orderBy('id', 'desc')->paginate(9)->withQueryString();
+        $lembagaList = $query->orderBy('id', 'asc')->paginate(12)->withQueryString();
 
         return view('frontend.lembaga.index', compact('profilDesa', 'lembagaList'));
-    }
-
-    /**
-     * Display details of a specific active Lembaga Desa.
-     */
-    public function show(string $slug): View
-    {
-        $lembaga = LembagaDesa::where('slug', $slug)
-            ->active()
-            ->firstOrFail();
-
-        $profilDesa = ProfilDesa::first();
-
-        $lembagaLainnya = LembagaDesa::active()
-            ->where('id', '!=', $lembaga->id)
-            ->inRandomOrder()
-            ->take(4)
-            ->get();
-
-        return view('frontend.lembaga.show', compact('lembaga', 'lembagaLainnya', 'profilDesa'));
     }
 }

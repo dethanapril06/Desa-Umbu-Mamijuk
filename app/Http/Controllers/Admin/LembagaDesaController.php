@@ -4,32 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\LembagaDesa;
-use App\Services\ImageService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class LembagaDesaController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
-        $search = $request->input('search');
-        $query = LembagaDesa::query();
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('nama_lembaga', 'like', "%{$search}%")
-                  ->orWhere('singkatan', 'like', "%{$search}%")
-                  ->orWhere('ketua', 'like', "%{$search}%")
-                  ->orWhere('alamat_sekretariat', 'like', "%{$search}%");
-            });
-        }
-
-        $lembagaList = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
-
-        return view('admin.lembaga-desa.index', compact('lembagaList', 'search'));
+        $lembagaDesaList = LembagaDesa::orderBy('id', 'asc')->paginate(15);
+        return view('admin.lembaga-desa.index', compact('lembagaDesaList'));
     }
 
     public function create(): View
@@ -42,37 +27,29 @@ class LembagaDesaController extends Controller
         $this->normalizeInput($request);
 
         $request->validate([
-            'nama_lembaga' => 'required|string|max:255|unique:lembaga_desa,nama_lembaga',
-            'singkatan' => 'nullable|string|max:100',
-            'ketua' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:50',
-            'alamat_sekretariat' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
+            'nama' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'nip' => 'nullable|string|max:50',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'is_active' => 'nullable|boolean',
         ], [
-            'nama_lembaga.required' => 'Nama lembaga desa wajib diisi.',
-            'nama_lembaga.unique' => 'Nama lembaga desa tersebut sudah terdaftar.',
-            'ketua.required' => 'Nama ketua / penanggung jawab wajib diisi.',
-            'no_telepon.required' => 'No. telepon / kontak sekretariat wajib diisi.',
-            'alamat_sekretariat.required' => 'Alamat sekretariat / kantor wajib diisi.',
-            'deskripsi.required' => 'Deskripsi & tugas lembaga wajib diisi.',
-            'logo.max' => 'Ukuran file logo maksimal 10 MB.',
-            'logo.mimes' => 'Format logo harus berupa JPEG, PNG, JPG, atau WEBP.',
+            'nama.required' => 'Nama anggota / pengurus lembaga desa wajib diisi.',
+            'jabatan.required' => 'Jabatan lembaga desa wajib diisi.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
+            'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
-        $data = $request->except(['logo']);
-        $data['slug'] = Str::slug($request->nama_lembaga);
+        $data = $request->except(['foto']);
         $data['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
 
-        if ($request->hasFile('logo')) {
-            $path = ImageService::processAndStore($request->file('logo'), 'images/lembaga-desa');
-            $data['logo'] = $path;
+        if ($request->hasFile('foto')) {
+            $path = $request->file('foto')->store('images/lembaga-desa', 'public');
+            $data['foto'] = $path;
         }
 
         LembagaDesa::create($data);
 
-        return redirect()->route('admin.lembaga-desa.index')->with('success', 'Lembaga desa berhasil ditambahkan!');
+        return redirect()->route('admin.lembaga-desa.index')->with('success', 'Data lembaga desa berhasil ditambahkan!');
     }
 
     public function edit(LembagaDesa $lembagaDesa): View
@@ -85,87 +62,91 @@ class LembagaDesaController extends Controller
         $this->normalizeInput($request);
 
         $request->validate([
-            'nama_lembaga' => 'required|string|max:255|unique:lembaga_desa,nama_lembaga,' . $lembagaDesa->id,
-            'singkatan' => 'nullable|string|max:100',
-            'ketua' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:50',
-            'alamat_sekretariat' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
+            'nama' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'nip' => 'nullable|string|max:50',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'is_active' => 'nullable|boolean',
         ], [
-            'nama_lembaga.required' => 'Nama lembaga desa wajib diisi.',
-            'nama_lembaga.unique' => 'Nama lembaga desa tersebut sudah terdaftar.',
-            'ketua.required' => 'Nama ketua / penanggung jawab wajib diisi.',
-            'no_telepon.required' => 'No. telepon / kontak sekretariat wajib diisi.',
-            'alamat_sekretariat.required' => 'Alamat sekretariat / kantor wajib diisi.',
-            'deskripsi.required' => 'Deskripsi & tugas lembaga wajib diisi.',
-            'logo.max' => 'Ukuran file logo maksimal 10 MB.',
-            'logo.mimes' => 'Format logo harus berupa JPEG, PNG, JPG, atau WEBP.',
+            'nama.required' => 'Nama anggota / pengurus lembaga desa wajib diisi.',
+            'jabatan.required' => 'Jabatan lembaga desa wajib diisi.',
+            'foto.max' => 'Ukuran file foto maksimal 10 MB.',
+            'foto.mimes' => 'Format foto harus berupa JPEG, PNG, JPG, atau WEBP.',
         ]);
 
-        $data = $request->except(['logo']);
-        $data['slug'] = Str::slug($request->nama_lembaga);
+        $data = $request->except(['foto', 'delete_foto']);
         $data['is_active'] = $request->has('is_active') ? (bool) $request->is_active : false;
 
-        if ($request->hasFile('logo')) {
-            if ($lembagaDesa->logo && Storage::disk('public')->exists($lembagaDesa->logo)) {
-                Storage::disk('public')->delete($lembagaDesa->logo);
+        if ($request->has('delete_foto') && $request->delete_foto == '1') {
+            if ($lembagaDesa->foto && Storage::disk('public')->exists($lembagaDesa->foto)) {
+                Storage::disk('public')->delete($lembagaDesa->foto);
             }
-            $path = ImageService::processAndStore($request->file('logo'), 'images/lembaga-desa');
-            $data['logo'] = $path;
+            $data['foto'] = null;
+        } elseif ($request->hasFile('foto')) {
+            if ($lembagaDesa->foto && Storage::disk('public')->exists($lembagaDesa->foto)) {
+                Storage::disk('public')->delete($lembagaDesa->foto);
+            }
+            $path = $request->file('foto')->store('images/lembaga-desa', 'public');
+            $data['foto'] = $path;
         }
 
         $lembagaDesa->update($data);
 
-        return redirect()->route('admin.lembaga-desa.index')->with('success', 'Lembaga desa berhasil diperbarui!');
+        return redirect()->route('admin.lembaga-desa.index')->with('success', 'Data lembaga desa berhasil diperbarui!');
     }
 
-    public function deleteLogo(LembagaDesa $lembagaDesa): RedirectResponse
+    public function deleteFoto(LembagaDesa $lembagaDesa): RedirectResponse
     {
-        if ($lembagaDesa->logo && Storage::disk('public')->exists($lembagaDesa->logo)) {
-            Storage::disk('public')->delete($lembagaDesa->logo);
+        if ($lembagaDesa->foto && Storage::disk('public')->exists($lembagaDesa->foto)) {
+            Storage::disk('public')->delete($lembagaDesa->foto);
         }
-        $lembagaDesa->update(['logo' => null]);
+        $lembagaDesa->update(['foto' => null]);
 
-        return redirect()->back()->with('success', 'Logo lembaga desa berhasil dihapus!');
-    }
-
-    public function toggleStatus(LembagaDesa $lembagaDesa): RedirectResponse
-    {
-        $lembagaDesa->update(['is_active' => !$lembagaDesa->is_active]);
-
-        $statusMsg = $lembagaDesa->is_active ? 'diaktifkan' : 'dinonaktifkan';
-        return redirect()->back()->with('success', "Lembaga desa berhasil {$statusMsg}!");
+        return redirect()->back()->with('success', 'Foto lembaga desa berhasil dihapus!');
     }
 
     public function destroy(LembagaDesa $lembagaDesa): RedirectResponse
     {
-        if ($lembagaDesa->logo && Storage::disk('public')->exists($lembagaDesa->logo)) {
-            Storage::disk('public')->delete($lembagaDesa->logo);
+        if ($lembagaDesa->foto && Storage::disk('public')->exists($lembagaDesa->foto)) {
+            Storage::disk('public')->delete($lembagaDesa->foto);
         }
         $lembagaDesa->delete();
 
-        return redirect()->route('admin.lembaga-desa.index')->with('success', 'Lembaga desa berhasil dihapus!');
+        return redirect()->route('admin.lembaga-desa.index')->with('success', 'Data lembaga desa berhasil dihapus!');
     }
 
     /**
-     * Normalisasi input string.
+     * Kapital huruf pertama setelah setiap karakter non-alphanumeric.
+     * Contoh: "ketua bpd" → "Ketua BPD"
+     */
+    private function toCapitalEachWord(string $str): string
+    {
+        $str = mb_strtolower($str, 'UTF-8');
+        return preg_replace_callback(
+            '/(^|[^a-zA-Z0-9\x{00C0}-\x{024F}\x{1E00}-\x{1EFF}]+)([a-zA-Z\x{00C0}-\x{024F}\x{1E00}-\x{1EFF}])/u',
+            fn($m) => $m[1] . mb_strtoupper($m[2], 'UTF-8'),
+            $str
+        );
+    }
+
+    /**
+     * Normalisasi & pembersihan input sebelum validasi.
      */
     private function normalizeInput(Request $request): void
     {
-        $titleFields = ['nama_lembaga', 'ketua', 'alamat_sekretariat'];
-        foreach ($titleFields as $field) {
+        // nama & jabatan: trim + collapse spasi + Capital Each Word
+        foreach (['nama', 'jabatan'] as $field) {
             if ($request->has($field) && is_string($request->input($field)) && !empty($request->input($field))) {
                 $cleaned = preg_replace('/\s+/', ' ', trim($request->input($field)));
-                $cleaned = mb_convert_case(mb_strtolower($cleaned, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                $cleaned = $this->toCapitalEachWord($cleaned);
                 $request->merge([$field => $cleaned]);
             }
         }
 
-        if ($request->has('singkatan') && is_string($request->input('singkatan')) && !empty($request->input('singkatan'))) {
-            $cleaned = preg_replace('/\s+/', '', trim($request->input('singkatan')));
-            $request->merge(['singkatan' => mb_strtoupper($cleaned, 'UTF-8')]);
+        // nip: strip semua non-digit (tidak boleh ada spasi)
+        if ($request->has('nip') && !empty($request->input('nip'))) {
+            $cleaned = preg_replace('/\D+/', '', (string) $request->input('nip'));
+            $request->merge(['nip' => $cleaned]);
         }
     }
 }

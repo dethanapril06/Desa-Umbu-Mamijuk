@@ -4,7 +4,7 @@
 
 @section(
     'meta_description',
-    'Mengenal lembaga kemasyarakatan Desa ' . ($profilDesa?->nama_desa) . ' seperti BPD, PKK, Karang Taruna, LPM, dan Posyandu yang berperan aktif memajukan desa.'
+    'Mengenal struktur kepengurusan dan anggota lembaga kemasyarakatan Desa ' . ($profilDesa?->nama_desa) . ' yang berperan aktif memajukan desa.'
 )
 
 @section('content')
@@ -20,7 +20,7 @@
             </div>
             <h1 class="page-title">Lembaga <em>Kemasyarakatan</em></h1>
             <p class="page-desc">
-                Mengenal organisasi dan mitra kerja pemerintah Desa {{ $profilDesa?->nama_desa ?? '' }} dalam mengabdi dan memberdayakan masyarakat.
+                Mengenal kepengurusan dan anggota lembaga desa {{ $profilDesa?->nama_desa ?? '' }} dalam mengabdi dan memberdayakan masyarakat.
             </p>
         </div>
     </header>
@@ -35,7 +35,7 @@
                     <i class="fas fa-search"></i>
                     <form action="{{ url('/lembaga-desa') }}" method="GET" id="searchForm">
                         <input type="text" name="q" value="{{ request('q') }}"
-                            placeholder="Cari lembaga desa atau ketua..." id="searchLembaga">
+                            placeholder="Cari nama atau jabatan..." id="searchLembaga">
                     </form>
                 </div>
             </div>
@@ -54,78 +54,56 @@
             @endif
 
             {{-- Lembaga Grid --}}
-            <div class="row g-4">
+            <div class="row g-4 justify-content-center">
                 @forelse ($lembagaList as $item)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="wisata-card-small" style="height: 100%; display: flex; flex-direction: column;">
-                            <div class="wisata-card-img" style="position: relative; height: 180px; overflow: hidden; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid rgba(0,0,0,0.06);">
-                                @if ($item->logo)
-                                    <img src="{{ asset('storage/' . $item->logo) }}" alt="{{ $item->nama_lembaga }}" style="max-width: 80%; max-height: 80%; object-fit: contain;" />
-                                @else
-                                    <div class="d-flex flex-column align-items-center justify-content-center text-muted">
-                                        <i class="fas fa-sitemap" style="font-size: 3.5rem; color: #cbd5e1;"></i>
-                                    </div>
-                                @endif
-
-                                @if($item->singkatan)
-                                    <div style="position: absolute; top: 12px; right: 12px; background: var(--green-deep); color: #fff; font-weight: 700; font-size: 0.78rem; padding: 0.25rem 0.65rem; border-radius: 50px;">
-                                        {{ $item->singkatan }}
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="wisata-card-body d-flex flex-column justify-content-between flex-grow-1" style="padding: 1.5rem;">
-                                <div>
-                                    <h3 class="wisata-card-title" style="font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; line-height: 1.4;">
-                                        <a href="{{ url('/lembaga-desa/' . $item->slug) }}" style="color: var(--green-deep); text-decoration: none; transition: color 0.2s;">
-                                            {{ $item->nama_lembaga }}
-                                        </a>
-                                    </h3>
-
-                                    @if($item->ketua)
-                                        <div style="font-size: 0.85rem; color: var(--text-mid); margin-top: 0.6rem;">
-                                            <i class="fas fa-user-tie text-primary me-1"></i>
-                                            <strong>Ketua:</strong> {{ $item->ketua }}
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="profil-detail-card text-center h-100 d-flex flex-column justify-content-between" style="padding: 1.75rem 1.25rem; border-radius: 16px; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                            <div>
+                                <div style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid var(--green-pale, #d1fae5); margin: 0 auto 1.25rem; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
+                                    @if ($item->foto)
+                                        <img src="{{ asset('storage/' . $item->foto) }}"
+                                            alt="{{ $item->nama }}"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                    @else
+                                        <div style="width: 100%; height: 100%; background: var(--green-mist, #ecfdf5); display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-user" style="font-size: 2.2rem; color: var(--green-mid, #10b981);"></i>
                                         </div>
                                     @endif
-
-                                    @if($item->alamat_sekretariat)
-                                        <div style="font-size: 0.82rem; color: var(--text-mid); margin-top: 0.35rem;">
-                                            <i class="fas fa-map-marker-alt text-danger me-1"></i>
-                                            {{ Str::limit($item->alamat_sekretariat, 45) }}
-                                        </div>
-                                    @endif
-
-                                    <p class="wisata-card-desc" style="font-size: 0.85rem; color: var(--text-mid); margin-top: 0.75rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                                        {{ Str::limit(strip_tags($item->deskripsi), 110) ?? 'Informasi deskripsi dan profil lembaga desa belum ditambahkan.' }}
-                                    </p>
                                 </div>
 
-                                <div class="wisata-card-footer d-flex justify-content-between align-items-center" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.06);">
-                                    <a href="{{ url('/lembaga-desa/' . $item->slug) }}" class="btn btn-sm btn-outline-success w-100 rounded-pill font-weight-600" style="font-size: 0.82rem;">
-                                        Detail Lembaga <i class="fas fa-arrow-right ms-1"></i>
-                                    </a>
+                                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--green-deep, #064e3b); margin-bottom: 0.35rem; line-height: 1.3;">
+                                    {{ $item->nama }}
+                                </h4>
+
+                                <div style="display: inline-block; background: #f1f5f9; color: var(--green-deep, #064e3b); font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 50px; margin-bottom: 0.5rem; letter-spacing: 0.5px;">
+                                    {{ $item->jabatan }}
                                 </div>
+
+                                @if ($item->nip)
+                                    <div style="color: var(--text-light, #64748b); font-size: 0.78rem; margin-top: 0.25rem;">
+                                        <i class="far fa-id-badge me-1"></i> NIP: {{ $item->nip }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 @empty
                     <div class="col-12">
                         <div class="text-center py-5">
-                            <i class="fas fa-sitemap fa-3x mb-3 d-block" style="color: var(--green-pale);"></i>
-                            <h5 style="color: var(--green-deep); font-family: 'Playfair Display', serif;">
+                            <i class="fas fa-sitemap fa-3x mb-3 d-block" style="color: var(--green-pale, #a7f3d0);"></i>
+                            <h5 style="color: var(--green-deep, #064e3b); font-family: 'Playfair Display', serif;">
                                 @if (request('q'))
-                                    Lembaga Desa tidak ditemukan
+                                    Data tidak ditemukan
                                 @else
-                                    Belum ada Lembaga Desa yang terdaftar
+                                    Belum ada data Lembaga Desa
                                 @endif
                             </h5>
                             <p class="text-muted" style="font-size: 0.9rem;">
                                 @if (request('q'))
                                     Coba gunakan kata kunci lain atau
-                                    <a href="{{ url('/lembaga-desa') }}" style="color: var(--green-fresh);">lihat semua lembaga</a>.
+                                    <a href="{{ url('/lembaga-desa') }}" style="color: var(--green-fresh, #059669);">lihat semua</a>.
                                 @else
-                                    Data lembaga kemasyarakatan desa sedang disiapkan oleh pemerintah desa.
+                                    Data anggota lembaga desa sedang disiapkan oleh pemerintah desa.
                                 @endif
                             </p>
                         </div>
@@ -135,7 +113,7 @@
 
             {{-- Pagination --}}
             @if ($lembagaList->hasPages())
-                <div class="pagination-custom">
+                <div class="pagination-custom mt-5">
                     {{-- Previous --}}
                     @if ($lembagaList->onFirstPage())
                         <span class="page-item-custom" style="opacity:0.4; pointer-events:none;">

@@ -3,108 +3,132 @@
 @section('title', 'Tambah Lembaga Desa')
 
 @section('content')
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">Profil Desa / Lembaga Desa /</span> Tambah Data
-    </h4>
+<div class="row">
+    <div class="col-12 col-md-8 offset-md-2">
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">Lembaga Desa /</span> Tambah Lembaga Desa
+        </h4>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Form Tambah Lembaga Desa</h5>
-                    <a href="{{ route('admin.lembaga-desa.index') }}" class="btn btn-secondary btn-sm">
-                        <i class="bx bx-arrow-back me-1"></i> Kembali
-                    </a>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('admin.lembaga-desa.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Form Tambah Lembaga Desa</h5>
+                <a href="{{ route('admin.lembaga-desa.index') }}" class="btn btn-sm btn-secondary">
+                    <i class="bx bx-arrow-back me-1"></i> Kembali
+                </a>
+            </div>
+            
+            <div class="card-body">
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
 
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label for="nama_lembaga" class="form-label">Nama Lembaga Desa <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('nama_lembaga') is-invalid @enderror" id="nama_lembaga" name="nama_lembaga" value="{{ old('nama_lembaga') }}" placeholder="Contoh: Badan Permusyawaratan Desa" required>
-                                    @error('nama_lembaga')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                <form action="{{ route('admin.lembaga-desa.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="singkatan" class="form-label">Singkatan / Akronim</label>
-                                    <input type="text" class="form-control @error('singkatan') is-invalid @enderror" id="singkatan" name="singkatan" value="{{ old('singkatan') }}" placeholder="Contoh: BPD">
-                                    @error('singkatan')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="nama">Nama Lengkap <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}" placeholder="Contoh: Ahmad Subagyo, S.Pd" />
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="ketua" class="form-label">Nama Ketua / Penanggung Jawab <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('ketua') is-invalid @enderror" id="ketua" name="ketua" value="{{ old('ketua') }}" placeholder="Contoh: Ahmad Subagyo, S.Pd" required>
-                                    @error('ketua')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="jabatan">Jabatan <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" placeholder="Contoh: Ketua BPD, Anggota LPM, Ketua Karang Taruna" />
+                    </div>
 
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="no_telepon" class="form-label">No. Telepon / Kontak Sekretariat <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 081234567890" required>
-                                    @error('no_telepon')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="nip">NIP (Nomor Induk Pegawai / Anggota)</label>
+                        <input type="text" class="form-control" id="nip" name="nip" value="{{ old('nip') }}" placeholder="Boleh dikosongkan jika tidak ada" inputmode="numeric" autocomplete="off" />
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="alamat_sekretariat" class="form-label">Alamat Sekretariat / Kantor <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('alamat_sekretariat') is-invalid @enderror" id="alamat_sekretariat" name="alamat_sekretariat" value="{{ old('alamat_sekretariat') }}" placeholder="Contoh: Jl. Raya Desa No. 12, RT 02 / RW 01" required>
-                            @error('alamat_sekretariat')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="foto">Foto</label>
+                        <input type="file" class="form-control" id="foto" name="foto" accept="image/*" />
+                        <div class="form-text">Rekomendasi resolusi: 600x800 px (rasio 3:4 potret atau persegi). Minimal: 250x300 px. Format: jpeg, png, jpg, webp. Maksimal 10MB.</div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="deskripsi" class="form-label">Deskripsi & Tugas Lembaga <span class="text-danger">*</span></label>
-                            <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi" rows="4" placeholder="Jelaskan peran, fungsi, visi, dan aktivitas lembaga desa ini..." required>{{ old('deskripsi') }}</textarea>
-                            @error('deskripsi')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {{ old('is_active', 1) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_active">Aktif (Tampilkan di website)</label>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="logo" class="form-label">Logo / Lambang Lembaga</label>
-                            <input type="file" class="form-control @error('logo') is-invalid @enderror" id="logo" name="logo" accept="image/*">
-                            <div class="form-text">Maksimal ukuran 10 MB. Format: JPG, PNG, WEBP.</div>
-                            @error('logo')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {{ old('is_active', '1') == '1' ? 'checked' : '' }}>
-                            <label class="form-check-label fw-bold" for="is_active">Aktifkan Lembaga Desa (Tampilkan di Website Public)</label>
-                        </div>
-
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-primary me-2">
-                                <i class="bx bx-save me-1"></i> Simpan Data
-                            </button>
-                            <a href="{{ route('admin.lembaga-desa.index') }}" class="btn btn-outline-secondary">Batal</a>
-                        </div>
-                    </form>
-                </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bx bx-save me-1"></i> Simpan Data
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // ── Capital Each Word ─────────────────────────────────────────────────────
+    function toCapitalEachWord(str) {
+        if (!str) return str;
+        return str.toLowerCase().replace(
+            /(^|[^a-zA-Z0-9\u00C0-\u024F\u1E00-\u1EFF]+)([a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])/gu,
+            function(match, p1, p2) { return p1 + p2.toUpperCase(); }
+        );
+    }
+
+    // ── Field: nama & jabatan → Capital Each Word (hanya saat blur) ─────────
+    const capitalFields = document.querySelectorAll('#nama, #jabatan');
+    capitalFields.forEach(function(input) {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            this.value = toCapitalEachWord(this.value.trim().replace(/\s+/g, ' '));
+        });
+    });
+
+    // ── Field: nip → digit only, no space ─────────────────────────────────
+    function sanitizeNip(input) {
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        let newVal = oldVal.replace(/[^0-9]/g, '');
+        if (oldVal !== newVal) {
+            let removed = 0;
+            for (let i = 0; i < pos && i < oldVal.length; i++) {
+                if (!/[0-9]/.test(oldVal[i])) removed++;
+            }
+            input.value = newVal;
+            let newPos = Math.max(0, pos - removed);
+            if (input.setSelectionRange) input.setSelectionRange(newPos, newPos);
+        }
+    }
+
+    const nipField = document.getElementById('nip');
+    if (nipField) {
+        nipField.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        });
+
+        nipField.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            this.value = (cur.slice(0, sel_start) + digits + cur.slice(sel_end));
+        });
+
+        nipField.addEventListener('input', function() { sanitizeNip(this); });
+        nipField.addEventListener('blur',  function() { sanitizeNip(this); });
+    }
+});
+</script>
+@endpush

@@ -34,12 +34,7 @@ class SitemapController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $lembagaList = LembagaDesa::where('is_active', true)
-            ->select('slug', 'updated_at')
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
-        $content = view('frontend.sitemap', compact('beritaList', 'wisataList', 'umkmList', 'penginapanList', 'lembagaList'));
+        $content = view('frontend.sitemap', compact('beritaList', 'wisataList', 'umkmList', 'penginapanList'));
 
         return response($content, 200)
             ->header('Content-Type', 'application/xml');

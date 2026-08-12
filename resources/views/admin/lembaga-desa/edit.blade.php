@@ -3,160 +3,168 @@
 @section('title', 'Edit Lembaga Desa')
 
 @section('content')
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">Profil Desa / Lembaga Desa /</span> Edit Data
-    </h4>
+<div class="row">
+    <div class="col-12 col-md-8 offset-md-2">
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">Lembaga Desa /</span> Edit Lembaga Desa
+        </h4>
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Form Edit Lembaga Desa</h5>
+                <a href="{{ route('admin.lembaga-desa.index') }}" class="btn btn-sm btn-secondary">
+                    <i class="bx bx-arrow-back me-1"></i> Kembali
+                </a>
+            </div>
+            
+            <div class="card-body">
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Form Edit Lembaga Desa</h5>
-                    <a href="{{ route('admin.lembaga-desa.index') }}" class="btn btn-secondary btn-sm">
-                        <i class="bx bx-arrow-back me-1"></i> Kembali
-                    </a>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('admin.lembaga-desa.update', $lembagaDesa->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
+                <form action="{{ route('admin.lembaga-desa.update', $lembagaDesa->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label for="nama_lembaga" class="form-label">Nama Lembaga Desa <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('nama_lembaga') is-invalid @enderror" id="nama_lembaga" name="nama_lembaga" value="{{ old('nama_lembaga', $lembagaDesa->nama_lembaga) }}" required>
-                                    @error('nama_lembaga')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="nama">Nama Lengkap <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $lembagaDesa->nama) }}" />
+                    </div>
 
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="singkatan" class="form-label">Singkatan / Akronim</label>
-                                    <input type="text" class="form-control @error('singkatan') is-invalid @enderror" id="singkatan" name="singkatan" value="{{ old('singkatan', $lembagaDesa->singkatan) }}">
-                                    @error('singkatan')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="jabatan">Jabatan <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ old('jabatan', $lembagaDesa->jabatan) }}" />
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="ketua" class="form-label">Nama Ketua / Penanggung Jawab <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('ketua') is-invalid @enderror" id="ketua" name="ketua" value="{{ old('ketua', $lembagaDesa->ketua) }}" required>
-                                    @error('ketua')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="nip">NIP (Nomor Induk Pegawai / Anggota)</label>
+                        <input type="text" class="form-control" id="nip" name="nip" value="{{ old('nip', $lembagaDesa->nip) }}" inputmode="numeric" autocomplete="off" />
+                    </div>
 
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="no_telepon" class="form-label">No. Telepon / Kontak Sekretariat <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $lembagaDesa->no_telepon) }}" required>
-                                    @error('no_telepon')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="foto">Foto</label>
+                        <input type="file" class="form-control" id="foto" name="foto" accept="image/*" />
+                        <div class="form-text">Biarkan kosong jika tidak ingin mengubah foto. Rekomendasi resolusi: 600x800 px (rasio 3:4 potret). Minimal: 250x300 px. Format: jpeg, png, jpg, webp. Maksimal 10MB.</div>
 
-                        <div class="mb-3">
-                            <label for="alamat_sekretariat" class="form-label">Alamat Sekretariat / Kantor <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('alamat_sekretariat') is-invalid @enderror" id="alamat_sekretariat" name="alamat_sekretariat" value="{{ old('alamat_sekretariat', $lembagaDesa->alamat_sekretariat) }}" required>
-                            @error('alamat_sekretariat')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="deskripsi" class="form-label">Deskripsi & Tugas Lembaga <span class="text-danger">*</span></label>
-                            <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi" rows="4" required>{{ old('deskripsi', $lembagaDesa->deskripsi) }}</textarea>
-                            @error('deskripsi')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="logo" class="form-label">Logo / Lambang Lembaga</label>
-
-                            @if($lembagaDesa->logo)
-                                <div class="mb-3 position-relative d-inline-block" style="max-width: 150px;">
-                                    <img src="{{ asset('storage/' . $lembagaDesa->logo) }}" alt="{{ $lembagaDesa->nama_lembaga }}" class="img-thumbnail rounded" style="width: 100%; height: 120px; object-fit: cover;">
+                        @if ($lembagaDesa->foto)
+                            <div class="mt-3">
+                                <label class="d-block form-label">Foto Saat Ini:</label>
+                                <div class="position-relative d-inline-block rounded border p-1 bg-light">
+                                    <img src="{{ asset('storage/' . $lembagaDesa->foto) }}" alt="Foto Lembaga" class="img-thumbnail border-0" style="max-height: 160px; object-fit: cover;" />
                                     
-                                    {{-- Direct Logo Delete Button (Red Trash Icon) --}}
-                                    <button type="button" 
-                                            class="btn btn-sm btn-icon bg-white shadow-sm border text-danger position-absolute top-0 end-0 m-1" 
-                                            style="border-radius: 50%; width: 32px; height: 32px;"
-                                            title="Hapus Logo" 
-                                            onclick="confirmDeleteLogo()">
-                                        <i class="bx bx-trash"></i>
+                                    <button type="button" class="btn btn-icon position-absolute top-0 end-0 m-1 bg-white border text-danger rounded-circle shadow-sm" title="Hapus Foto" onclick="confirmDeleteFoto()" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; z-index: 10;">
+                                        <i class="bx bx-trash fs-5"></i>
                                     </button>
                                 </div>
-                            @endif
+                            </div>
+                        @endif
+                    </div>
 
-                            <input type="file" class="form-control @error('logo') is-invalid @enderror" id="logo" name="logo" accept="image/*">
-                            <div class="form-text">Biarkan kosong jika tidak ingin mengubah logo. Maksimal 10 MB.</div>
-                            @error('logo')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {{ old('is_active', $lembagaDesa->is_active) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_active">Aktif (Tampilkan di website)</label>
+                    </div>
 
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {{ old('is_active', $lembagaDesa->is_active) ? 'checked' : '' }}>
-                            <label class="form-check-label fw-bold" for="is_active">Aktifkan Lembaga Desa (Tampilkan di Website Public)</label>
-                        </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bx bx-save me-1"></i> Simpan Perubahan
+                    </button>
+                </form>
 
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-primary me-2">
-                                <i class="bx bx-save me-1"></i> Simpan Perubahan
-                            </button>
-                            <a href="{{ route('admin.lembaga-desa.index') }}" class="btn btn-outline-secondary">Batal</a>
-                        </div>
+                @if ($lembagaDesa->foto)
+                    <form id="deleteFotoForm" action="{{ route('admin.lembaga-desa.delete-foto', $lembagaDesa->id) }}" method="POST" style="display: none;">
+                        @csrf
+                        @method('DELETE')
                     </form>
-                </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
-
-{{-- Standalone form for logo deletion placed OUTSIDE main form --}}
-@if($lembagaDesa->logo)
-    <form id="deleteLogoForm" action="{{ route('admin.lembaga-desa.delete-logo', $lembagaDesa->id) }}" method="POST" style="display: none;">
-        @csrf
-        @method('DELETE')
-    </form>
-@endif
-
 @endsection
 
 @push('scripts')
 <script>
-function confirmDeleteLogo() {
+document.addEventListener('DOMContentLoaded', function() {
+
+    // ── Capital Each Word ─────────────────────────────────────────────────────
+    function toCapitalEachWord(str) {
+        if (!str) return str;
+        return str.toLowerCase().replace(
+            /(^|[^a-zA-Z0-9\u00C0-\u024F\u1E00-\u1EFF]+)([a-zA-Z\u00C0-\u024F\u1E00-\u1EFF])/gu,
+            function(match, p1, p2) { return p1 + p2.toUpperCase(); }
+        );
+    }
+
+    // ── Field: nama & jabatan → Capital Each Word (hanya saat blur) ─────────
+    const capitalFields = document.querySelectorAll('#nama, #jabatan');
+    capitalFields.forEach(function(input) {
+        input.addEventListener('blur', function() {
+            if (!this.value) return;
+            this.value = toCapitalEachWord(this.value.trim().replace(/\s+/g, ' '));
+        });
+    });
+
+    // ── Field: nip → digit only, no space ─────────────────────────────────
+    function sanitizeNip(input) {
+        let pos = input.selectionStart;
+        let oldVal = input.value;
+        let newVal = oldVal.replace(/[^0-9]/g, '');
+        if (oldVal !== newVal) {
+            let removed = 0;
+            for (let i = 0; i < pos && i < oldVal.length; i++) {
+                if (!/[0-9]/.test(oldVal[i])) removed++;
+            }
+            input.value = newVal;
+            let newPos = Math.max(0, pos - removed);
+            if (input.setSelectionRange) input.setSelectionRange(newPos, newPos);
+        }
+    }
+
+    const nipField = document.getElementById('nip');
+    if (nipField) {
+        nipField.addEventListener('keydown', function(e) {
+            const ctrl = e.ctrlKey || e.metaKey;
+            if (ctrl) return;
+            const nav = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End','Enter'];
+            if (nav.includes(e.key)) return;
+            if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        });
+
+        nipField.addEventListener('paste', function(e) {
+            e.preventDefault();
+            let pasted = (e.clipboardData || window.clipboardData).getData('text');
+            let digits = pasted.replace(/[^0-9]/g, '');
+            let sel_start = this.selectionStart;
+            let sel_end   = this.selectionEnd;
+            let cur = this.value.replace(/[^0-9]/g, '');
+            this.value = (cur.slice(0, sel_start) + digits + cur.slice(sel_end));
+        });
+
+        nipField.addEventListener('input', function() { sanitizeNip(this); });
+        nipField.addEventListener('blur',  function() { sanitizeNip(this); });
+    }
+});
+
+function confirmDeleteFoto() {
     Swal.fire({
-        title: 'Hapus Logo Lembaga Desa?',
-        text: 'Logo yang dihapus tidak dapat dikembalikan!',
+        title: 'Hapus Foto Lembaga Desa?',
+        text: 'Foto yang dihapus tidak dapat dikembalikan!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Ya, Hapus Logo!',
+        confirmButtonText: 'Ya, Hapus Foto!',
         cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
-            document.getElementById('deleteLogoForm').submit();
+            document.getElementById('deleteFotoForm').submit();
         }
     });
 }
