@@ -18,7 +18,7 @@
                         <select name="album_galeri_id" id="album_galeri_id" class="form-select">
                             <option value="">-- Semua Album --</option>
                             @foreach($albums as $alb)
-                                <option value="{{ $alb->id }}" {{ $albumId == $alb->id ? 'selected' : '' }}>{{ $alb->nama }}</option>
+                                <option value="{{ $alb->id }}" {{ $selectedAlbumId == $alb->id ? 'selected' : '' }}>{{ $alb->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -32,14 +32,14 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Daftar Foto Galeri</h5>
-                <a href="{{ route('admin.galeri.create', ['album_galeri_id' => $albumId]) }}" class="btn btn-primary">
+                <a href="{{ route('admin.galeri.create', ['album_galeri_id' => $selectedAlbumId]) }}" class="btn btn-primary">
                     <i class="bx bx-plus me-1"></i> Unggah Foto
                 </a>
             </div>
             
             <div class="card-body">
                 <div class="row g-4">
-                    @forelse($photos as $photo)
+                    @forelse($galeriList as $photo)
                         <div class="col-md-4 col-sm-6">
                             <div class="card h-100 border shadow-none">
                                 <div class="position-relative">
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <div>
-                                        <span class="badge bg-label-info mb-2">{{ $photo->albumGaleri->nama }}</span>
+                                        <span class="badge bg-label-info mb-2">{{ $photo->albumGaleri?->nama ?? 'Tanpa Album' }}</span>
                                         <p class="card-text small text-dark mb-0">{{ $photo->caption ?? 'Tanpa Keterangan' }}</p>
                                     </div>
                                     <div class="d-flex justify-content-end gap-2 border-top pt-3 mt-3">
@@ -73,9 +73,9 @@
                 </div>
             </div>
 
-            @if($photos->hasPages())
+            @if($galeriList->hasPages())
                 <div class="card-footer bg-light p-3">
-                    {{ $photos->appends(['album_galeri_id' => $albumId])->links() }}
+                    {{ $galeriList->appends(['album_galeri_id' => $selectedAlbumId])->links() }}
                 </div>
             @endif
         </div>

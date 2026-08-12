@@ -16,6 +16,7 @@ class GaleriController extends Controller
     public function index(Request $request): View
     {
         $selectedAlbumId = $request->input('album_galeri_id');
+        $albumId = $selectedAlbumId;
         $query = Galeri::with('albumGaleri');
 
         if ($selectedAlbumId) {
@@ -23,17 +24,19 @@ class GaleriController extends Controller
         }
 
         $galeriList = $query->orderBy('id', 'desc')->paginate(12);
+        $photos = $galeriList;
         $albums = AlbumGaleri::withCount('galeri')->get();
 
-        return view('admin.galeri.index', compact('galeriList', 'albums', 'selectedAlbumId'));
+        return view('admin.galeri.index', compact('galeriList', 'photos', 'albums', 'selectedAlbumId', 'albumId'));
     }
 
     public function create(Request $request): View
     {
         $albums = AlbumGaleri::all();
         $selectedAlbumId = $request->input('album_galeri_id');
+        $albumId = $selectedAlbumId;
 
-        return view('admin.galeri.create', compact('albums', 'selectedAlbumId'));
+        return view('admin.galeri.create', compact('albums', 'selectedAlbumId', 'albumId'));
     }
 
     public function store(Request $request): RedirectResponse
