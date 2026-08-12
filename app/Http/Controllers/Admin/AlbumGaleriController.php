@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AlbumGaleri;
+use App\Models\Galeri;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -54,9 +55,27 @@ class AlbumGaleriController extends Controller
             $data['cover'] = $path;
         }
 
-        AlbumGaleri::create($data);
+        $album = AlbumGaleri::create($data);
 
-        return redirect()->route('admin.album-galeri.index')->with('success', 'Album galeri berhasil dibuat!');
+        // Otomatis jadikan cover sebagai foto galeri pertama di dalam album
+        if (!empty($album->cover)) {
+            $galeriFilename = md5(uniqid(microtime(), true)) . '.jpg';
+            $galeriPath = 'images/galeri/' . $galeriFilename;
+
+            if (Storage::disk('public')->exists($album->cover)) {
+                Storage::disk('public')->copy($album->cover, $galeriPath);
+            } else {
+                $galeriPath = $album->cover;
+            }
+
+            Galeri::create([
+                'album_galeri_id' => $album->id,
+                'gambar' => $galeriPath,
+                'caption' => $album->nama,
+            ]);
+        }
+
+        return redirect()->route('admin.album-galeri.index')->with('success', 'Album galeri berhasil dibuat dan cover otomatis ditambahkan sebagai foto pertama!');
     }
 
     public function edit(AlbumGaleri $albumGaleri): View
