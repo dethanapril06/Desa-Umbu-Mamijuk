@@ -388,8 +388,20 @@
         {{-- Bantuan & Panduan --}}
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">
-                Bantuan
+                Bantuan & Panduan
             </span>
+        </li>
+
+        <li class="menu-item">
+            <a
+                href="javascript:void(0);"
+                class="menu-link"
+                data-bs-toggle="modal"
+                data-bs-target="#modalVideoPanduan"
+            >
+                <i class="menu-icon tf-icons bx bx-play-circle text-danger"></i>
+                <div class="fw-semibold">Video Panduan</div>
+            </a>
         </li>
 
         <li class="menu-item {{ request()->routeIs('admin.panduan') ? 'active' : '' }}">
@@ -398,7 +410,7 @@
                 class="menu-link"
             >
                 <i class="menu-icon tf-icons bx bx-book-open text-warning"></i>
-                <div class="fw-semibold">Buku Panduan</div>
+                <div>Buku Panduan (PDF)</div>
             </a>
         </li>
     </ul>

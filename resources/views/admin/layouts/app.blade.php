@@ -138,6 +138,9 @@
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
 
+    {{-- Modal Video Panduan --}}
+    @include('admin.layouts.partials.modal-video-panduan')
+
     {{-- Core JS --}}
     <script src="{{ asset('template/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('template/assets/vendor/libs/popper/popper.js') }}"></script>
@@ -156,6 +159,19 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Hentikan pemutaran video YouTube otomatis saat modal ditutup agar suara tidak terus berjalan
+            const modalVideo = document.getElementById('modalVideoPanduan');
+            if (modalVideo) {
+                modalVideo.addEventListener('hidden.bs.modal', function () {
+                    const iframe = document.getElementById('iframeVideoPanduan');
+                    if (iframe) {
+                        const currentSrc = iframe.src;
+                        iframe.src = '';
+                        iframe.src = currentSrc;
+                    }
+                });
+            }
+
             // Intercept delete forms with native confirm in onsubmit
             const forms = document.querySelectorAll('form');
             forms.forEach(form => {
